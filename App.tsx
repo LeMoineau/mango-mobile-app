@@ -1,20 +1,10 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import LatestChaptersPage from "./src/app/LatestChaptersPage";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import Index from "./src/app/Index";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <LatestChaptersPage></LatestChaptersPage>
-    </View>
+    <SafeAreaProvider>
+      <Index></Index>
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
