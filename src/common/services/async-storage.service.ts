@@ -6,14 +6,6 @@ class AsyncStorageService {
     return await AsyncStorage.getItem(key);
   }
 
-  // public getBoolean(key: string): boolean | undefined {
-  //   return this.storage.getBoolean(key);
-  // }
-
-  // public getNumber(key: string): number | undefined {
-  //   return this.storage.getNumber(key);
-  // }
-
   public async getJsonObject(key: string): Promise<JsonObject | undefined> {
     const json = await this.getString(key);
     return json && JSON.parse(json);
