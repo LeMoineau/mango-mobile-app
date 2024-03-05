@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./Colors";
+import { colors } from "./color-utils";
 
 export const style = StyleSheet.create({
   flexRow: {
@@ -52,11 +52,14 @@ export const style = StyleSheet.create({
   textBold: {
     fontWeight: "bold",
   },
+  roundedSm: {
+    borderRadius: 5,
+  },
   rounded: {
     borderRadius: 10,
   },
-  roundedSm: {
-    borderRadius: 5,
+  roundedLg: {
+    borderRadius: 30,
   },
   roundedFull: {
     borderRadius: 9999,

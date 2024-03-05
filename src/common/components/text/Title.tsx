@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { style } from "../../types/primitives/Styles";
+import { style } from "../../utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 
 export default function Title({

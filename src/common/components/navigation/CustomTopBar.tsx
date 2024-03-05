@@ -1,8 +1,8 @@
 import { MaterialTopTabBarProps } from "@react-navigation/material-top-tabs";
 import { Animated, View, TouchableOpacity, Text } from "react-native";
-import { style } from "../../types/primitives/Styles";
 import { useTheme } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { style } from "../../utils/style-utils";
 
 export default function CustomTopBar({
   state,

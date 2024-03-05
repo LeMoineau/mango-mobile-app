@@ -1,8 +1,8 @@
 import { Pressable, Switch, Text, View } from "react-native";
-import { IconName } from "../../types/primitives/IconName";
+import { IconName } from "../../../common/types/primitives/IconName";
 import { useTheme } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { style } from "../../types/primitives/Styles";
+import { style } from "../../../common/utils/style-utils";
 import { useState } from "react";
 
 export default function ToggleSettingItem({

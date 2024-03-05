@@ -1,14 +1,18 @@
-import { Text, View } from "react-native";
-import IntersiteChapter from "../../types/IntersiteChapter";
-import CustomImage from "../image/CustomImage";
+import { Pressable, Text, View } from "react-native";
+import CustomImage from "../../../common/components/image/CustomImage";
 import { useTheme } from "@react-navigation/native";
-import { style } from "../../types/primitives/Styles";
 import { LinearGradient } from "expo-linear-gradient";
+import IntersiteChapter from "../../../common/types/intersite/IntersiteChapter";
+import { IntersiteField } from "../../../common/types/intersite/IntersiteField";
+import { ChapterId } from "../../../common/types/primitives/Ids";
+import { style } from "../../../common/utils/style-utils";
 
 export default function ChapterItem({
   chapter,
+  pressChapterTitle,
 }: {
   chapter: IntersiteChapter;
+  pressChapterTitle?: (chapter: IntersiteChapter) => void;
 }) {
   const SourceName = Object.keys(chapter.id)[0];
   const theme = useTheme();
@@ -59,10 +63,13 @@ export default function ChapterItem({
         <Text style={{ fontWeight: "500", color: theme.colors.text }}>
           {chapter.manga.title[SourceName]}
         </Text>
-
-        <Text style={{ color: theme.colors.text }}>
-          {chapter.title[SourceName]}
-        </Text>
+        <Pressable
+          onPress={() => pressChapterTitle && pressChapterTitle(chapter)}
+        >
+          <Text style={{ color: theme.colors.text }}>
+            {chapter.title[SourceName]}
+          </Text>
+        </Pressable>
       </View>
     </View>
   );

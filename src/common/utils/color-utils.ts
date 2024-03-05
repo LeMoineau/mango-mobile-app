@@ -2,6 +2,7 @@ export const colors = {
   baseBodyColor: "#e5e3b3",
   transparent: "transparent",
   baseProgressColor: "#4a9fff",
+  baseBackgroundColor: "#FFE5A3",
   black: "#000",
   white: "#fff",
   slate: {

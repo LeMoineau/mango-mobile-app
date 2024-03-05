@@ -3,20 +3,15 @@ import {
   DefaultTheme,
   NavigationContainer,
 } from "@react-navigation/native";
-import LatestChaptersPage from "./LatestChaptersPage";
-import SettingPage from "./SettingsPage";
+import LatestChaptersPage from "./latest-chapters/LatestChaptersPage";
+import SettingPage from "./settings/SettingsPage";
 import { useSettingsStore } from "../common/store/settings.store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CustomTopBar from "../common/components/navigation/CustomTopBar";
 import { View, useWindowDimensions } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import { style } from "../common/types/primitives/Styles";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-import Home from "./Home";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Home from "./home/Home";
 
 const Tab = createMaterialTopTabNavigator();
 
