@@ -28,7 +28,7 @@ export const useLatestChaptersStore = create<LatestChaptersStoreState>()(
       if (!get().loaded) {
         set({ loaded: true });
         await axiosInstance
-          .get("/chapters")
+          .get("/latestchapters")
           .then((res) => set({ chapters: res.data }))
           .catch(() => set({ loaded: false }));
       }

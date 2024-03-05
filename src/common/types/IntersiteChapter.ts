@@ -3,6 +3,7 @@ export default interface IntersiteChapter {
   number: { [src: string]: string };
   formattedNumber: string;
   image: { [src: string]: string };
+  date: { [src: string]: Date };
   id: { [src: string]: string };
   manga: {
     formattedTitle: string;
