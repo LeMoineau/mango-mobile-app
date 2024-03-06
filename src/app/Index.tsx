@@ -9,7 +9,7 @@ import { useSettingsStore } from "../common/store/settings.store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CustomTopBar from "../common/components/navigation/CustomTopBar";
-import { View, useWindowDimensions } from "react-native";
+import { StatusBar, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Home from "./home/Home";
 
@@ -25,6 +25,7 @@ export default function Index() {
       <NavigationContainer
         theme={settingsStore.theme === "dark" ? DarkTheme : DefaultTheme}
       >
+        <StatusBar hidden></StatusBar>
         <Tab.Navigator
           tabBarPosition="bottom"
           initialRouteName="Home"

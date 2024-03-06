@@ -27,7 +27,7 @@ export default function SourceSettingList({
     <>
       <View>
         <DragList
-          data={data}
+          data={data ?? []}
           keyExtractor={(str: string) => str}
           onReordered={async (fromIndex: number, toIndex: number) => {
             const copy = [...data]; // Don't modify react data in-place

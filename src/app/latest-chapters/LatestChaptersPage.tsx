@@ -8,6 +8,7 @@ import ChapterReaderModal from "../../common/components/modals/ChapterReaderModa
 import IntersiteChapter from "../../common/types/intersite/IntersiteChapter";
 import useApi from "../../common/hooks/use-api";
 import Config from "../../common/config/Config";
+import MangaInfosModal from "../manga-infos-modal/MangaInfosModal";
 
 export default function LatestChaptersPage() {
   const theme = useTheme();
@@ -19,6 +20,7 @@ export default function LatestChaptersPage() {
   );
 
   const [chapter, setChapter] = useState<IntersiteChapter>();
+  const [targetMangaName, setTargetMangaName] = useState<string>();
 
   useEffect(() => {
     fetch("/latestchapters");
@@ -46,16 +48,29 @@ export default function LatestChaptersPage() {
                   setChapter(chapter);
                   show("chapter-reader-modal");
                 }}
+                pressChapterItem={(chapter) => {
+                  setTargetMangaName(chapter.manga.formattedTitle);
+                  show("manga-info-modal");
+                }}
               ></ChapterItem>
             );
           })
         )}
       </ScrollView>
-      <ChapterReaderModal
-        chapter={chapter}
-        visible={isVisible("chapter-reader-modal")}
-        onRequestClose={() => hide("chapter-reader-modal")}
-      ></ChapterReaderModal>
+      {isVisible("chapter-reader-modal") && (
+        <ChapterReaderModal
+          chapter={chapter}
+          visible={isVisible("chapter-reader-modal")}
+          onRequestClose={() => hide("chapter-reader-modal")}
+        ></ChapterReaderModal>
+      )}
+      {isVisible("manga-info-modal") && (
+        <MangaInfosModal
+          formattedName={targetMangaName}
+          visible={isVisible("manga-info-modal")}
+          onRequestClose={() => hide("manga-info-modal")}
+        ></MangaInfosModal>
+      )}
     </View>
   );
 }

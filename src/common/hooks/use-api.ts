@@ -22,8 +22,11 @@ const useApi = <DATA>(baseURL: string) => {
     setData(undefined);
   };
 
-  const fetch = async (endpoint: string): Promise<void> => {
-    if (loaded) {
+  const fetch = async (
+    endpoint: string,
+    forceRefresh?: boolean
+  ): Promise<void> => {
+    if (loaded && !forceRefresh) {
       return;
     }
     setLoading(true);

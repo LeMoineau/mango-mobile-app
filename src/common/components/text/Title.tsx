@@ -1,20 +1,26 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleProp, Text, TextStyle, View } from "react-native";
 import { style } from "../../utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 
 export default function Title({
   children,
   hasDivider,
+  styleProps,
 }: {
   children: React.ReactNode | string;
   hasDivider?: boolean;
+  styleProps?: StyleProp<TextStyle>;
 }) {
   const theme = useTheme();
   return (
     <>
       <Text
-        style={[style.textLg, { marginVertical: 10, color: theme.colors.text }]}
+        style={[
+          style.textLg,
+          { marginVertical: 10, color: theme.colors.text },
+          styleProps,
+        ]}
       >
         {children}
       </Text>

@@ -5,33 +5,30 @@ import { DefaultValues } from "../config/DefaultValues";
 import { Settings } from "../config/Settings";
 import useStorage from "../hooks/use-storage";
 import { SourceName } from "../types/primitives/Ids";
+import { IntersiteField } from "../types/intersite/IntersiteField";
+import { ObjectUtils } from "../utils/object-utils";
 
 interface SettingsStoreState extends Settings {
   setTheme: (theme: ThemeName) => Promise<void>;
   setSourcesOrder: (srcs: SourceName[]) => void;
+  getMoreTrustedIn: <T>(
+    intersiteField: IntersiteField<T>
+  ) => [SourceName, T] | [];
 }
 
-export const useSettingsStore = create<SettingsStoreState>()((set) => {
+export const useSettingsStore = create<SettingsStoreState>()((set, get) => {
   const { getJson, saveJson, saveItemInJson } = useStorage();
 
-  getJson(StorageKeys.SETTINGS).then(async (val) => {
-    if (val) {
-      await load(val as Settings);
-    } else {
-      await saveDefaultValues();
+  getJson(StorageKeys.SETTINGS).then(async (json) => {
+    const baseValues = {
+      ...DefaultValues.settings,
+      ...json,
+    };
+    set(baseValues);
+    if (json === null || !ObjectUtils.equals(json, baseValues)) {
+      await saveJson(StorageKeys.SETTINGS, baseValues);
     }
   });
-
-  const load = async (val: Settings) => {
-    set({
-      theme: val.theme,
-      srcs: val.srcs,
-    });
-  };
-
-  const saveDefaultValues = async () => {
-    await saveJson(StorageKeys.SETTINGS, DefaultValues.settings);
-  };
 
   const setTheme = async (theme: ThemeName) => {
     set({ theme: theme });
@@ -43,9 +40,21 @@ export const useSettingsStore = create<SettingsStoreState>()((set) => {
     await saveItemInJson(StorageKeys.SETTINGS, "srcs", srcs);
   };
 
+  const getMoreTrustedIn = <T>(
+    intersiteField: IntersiteField<T>
+  ): [SourceName, T] | [] => {
+    for (let src of get().srcs) {
+      if (intersiteField[src]) {
+        return [src, intersiteField[src]];
+      }
+    }
+    return [];
+  };
+
   return {
     ...DefaultValues.settings,
     setTheme,
     setSourcesOrder,
+    getMoreTrustedIn,
   };
 });
