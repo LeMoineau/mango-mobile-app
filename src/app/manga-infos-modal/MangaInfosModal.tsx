@@ -13,20 +13,17 @@ import {
 import React from "react";
 import { style } from "../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import useApi from "../../common/hooks/use-api";
+import useApi from "@shared/hooks/use-api";
 import Config from "../../common/config/Config";
 import { useSettingsStore } from "../../common/store/settings.store";
 import { LinearGradient } from "expo-linear-gradient";
 import Title from "../../common/components/text/Title";
-// import { colors } from "./../../../../shared/utils/color-utils";
+import { colors } from "@shared/utils/color-utils";
 import MangaChapterItem from "./elements/MangaChapterItem";
 import { useMangaModal } from "../../common/store/manga-modal.store";
 import { useChapterReaderModal } from "../../common/store/chapter-reader-modal.store";
-import {
-  FormattedName,
-  MangaId,
-} from "./../../../../shared/types/primitives/id";
-import ChapterViewer from "./../../../../shared/types/chapterViewer";
+import { FormattedName, MangaId } from "@shared/types/primitives/id";
+import ChapterViewer from "@shared/types/chapterViewer";
 
 export default function MangaInfosModal({
   formattedName,
@@ -76,7 +73,7 @@ export default function MangaInfosModal({
           {
             flex: 1,
             padding: 0,
-            backgroundColor: "transparent",
+            backgroundColor: colors.transparent,
           },
         ]}
         stickyHeaderIndices={[1]}

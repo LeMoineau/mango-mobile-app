@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { IntersiteUtils } from "../../../common/utils/intersite-utils";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
-import { colors } from "./../../../shared/utils/color-utils";
+import { colors } from "@shared/utils/color-utils";
 
 export default function MangaChapterItem({
   chapter,

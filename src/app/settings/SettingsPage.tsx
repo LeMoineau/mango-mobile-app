@@ -1,10 +1,10 @@
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSettingsStore } from "../../common/store/settings.store";
 import Title from "../../common/components/text/Title";
 import ToggleSettingItem from "./elements/ToggleSettingItem";
-import useApi from "../../common/hooks/use-api";
-import Config from "../../common/config/Config";
 import { SourceName } from "@shared/types/primitives/id";
+import useApi from "@shared/hooks/use-api";
+import Config from "../../common/config/Config";
 import { useTheme } from "@react-navigation/native";
 import { useEffect } from "react";
 import SettingSection from "./elements/SettingSection";

@@ -10,7 +10,7 @@ import { useTheme } from "@react-navigation/native";
 import { useEffect } from "react";
 import { style } from "../../common/utils/style-utils";
 import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
-import useApi from "../../common/hooks/use-api";
+import useApi from "@shared/hooks/use-api";
 import Config from "../../common/config/Config";
 import { IntersiteManga } from "@shared/types/intersite/IntersiteManga";
 import { useMangaModal } from "../../common/store/manga-modal.store";
