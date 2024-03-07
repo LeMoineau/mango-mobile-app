@@ -1,4 +1,4 @@
-import { JsonObject } from "../types/primitives/JsonObject";
+import { JsonObject } from "@shared/types/primitives/JsonObject";
 
 export namespace ObjectUtils {
   export function equals(obj1: JsonObject, obj2: JsonObject): boolean {

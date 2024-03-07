@@ -8,8 +8,9 @@ import {
   ViewStyle,
 } from "react-native";
 import { style } from "../../utils/style-utils";
-import ExpoIcon, { AllIconNames } from "../icons/ExpoIcon";
+import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
+import { AllIconNames } from "src/common/types/IconName";
 
 export default function RounedButton({
   content,

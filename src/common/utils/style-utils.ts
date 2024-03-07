@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { colors } from "./color-utils";
+import { colors } from "./../../shared/utils/color-utils";
 
 export const style = StyleSheet.create({
   flexRow: {

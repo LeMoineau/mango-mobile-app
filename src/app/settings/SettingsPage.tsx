@@ -4,7 +4,7 @@ import Title from "../../common/components/text/Title";
 import ToggleSettingItem from "./elements/ToggleSettingItem";
 import useApi from "../../common/hooks/use-api";
 import Config from "../../common/config/Config";
-import { SourceName } from "../../common/types/primitives/Ids";
+import { SourceName } from "@shared/types/primitives/id";
 import { useTheme } from "@react-navigation/native";
 import { useEffect } from "react";
 import SettingSection from "./elements/SettingSection";

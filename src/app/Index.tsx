@@ -12,6 +12,10 @@ import CustomTopBar from "../common/components/navigation/CustomTopBar";
 import { StatusBar, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Home from "./home/Home";
+import { useMangaModal } from "../common/store/manga-modal.store";
+import MangaInfosModal from "./manga-infos-modal/MangaInfosModal";
+import ChapterReaderModal from "./chapter-reader-modal.tsx/ChapterReaderModal";
+import { useChapterReaderModal } from "../common/store/chapter-reader-modal.store";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,6 +23,10 @@ export default function Index() {
   const settingsStore = useSettingsStore();
   const inset = useSafeAreaInsets();
   const { width, height } = useWindowDimensions();
+  const { modalOpened: mangaModalOpened, close: closeMangaModal } =
+    useMangaModal();
+  const { modalOpened: chapterModalOpened, close: closeChapterModal } =
+    useChapterReaderModal();
 
   return (
     <View style={[{ flex: 1 }]}>
@@ -72,6 +80,14 @@ export default function Index() {
             }}
           />
         </Tab.Navigator>
+        <MangaInfosModal
+          visible={mangaModalOpened}
+          onRequestClose={() => closeMangaModal()}
+        ></MangaInfosModal>
+        <ChapterReaderModal
+          visible={chapterModalOpened}
+          onRequestClose={() => closeChapterModal()}
+        ></ChapterReaderModal>
       </NavigationContainer>
     </View>
   );

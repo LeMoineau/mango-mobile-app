@@ -1,5 +1,5 @@
-import { IntersiteField } from "../types/intersite/IntersiteField";
-import { SourceName } from "../types/primitives/Ids";
+import { IntersiteField } from "@shared/types/intersite/IntersiteField";
+import { SourceName } from "@shared/types/primitives/id";
 
 export namespace IntersiteUtils {
   export function hasSource<T>(intersiteField: IntersiteField<T>): boolean {
@@ -9,6 +9,6 @@ export namespace IntersiteUtils {
   export function getSources<T>(
     intersiteField: IntersiteField<T>
   ): SourceName[] {
-    return Object.keys(intersiteField);
+    return Object.keys(intersiteField) as SourceName[];
   }
 }

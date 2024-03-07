@@ -3,24 +3,26 @@ import { style } from "../../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 import { useSettingsStore } from "../../../common/store/settings.store";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { IntersiteChapterInfos } from "../../../common/types/intersite/IntersiteChapter";
+import { IntersiteChapterInfos } from "@shared/types/intersite/IntersiteChapter";
 import { useEffect, useRef, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { IntersiteUtils } from "../../../common/utils/intersite-utils";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
-import { colors } from "../../../common/utils/color-utils";
+import { colors } from "./../../../shared/utils/color-utils";
 
 export default function MangaChapterItem({
   chapter,
+  pressReadBtn,
 }: {
   chapter: IntersiteChapterInfos;
+  pressReadBtn?: () => void;
 }) {
   const theme = useTheme();
+
   const { getMoreTrustedIn } = useSettingsStore();
 
   const heightValue = useRef(new Animated.Value(0)).current;
   const [minimise, setMinimise] = useState(true);
-  const [height, setHeight] = useState(70);
 
   useEffect(() => {
     if (minimise) {
@@ -70,7 +72,7 @@ export default function MangaChapterItem({
             ]}
           >
             <Image
-              source={{ uri: getMoreTrustedIn(chapter.image)[1] }}
+              source={{ uri: getMoreTrustedIn<string>(chapter.image)[1] }}
               style={[
                 {
                   position: "absolute",
@@ -114,67 +116,66 @@ export default function MangaChapterItem({
               />
             </Animated.View>
           </View>
-          <View
+          <Pressable
             style={[
               {
                 paddingLeft: IntersiteUtils.hasSource(chapter.image) ? 70 : 0,
               },
             ]}
+            onPress={() => setMinimise(!minimise)}
           >
-            <Pressable onPress={() => setMinimise(!minimise)}>
+            <View
+              style={[
+                style.flexRow,
+                style.justifyBetween,
+                style.itemsCenter,
+                {
+                  paddingHorizontal: 10,
+                  paddingVertical: 10,
+                  height: 70,
+                },
+              ]}
+            >
               <View
                 style={[
-                  style.flexRow,
-                  style.justifyBetween,
-                  style.itemsCenter,
+                  style.overflowHidden,
                   {
-                    paddingHorizontal: 10,
-                    paddingVertical: 10,
-                    height: 70,
+                    flex: 1,
+                    paddingRight: 10,
                   },
                 ]}
               >
-                <View
-                  style={[
-                    style.overflowHidden,
-                    {
-                      flex: 1,
-                      paddingRight: 10,
-                    },
-                  ]}
-                >
-                  <Text style={[{ color: theme.colors.text, opacity: 0.7 }]}>
-                    {getMoreTrustedIn(chapter.title)[1]}
+                <Text style={[{ color: theme.colors.text, opacity: 0.7 }]}>
+                  {getMoreTrustedIn<string>(chapter.title)[1]}
+                </Text>
+                {IntersiteUtils.hasSource(chapter.realeaseDate) ? (
+                  <Text
+                    style={[
+                      {
+                        color: theme.colors.text,
+                        opacity: 0.5,
+                        fontSize: 10,
+                      },
+                    ]}
+                  >
+                    {new Date(
+                      getMoreTrustedIn(chapter.realeaseDate)[1]!
+                    ).toDateString()}
                   </Text>
-                  {IntersiteUtils.hasSource(chapter.realeaseDate) ? (
-                    <Text
-                      style={[
-                        {
-                          color: theme.colors.text,
-                          opacity: 0.5,
-                          fontSize: 10,
-                        },
-                      ]}
-                    >
-                      {new Date(
-                        getMoreTrustedIn(chapter.realeaseDate)[1]!
-                      ).toDateString()}
-                    </Text>
-                  ) : (
-                    <></>
-                  )}
-                </View>
-                <View style={[style.flexRow, style.itemsCenter, {}]}>
-                  <ExpoIcon
-                    name={minimise ? "angle-down" : "angle-up"}
-                    color={theme.colors.text}
-                    size={25}
-                    styleProps={{ opacity: 0.7 }}
-                  ></ExpoIcon>
-                </View>
+                ) : (
+                  <></>
+                )}
               </View>
-            </Pressable>
-          </View>
+              <View style={[style.flexRow, style.itemsCenter, {}]}>
+                <ExpoIcon
+                  name={minimise ? "angle-down" : "angle-up"}
+                  color={theme.colors.text}
+                  size={25}
+                  styleProps={{ opacity: 0.7 }}
+                ></ExpoIcon>
+              </View>
+            </View>
+          </Pressable>
         </View>
         {
           <Animated.View
@@ -220,6 +221,7 @@ export default function MangaChapterItem({
                 appendIcon="book"
                 appendIconStyle={[{ color: colors.white }]}
                 styleProp={[{ backgroundColor: theme.colors.primary }]}
+                onPress={() => pressReadBtn && pressReadBtn()}
               ></RounedButton>
             </View>
           </Animated.View>

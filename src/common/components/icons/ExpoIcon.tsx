@@ -1,14 +1,11 @@
 import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
 import { StyleProp, TextStyle } from "react-native";
-
-type IoniconsNames = keyof typeof Ionicons.glyphMap;
-type MaterialIconsNames = keyof typeof MaterialIcons.glyphMap;
-type FontAwesomeNames = keyof typeof FontAwesome.glyphMap;
-
-export type AllIconNames =
-  | MaterialIconsNames
-  | FontAwesomeNames
-  | IoniconsNames;
+import {
+  AllIconNames,
+  FontAwesomeNames,
+  IoniconsNames,
+  MaterialIconsNames,
+} from "src/common/types/IconName";
 
 export default function ExpoIcon({
   name,

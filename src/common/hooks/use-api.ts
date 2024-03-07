@@ -25,19 +25,21 @@ const useApi = <DATA>(baseURL: string) => {
   const fetch = async (
     endpoint: string,
     forceRefresh?: boolean
-  ): Promise<void> => {
+  ): Promise<DATA | undefined> => {
     if (loaded && !forceRefresh) {
-      return;
+      return data;
     }
     setLoading(true);
-    axiosInstance
+    return await axiosInstance
       .get(endpoint)
       .then((res) => {
         setData(res.data);
+        return res.data;
       })
       .catch((err) => {
         console.error(err);
         setLoading(false);
+        return;
       });
   };
 

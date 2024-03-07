@@ -1,5 +1,5 @@
-import { Text, TouchableOpacity, View, VirtualizedList } from "react-native";
-import { SourceName } from "../../../common/types/primitives/Ids";
+import { SafeAreaView, TouchableOpacity } from "react-native";
+import { SourceName } from "@shared/types/primitives/id";
 import SourceSettingItem from "./SourceSettingItem";
 import DragList, { DragListRenderItemInfo } from "react-native-draglist";
 import { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ export default function SourceSettingList({
 
   return (
     <>
-      <View>
+      <SafeAreaView>
         <DragList
           data={data ?? []}
           keyExtractor={(str: string) => str}
@@ -46,14 +46,18 @@ export default function SourceSettingList({
                 onPressOut={onDragEnd}
               >
                 <SourceSettingItem
-                  sourceName={item}
-                  online={srcsEnabled ? srcsEnabled.includes(item) : undefined}
+                  sourceName={item as SourceName}
+                  online={
+                    srcsEnabled
+                      ? srcsEnabled.includes(item as SourceName)
+                      : undefined
+                  }
                 ></SourceSettingItem>
               </TouchableOpacity>
             );
           }}
         />
-      </View>
+      </SafeAreaView>
     </>
   );
 }

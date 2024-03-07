@@ -1,26 +1,39 @@
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
 import ChapterItem from "./elements/ChapterItem";
 import { useTheme } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { style } from "../../common/utils/style-utils";
-import useModals from "../../common/hooks/use-modals";
-import ChapterReaderModal from "../../common/components/modals/ChapterReaderModal";
-import IntersiteChapter from "../../common/types/intersite/IntersiteChapter";
+import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
 import useApi from "../../common/hooks/use-api";
 import Config from "../../common/config/Config";
-import MangaInfosModal from "../manga-infos-modal/MangaInfosModal";
+import { IntersiteManga } from "@shared/types/intersite/IntersiteManga";
+import { useMangaModal } from "../../common/store/manga-modal.store";
+import { useChapterReaderModal } from "../../common/store/chapter-reader-modal.store";
+import { useSettingsStore } from "../../common/store/settings.store";
+import ChapterViewer from "@shared/types/chapterViewer";
+import { ChapterId } from "@shared/types/primitives/id";
 
 export default function LatestChaptersPage() {
   const theme = useTheme();
-  const { isVisible, show, hide } = useModals<
-    "chapter-reader-modal" | "manga-info-modal"
-  >();
   const { loading, fetch, get } = useApi<IntersiteChapter[]>(
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
+  const { fetch: mangaFetcher } = useApi<IntersiteManga>(
+    Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
+  );
+  const { fetch: chapterFetcher } = useApi<ChapterViewer>(
+    Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
+  );
 
-  const [chapter, setChapter] = useState<IntersiteChapter>();
-  const [targetMangaName, setTargetMangaName] = useState<string>();
+  const { getMoreTrustedIn } = useSettingsStore();
+  const { open: openMangaModal } = useMangaModal();
+  const { open: openChapterReaderModal } = useChapterReaderModal();
 
   useEffect(() => {
     fetch("/latestchapters");
@@ -39,38 +52,35 @@ export default function LatestChaptersPage() {
         {loading || !get() ? (
           <ActivityIndicator size="large" color={theme.colors.primary} />
         ) : (
-          get()!.map((c, i) => {
-            return (
-              <ChapterItem
-                key={i}
-                chapter={c}
-                pressChapterTitle={(chapter) => {
-                  setChapter(chapter);
-                  show("chapter-reader-modal");
-                }}
-                pressChapterItem={(chapter) => {
-                  setTargetMangaName(chapter.manga.formattedTitle);
-                  show("manga-info-modal");
-                }}
-              ></ChapterItem>
-            );
-          })
+          <SafeAreaView style={[{ flex: 1, width: "100%" }]}>
+            <FlatList
+              style={[{ flex: 1, width: "100%" }]}
+              data={get()}
+              keyExtractor={(_, index) => `latest-chapter-item-${index}`}
+              renderItem={({ item }) => (
+                <ChapterItem
+                  chapter={item}
+                  pressChapterTitle={(chapter) => {
+                    const [src, chapterId] = getMoreTrustedIn<ChapterId>(
+                      chapter.id
+                    );
+                    if (!src || !chapterId) return;
+                    openChapterReaderModal(
+                      chapter.manga.formattedTitle,
+                      src,
+                      chapterId,
+                      chapterFetcher
+                    );
+                  }}
+                  pressChapterItem={(chapter) => {
+                    openMangaModal(chapter.manga.formattedTitle, mangaFetcher);
+                  }}
+                ></ChapterItem>
+              )}
+            ></FlatList>
+          </SafeAreaView>
         )}
       </ScrollView>
-      {isVisible("chapter-reader-modal") && (
-        <ChapterReaderModal
-          chapter={chapter}
-          visible={isVisible("chapter-reader-modal")}
-          onRequestClose={() => hide("chapter-reader-modal")}
-        ></ChapterReaderModal>
-      )}
-      {isVisible("manga-info-modal") && (
-        <MangaInfosModal
-          formattedName={targetMangaName}
-          visible={isVisible("manga-info-modal")}
-          onRequestClose={() => hide("manga-info-modal")}
-        ></MangaInfosModal>
-      )}
     </View>
   );
 }

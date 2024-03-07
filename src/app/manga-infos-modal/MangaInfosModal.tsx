@@ -1,30 +1,32 @@
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   Modal,
   ModalProps,
+  SafeAreaView,
   ScrollView,
   Text,
   View,
   useWindowDimensions,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { style } from "../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import IntersiteChapter from "../../common/types/intersite/IntersiteChapter";
 import useApi from "../../common/hooks/use-api";
 import Config from "../../common/config/Config";
-import ChapterViewer from "../../common/types/chapterViewer";
 import { useSettingsStore } from "../../common/store/settings.store";
-import { ImageUtils } from "../../common/utils/image-utils";
-import { IntersiteManga } from "../../common/types/intersite/IntersiteManga";
-import { FormattedName } from "../../common/types/primitives/Ids";
-import Manga from "../../common/types/manga";
 import { LinearGradient } from "expo-linear-gradient";
 import Title from "../../common/components/text/Title";
-import ExpoIcon from "../../common/components/icons/ExpoIcon";
-import { colors } from "../../common/utils/color-utils";
+// import { colors } from "./../../../../shared/utils/color-utils";
 import MangaChapterItem from "./elements/MangaChapterItem";
+import { useMangaModal } from "../../common/store/manga-modal.store";
+import { useChapterReaderModal } from "../../common/store/chapter-reader-modal.store";
+import {
+  FormattedName,
+  MangaId,
+} from "./../../../../shared/types/primitives/id";
+import ChapterViewer from "./../../../../shared/types/chapterViewer";
 
 export default function MangaInfosModal({
   formattedName,
@@ -32,16 +34,13 @@ export default function MangaInfosModal({
 }: { formattedName?: FormattedName } & ModalProps) {
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
-  const { loading, data, fetch } = useApi<IntersiteManga>(
+
+  const { getMoreTrustedIn } = useSettingsStore();
+  const { currentMangaOpen } = useMangaModal();
+  const { open } = useChapterReaderModal();
+  const { fetch } = useApi<ChapterViewer>(
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
-  const { getMoreTrustedIn } = useSettingsStore();
-
-  useEffect(() => {
-    if (formattedName) {
-      fetch(`/mangas/${formattedName}`, true);
-    }
-  }, [formattedName]);
 
   return (
     <Modal animationType="slide" {...props}>
@@ -58,9 +57,11 @@ export default function MangaInfosModal({
           },
         ]}
       >
-        {data && (
+        {currentMangaOpen && (
           <Image
-            source={{ uri: getMoreTrustedIn(data.image)[1] }}
+            source={{
+              uri: getMoreTrustedIn<string>(currentMangaOpen.image)[1],
+            }}
             style={[
               {
                 width: "100%",
@@ -75,11 +76,12 @@ export default function MangaInfosModal({
           {
             flex: 1,
             padding: 0,
-            backgroundColor: colors.transparent,
+            backgroundColor: "transparent",
           },
         ]}
+        stickyHeaderIndices={[1]}
       >
-        {data && (
+        {currentMangaOpen && (
           <>
             <LinearGradient
               colors={[theme.colors.background, "transparent"]}
@@ -103,31 +105,40 @@ export default function MangaInfosModal({
                   { marginVertical: 0, paddingHorizontal: 0 },
                 ]}
               >
-                {getMoreTrustedIn(data.name)[1]}
+                {getMoreTrustedIn<string>(currentMangaOpen.name)[1]}
               </Title>
               <Text style={[{ color: theme.colors.text }]}>
-                {getMoreTrustedIn(data.author)[1]}
+                {getMoreTrustedIn<string>(currentMangaOpen.author)[1]}
               </Text>
               <Title styleProps={[{ fontSize: 15, marginTop: 30 }]}>
                 Chapters
               </Title>
-              {data.chapters
-                .sort(
-                  (a, b) =>
-                    -Number(a.formattedNumber) + Number(b.formattedNumber)
-                )
-                .map((c, index) => {
-                  return (
+              <SafeAreaView>
+                <FlatList
+                  data={currentMangaOpen.chapters.sort(
+                    (a, b) =>
+                      -Number(a.formattedNumber) + Number(b.formattedNumber)
+                  )}
+                  keyExtractor={(_, index) => `manga-chapter-item-${index}`}
+                  renderItem={({ item, index }) => (
                     <MangaChapterItem
                       key={index}
-                      chapter={c}
+                      chapter={item}
+                      pressReadBtn={() => {
+                        const [src, id] = getMoreTrustedIn<MangaId>(item.id);
+                        if (!src || !id) return;
+                        open(currentMangaOpen.formattedName, src, id, fetch);
+                      }}
                     ></MangaChapterItem>
-                  );
-                })}
+                  )}
+                ></FlatList>
+              </SafeAreaView>
             </View>
           </>
         )}
-        {loading && <ActivityIndicator size={"large"}></ActivityIndicator>}
+        {!currentMangaOpen && (
+          <ActivityIndicator size={"large"}></ActivityIndicator>
+        )}
       </ScrollView>
     </Modal>
   );

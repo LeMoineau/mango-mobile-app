@@ -1,4 +1,4 @@
-import { ChapterId, FormattedName, MangaId } from "../primitives/Ids";
+import { ChapterId, FormattedName, MangaId } from "../primitives/id";
 import { IntersiteField } from "./IntersiteField";
 
 export interface IntersiteChapterInfos {

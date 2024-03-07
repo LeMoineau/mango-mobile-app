@@ -1,9 +1,9 @@
 import { Pressable, Switch, Text, View } from "react-native";
-import { IconName } from "../../../common/types/primitives/IconName";
 import { useTheme } from "@react-navigation/native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { style } from "../../../common/utils/style-utils";
 import { useState } from "react";
+import { AllIconNames } from "./../../../common/types/IconName";
+import ExpoIcon from "./../../../common/components/icons/ExpoIcon";
 
 export default function ToggleSettingItem({
   icon,
@@ -12,7 +12,7 @@ export default function ToggleSettingItem({
   defaultValue,
   onPress,
 }: {
-  icon?: IconName;
+  icon?: AllIconNames;
   title: string;
   hasSwitch?: boolean;
   defaultValue?: boolean;
@@ -30,8 +30,8 @@ export default function ToggleSettingItem({
       <View style={[style.flexRow, style.justifyBetween, style.itemsCenter]}>
         <View style={[style.flexRow, style.itemsCenter, { flex: 1 }]}>
           {icon && (
-            <Ionicons
-              style={[{ marginRight: 10 }]}
+            <ExpoIcon
+              styleProps={[{ marginRight: 10 }]}
               color={theme.colors.text}
               name={icon}
               size={32}

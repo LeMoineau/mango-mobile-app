@@ -1,4 +1,4 @@
-import { Env } from "../types/primitives/Env";
+import { Env } from "../types/Env";
 
 class Config {
   constructor() {}

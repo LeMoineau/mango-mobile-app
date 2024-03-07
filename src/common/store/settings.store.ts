@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { StorageKeys } from "../config/StorageKeys";
-import { ThemeName } from "../types/primitives/ThemeName";
+import { ThemeName } from "../types/ThemeName";
 import { DefaultValues } from "../config/DefaultValues";
 import { Settings } from "../config/Settings";
 import useStorage from "../hooks/use-storage";
-import { SourceName } from "../types/primitives/Ids";
-import { IntersiteField } from "../types/intersite/IntersiteField";
+import { SourceName } from "@shared/types/primitives/id";
+import { IntersiteField } from "@shared/types/intersite/IntersiteField";
 import { ObjectUtils } from "../utils/object-utils";
 
 interface SettingsStoreState extends Settings {

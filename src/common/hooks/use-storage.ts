@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { JsonObject } from "../types/primitives/JsonObject";
+import { JsonObject } from "@shared/types/primitives/JsonObject";
 
 const useStorage = () => {
   const saveString = async (key: string, value: string) => {
