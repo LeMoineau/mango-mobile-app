@@ -25,7 +25,7 @@ export default function SourceSettingList({
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={[{ flex: 1 }]}>
         <DragList
           data={data ?? []}
           keyExtractor={(str: string) => str}
@@ -36,9 +36,11 @@ export default function SourceSettingList({
             copy.splice(toIndex, 0, removed[0]); // Now insert at the new pos
             setData(copy);
           }}
-          renderItem={(info: DragListRenderItemInfo<string>) => {
-            const { item, onDragStart, onDragEnd, isActive } = info;
-
+          renderItem={({
+            item,
+            onDragStart,
+            onDragEnd,
+          }: DragListRenderItemInfo<string>) => {
             return (
               <TouchableOpacity
                 key={item}

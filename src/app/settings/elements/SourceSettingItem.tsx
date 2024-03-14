@@ -3,7 +3,7 @@ import { SourceName } from "@shared/types/primitives/id";
 import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { colors } from "./../../../shared/utils/color-utils";
+import { colors } from "@shared/utils/color-utils";
 
 export default function SourceSettingItem({
   sourceName,

@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import {
   DarkTheme,
   DefaultTheme,
@@ -12,21 +13,71 @@ import CustomTopBar from "../common/components/navigation/CustomTopBar";
 import { StatusBar, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Home from "./home/Home";
-import { useMangaModal } from "../common/store/manga-modal.store";
-import MangaInfosModal from "./manga-infos-modal/MangaInfosModal";
-import ChapterReaderModal from "./chapter-reader-modal.tsx/ChapterReaderModal";
-import { useChapterReaderModal } from "../common/store/chapter-reader-modal.store";
+import MangaInfosPage from "./manga-infos-modal/MangaInfosPage";
+import ChapterReaderPage from "./chapter-reader-modal.tsx/ChapterReaderPage";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Tab = createMaterialTopTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function AppNavigator() {
+  const inset = useSafeAreaInsets();
+  const { width, height } = useWindowDimensions();
+
+  return (
+    <>
+      <Tab.Navigator
+        tabBarPosition="bottom"
+        initialRouteName="Home"
+        tabBar={CustomTopBar}
+        sceneContainerStyle={[
+          {
+            paddingTop: inset.top,
+            paddingBottom: inset.bottom,
+            paddingLeft: inset.left + 10,
+            paddingRight: inset.right + 10,
+            width: width,
+            height: height,
+            maxWidth: width,
+            maxHeight: height,
+            overflow: "hidden",
+          },
+        ]}
+      >
+        <Tab.Screen
+          name="Settings"
+          component={SettingPage}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="settings" size={20} color={color}></Ionicons>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="book" size={20} color={color}></Ionicons>
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="New Chapters"
+          component={LatestChaptersPage}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="globe" size={20} color={color}></Ionicons>
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </>
+  );
+}
 
 export default function Index() {
   const settingsStore = useSettingsStore();
-  const inset = useSafeAreaInsets();
-  const { width, height } = useWindowDimensions();
-  const { modalOpened: mangaModalOpened, close: closeMangaModal } =
-    useMangaModal();
-  const { modalOpened: chapterModalOpened, close: closeChapterModal } =
-    useChapterReaderModal();
 
   return (
     <View style={[{ flex: 1 }]}>
@@ -34,60 +85,18 @@ export default function Index() {
         theme={settingsStore.theme === "dark" ? DarkTheme : DefaultTheme}
       >
         <StatusBar hidden></StatusBar>
-        <Tab.Navigator
-          tabBarPosition="bottom"
-          initialRouteName="Home"
-          tabBar={CustomTopBar}
-          sceneContainerStyle={[
-            {
-              paddingTop: inset.top,
-              paddingBottom: inset.bottom,
-              paddingLeft: inset.left + 10,
-              paddingRight: inset.right + 10,
-              width: width,
-              height: height,
-              maxWidth: width,
-              maxHeight: height,
-              overflow: "hidden",
-            },
-          ]}
+        <Stack.Navigator
+          initialRouteName="App"
+          screenOptions={{ headerShown: false, animation: "slide_from_right" }}
         >
-          <Tab.Screen
-            name="New Chapters"
-            component={LatestChaptersPage}
-            options={{
-              tabBarIcon: ({ color }) => (
-                <Ionicons name="globe" size={20} color={color}></Ionicons>
-              ),
-            }}
+          <Stack.Screen
+            name="App"
+            component={AppNavigator}
+            options={{ headerShown: false }}
           />
-          <Tab.Screen
-            name="Home"
-            component={Home}
-            options={{
-              tabBarIcon: ({ color }) => (
-                <Ionicons name="book" size={20} color={color}></Ionicons>
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="Settings"
-            component={SettingPage}
-            options={{
-              tabBarIcon: ({ color }) => (
-                <Ionicons name="settings" size={20} color={color}></Ionicons>
-              ),
-            }}
-          />
-        </Tab.Navigator>
-        <MangaInfosModal
-          visible={mangaModalOpened}
-          onRequestClose={() => closeMangaModal()}
-        ></MangaInfosModal>
-        <ChapterReaderModal
-          visible={chapterModalOpened}
-          onRequestClose={() => closeChapterModal()}
-        ></ChapterReaderModal>
+          <Stack.Screen name="ChapterReader" component={ChapterReaderPage} />
+          <Stack.Screen name="MangaInfo" component={MangaInfosPage} />
+        </Stack.Navigator>
       </NavigationContainer>
     </View>
   );

@@ -7,6 +7,7 @@ class Config {
     return {
       MANGO_SCRAPER_API_ENDPOINT:
         process.env.EXPO_PUBLIC_MANGO_SCRAPER_API_ENDPOINT!,
+      MANGO_WEB_APP_ENDPOINT: process.env.EXPO_PUBLIC_MANGO_WEB_APP_ENDPOINT!,
     };
   }
 }

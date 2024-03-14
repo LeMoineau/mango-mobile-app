@@ -1,9 +1,17 @@
-import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+  FontAwesome,
+  MaterialCommunityIcons,
+  Foundation,
+} from "@expo/vector-icons";
 import { StyleProp, TextStyle } from "react-native";
 import {
   AllIconNames,
   FontAwesomeNames,
+  FoundationNames,
   IoniconsNames,
+  MaterialCommunityIconsNames,
   MaterialIconsNames,
 } from "src/common/types/IconName";
 
@@ -34,13 +42,27 @@ export default function ExpoIcon({
           color={color}
           style={styleProps}
         ></MaterialIcons>
-      ) : (
+      ) : name in FontAwesome.glyphMap ? (
         <FontAwesome
           name={name as FontAwesomeNames}
           size={size}
           color={color}
           style={styleProps}
         ></FontAwesome>
+      ) : name in MaterialCommunityIcons.glyphMap ? (
+        <MaterialCommunityIcons
+          name={name as MaterialCommunityIconsNames}
+          size={size}
+          color={color}
+          style={styleProps}
+        ></MaterialCommunityIcons>
+      ) : (
+        <Foundation
+          name={name as FoundationNames}
+          size={size}
+          color={color}
+          style={styleProps}
+        ></Foundation>
       )}
     </>
   );
