@@ -7,19 +7,15 @@ import {
   ReaderOption,
   ReaderOptionsValue,
   Settings,
-} from "../types/Settings";
+} from "../types/settings/Settings";
 import useStorage from "../hooks/use-storage";
-import { SourceName } from "@shared/types/primitives/id";
-import { IntersiteField } from "@shared/types/intersite/IntersiteField";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import { ObjectUtils } from "../utils/object-utils";
 import { AllIconNames } from "../types/IconName";
 
 interface SettingsStoreState extends Settings {
   setTheme: (theme: ThemeName) => Promise<void>;
   setSourcesOrder: (srcs: SourceName[]) => void;
-  getMoreTrustedIn: <T>(
-    intersiteField: IntersiteField<T>
-  ) => [SourceName, T] | [];
   setReaderOptions: <T extends ReaderOption>(
     option: T,
     value: ReaderOptionsValue[T]
@@ -55,17 +51,6 @@ export const useSettingsStore = create<SettingsStoreState>()((set, get) => {
     await saveItemInJson(StorageKeys.SETTINGS, "srcs", srcs);
   };
 
-  const getMoreTrustedIn = <T>(
-    intersiteField: IntersiteField<T>
-  ): [SourceName, T] | [] => {
-    for (let src of get().srcs) {
-      if (intersiteField[src]) {
-        return [src, intersiteField[src]];
-      }
-    }
-    return [];
-  };
-
   const setReaderOptions = async <T extends ReaderOption>(
     option: T,
     value: ReaderOptionsValue[T]
@@ -97,7 +82,6 @@ export const useSettingsStore = create<SettingsStoreState>()((set, get) => {
     ...DefaultValues.SETTINGS,
     setTheme,
     setSourcesOrder,
-    getMoreTrustedIn,
     setReaderOptions,
     getNextReaderDisplayMode,
   };

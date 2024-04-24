@@ -1,44 +1,32 @@
 import { Animated, Image, Pressable, Text, View } from "react-native";
 import { style } from "../../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import { useSettingsStore } from "../../../common/store/settings.store";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { IntersiteChapterInfos } from "@shared/types/intersite/IntersiteChapter";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { IntersiteUtils } from "../../../common/utils/intersite-utils";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
-import { colors } from "@shared/utils/color-utils";
+import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { ParentlessIntersiteChapter } from "../../../../../shared/src/types/IntersiteChapter";
+import useAnimatedValue from "../../../common/hooks/use-animated-value";
+import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
+import { IdentifiedChapter } from "../../../../../shared/src/types/Chapter";
 
 export default function MangaChapterItem({
-  chapter,
+  intersiteChapter,
   pressReadBtn,
 }: {
-  chapter: IntersiteChapterInfos;
-  pressReadBtn?: () => void;
+  intersiteChapter: ParentlessIntersiteChapter;
+  pressReadBtn?: (chapter: IdentifiedChapter) => void;
 }) {
   const theme = useTheme();
 
-  const { getMoreTrustedIn } = useSettingsStore();
-
-  const heightValue = useRef(new Animated.Value(0)).current;
-  const [minimise, setMinimise] = useState(true);
+  const { animValue, enable, setEnabled } = useAnimatedValue({ duration: 250 });
+  const { moreTrustedValue: chapter, setIntersiteValue } =
+    useMoreTrustedValue<ParentlessIntersiteChapter>();
 
   useEffect(() => {
-    if (minimise) {
-      Animated.timing(heightValue, {
-        toValue: 0,
-        duration: 250,
-        useNativeDriver: false,
-      }).start();
-    } else {
-      Animated.timing(heightValue, {
-        toValue: 1,
-        duration: 250,
-        useNativeDriver: false,
-      }).start();
-    }
-  }, [minimise]);
+    setIntersiteValue(intersiteChapter);
+  }, [intersiteChapter]);
 
   return (
     <>
@@ -50,12 +38,13 @@ export default function MangaChapterItem({
           style.overflowHidden,
           {
             marginBottom: 10,
-            height: heightValue.interpolate({
+            height: animValue.interpolate({
               inputRange: [0, 1],
               outputRange: [70, 140],
             }),
             backgroundColor: theme.colors.card,
             borderColor: theme.colors.border,
+            marginHorizontal: 10,
           },
         ]}
       >
@@ -72,7 +61,7 @@ export default function MangaChapterItem({
             ]}
           >
             <Image
-              source={{ uri: getMoreTrustedIn<string>(chapter.image)[1] }}
+              source={{ uri: chapter?.image }}
               style={[
                 {
                   position: "absolute",
@@ -96,7 +85,7 @@ export default function MangaChapterItem({
                   position: "absolute",
                   top: 0,
                   left: 0,
-                  opacity: heightValue,
+                  opacity: animValue,
                   width: "100%",
                   height: "100%",
                 },
@@ -119,10 +108,10 @@ export default function MangaChapterItem({
           <Pressable
             style={[
               {
-                paddingLeft: IntersiteUtils.hasSource(chapter.image) ? 70 : 0,
+                paddingLeft: chapter?.image ? 70 : 0,
               },
             ]}
-            onPress={() => setMinimise(!minimise)}
+            onPress={() => setEnabled(!enable)}
           >
             <View
               style={[
@@ -146,9 +135,9 @@ export default function MangaChapterItem({
                 ]}
               >
                 <Text style={[{ color: theme.colors.text, opacity: 0.7 }]}>
-                  {getMoreTrustedIn<string>(chapter.title)[1]}
+                  {chapter?.title}
                 </Text>
-                {IntersiteUtils.hasSource(chapter.realeaseDate) ? (
+                {chapter?.releaseDate ? (
                   <Text
                     style={[
                       {
@@ -158,9 +147,7 @@ export default function MangaChapterItem({
                       },
                     ]}
                   >
-                    {new Date(
-                      getMoreTrustedIn(chapter.realeaseDate)[1]!
-                    ).toDateString()}
+                    {new Date(chapter?.releaseDate!).toDateString()}
                   </Text>
                 ) : (
                   <></>
@@ -168,7 +155,7 @@ export default function MangaChapterItem({
               </View>
               <View style={[style.flexRow, style.itemsCenter, {}]}>
                 <ExpoIcon
-                  name={minimise ? "angle-down" : "angle-up"}
+                  name={!enable ? "angle-down" : "angle-up"}
                   color={theme.colors.text}
                   size={25}
                   styleProps={{ opacity: 0.7 }}
@@ -186,7 +173,7 @@ export default function MangaChapterItem({
                 flex: 1,
                 justifyContent: "flex-end",
                 paddingRight: 20,
-                opacity: heightValue,
+                opacity: animValue,
               },
             ]}
           >
@@ -221,7 +208,7 @@ export default function MangaChapterItem({
                 appendIcon="book"
                 appendIconStyle={[{ color: colors.white }]}
                 styleProp={[{ backgroundColor: theme.colors.primary }]}
-                onPress={() => pressReadBtn && pressReadBtn()}
+                onPress={() => pressReadBtn && chapter && pressReadBtn(chapter)}
               ></RounedButton>
             </View>
           </Animated.View>

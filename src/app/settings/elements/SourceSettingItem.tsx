@@ -1,9 +1,9 @@
 import { Text, View } from "react-native";
-import { SourceName } from "@shared/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { colors } from "@shared/utils/color-utils";
+import { colors } from "../../../../../shared/src/config/enums/Colors";
 
 export default function SourceSettingItem({
   sourceName,

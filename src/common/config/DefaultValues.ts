@@ -1,4 +1,4 @@
-import { ReaderDisplayMode, Settings } from "../types/Settings";
+import { ReaderDisplayMode, Settings } from "../types/settings/Settings";
 
 export namespace DefaultValues {
   export const SETTINGS: Settings = {

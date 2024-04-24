@@ -2,19 +2,18 @@ import { Pressable, Text, View } from "react-native";
 import CustomImage from "../../../common/components/image/CustomImage";
 import { useTheme } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
-import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
 import { style } from "../../../common/utils/style-utils";
+import { StoredChapter } from "../../../../../shared/src/types/Chapter";
 
 export default function ChapterItem({
   chapter,
   pressChapterTitle,
   pressChapterItem,
 }: {
-  chapter: IntersiteChapter;
-  pressChapterTitle?: (chapter: IntersiteChapter) => void;
-  pressChapterItem?: (chapter: IntersiteChapter) => void;
+  chapter: StoredChapter;
+  pressChapterTitle?: (chapter: StoredChapter) => void;
+  pressChapterItem?: (chapter: StoredChapter) => void;
 }) {
-  const SourceName = Object.keys(chapter.id)[0];
   const theme = useTheme();
 
   return (
@@ -40,10 +39,9 @@ export default function ChapterItem({
           ]}
         >
           <View style={[]}>
-            <CustomImage
-              uri={chapter.image[SourceName]}
-              size={100}
-            ></CustomImage>
+            {chapter.image && (
+              <CustomImage uri={chapter.image} size={100}></CustomImage>
+            )}
             <View
               style={[
                 {
@@ -76,16 +74,14 @@ export default function ChapterItem({
             ]}
           >
             <Text style={{ fontWeight: "500", color: theme.colors.text }}>
-              {chapter.manga.title[SourceName]}
+              {chapter.manga.title}
             </Text>
             <Pressable
               onPress={() => {
                 pressChapterTitle && pressChapterTitle(chapter);
               }}
             >
-              <Text style={{ color: theme.colors.text }}>
-                {chapter.title[SourceName]}
-              </Text>
+              <Text style={{ color: theme.colors.text }}>{chapter.title}</Text>
             </Pressable>
           </View>
         </View>

@@ -1,56 +1,76 @@
-import { ActivityIndicator, FlatList, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Text,
+  View,
+} from "react-native";
 import ChapterItem from "./elements/ChapterItem";
-import { useNavigation, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
+import LatestChaptersSearchBar from "./elements/LatestChaptersSearchBar";
+import useLatestChapters from "./hooks/use-latest-chapters";
 import { useEffect } from "react";
-import IntersiteChapter from "@shared/types/intersite/IntersiteChapter";
-import useApi from "@shared/hooks/use-api";
-import Config from "../../common/config/Config";
-import { useSettingsStore } from "../../common/store/settings.store";
-import { ChapterId } from "@shared/types/primitives/id";
-import { useNavigationType } from "@/common/types/NavigationTypes";
 
 export default function LatestChaptersPage() {
   const theme = useTheme();
-  const navigation: useNavigationType = useNavigation();
-
-  const { data: latestchapters, fetch } = useApi<IntersiteChapter[]>(
-    Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
-  );
-  const { getMoreTrustedIn } = useSettingsStore();
+  const {
+    chapters,
+    fetchNextPage,
+    noMoreChapters,
+    openIntersiteMangaPage,
+    refreshing,
+    refresh,
+  } = useLatestChapters();
 
   useEffect(() => {
-    fetch("/latestchapters");
+    fetchNextPage();
   }, []);
 
   return (
     <View style={[{ flex: 1 }]}>
       <FlatList
+        stickyHeaderIndices={[0]}
+        ListHeaderComponent={
+          <View>
+            <LatestChaptersSearchBar></LatestChaptersSearchBar>
+          </View>
+        }
         style={[{ flex: 1, width: "100%" }]}
-        data={latestchapters}
+        data={chapters}
         keyExtractor={(_, index) => `latest-chapter-item-${index}`}
         renderItem={({ item }) => (
           <ChapterItem
             chapter={item}
-            pressChapterTitle={(chapter) => {
-              const [src, chapterId] = getMoreTrustedIn<ChapterId>(chapter.id);
-              if (!src || !chapterId) return;
-              navigation.navigate("ChapterReader", {
-                src,
-                mangaId: chapter.manga.id[src],
-                chapterId,
-              });
-            }}
-            pressChapterItem={(chapter) => {
-              navigation.navigate("MangaInfo", {
-                formattedName: chapter.manga.formattedTitle,
-              });
-            }}
+            pressChapterTitle={openIntersiteMangaPage}
+            pressChapterItem={openIntersiteMangaPage}
           ></ChapterItem>
         )}
-        ListEmptyComponent={
-          <ActivityIndicator size="large" color={theme.colors.primary} />
+        ListFooterComponent={
+          <>
+            {noMoreChapters ? (
+              <Text>No More Chapters</Text>
+            ) : (
+              <ActivityIndicator
+                size="large"
+                style={{ paddingBottom: 20 }}
+                color={theme.colors.primary}
+              />
+            )}
+          </>
+        }
+        onEndReached={() => {
+          fetchNextPage();
+        }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => {
+              refresh();
+            }}
+          ></RefreshControl>
         }
       ></FlatList>
+      <View style={{ height: 50 }}></View>
     </View>
   );
 }

@@ -8,14 +8,13 @@ import { useSettingsStore } from "@/common/store/settings.store";
 import { useNavigationType } from "@/common/types/NavigationTypes";
 import { style } from "@/common/utils/style-utils";
 import { useNavigation, useTheme } from "@react-navigation/native";
-import ChapterViewer from "@shared/types/chapterViewer";
 import { View } from "react-native";
 
 export default function ChapterReaderHeader({
-  chapterViewer,
+  chapterTitle,
   onMenuButtonPress,
 }: {
-  chapterViewer?: ChapterViewer;
+  chapterTitle?: string;
   onMenuButtonPress?: () => void;
 }) {
   const theme = useTheme();
@@ -81,9 +80,9 @@ export default function ChapterReaderHeader({
                   navigation.goBack();
                 }}
               ></RounedButton>
-              {chapterViewer ? (
+              {chapterTitle ? (
                 <ThemedText style={[{ fontSize: 15 }]}>
-                  {chapterViewer.title}
+                  {chapterTitle}
                 </ThemedText>
               ) : (
                 <LoadingText></LoadingText>

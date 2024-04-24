@@ -1,23 +1,21 @@
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import {
-  ChapterId,
-  FormattedName,
-  MangaId,
+  ChapterEndpoint,
+  MangaFormattedName,
   SourceName,
-} from "@shared/types/primitives/id";
+  UUID,
+} from "@shared/types/primitives/Identifiers";
 
-export type RouteName = "MangaInfo" | "ChapterReader" | "App";
+export type RouteName = "IntersiteMangaInfo" | "ChapterReader" | "App";
 
 export type ParamListBase = {
-  MangaInfo: {
-    formattedName?: FormattedName;
-    src?: SourceName;
-    mangaId?: MangaId;
+  IntersiteMangaInfo: {
+    intersiteMangaFormattedName: MangaFormattedName;
   };
   ChapterReader: {
     src: SourceName;
-    mangaId: MangaId;
-    chapterId: ChapterId;
+    endpoint: ChapterEndpoint;
+    storedMangaId?: UUID;
   };
   App: undefined;
 };

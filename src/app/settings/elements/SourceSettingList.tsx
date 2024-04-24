@@ -1,5 +1,5 @@
 import { SafeAreaView, TouchableOpacity } from "react-native";
-import { SourceName } from "@shared/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 import SourceSettingItem from "./SourceSettingItem";
 import DragList, { DragListRenderItemInfo } from "react-native-draglist";
 import { useEffect, useState } from "react";

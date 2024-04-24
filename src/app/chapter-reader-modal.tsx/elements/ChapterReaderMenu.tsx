@@ -2,19 +2,21 @@ import RounedButton from "@/common/components/buttons/RoundedButton";
 import LoadingText from "@/common/components/text/LoadingText";
 import { style } from "@/common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import ChapterViewer from "@shared/types/chapterViewer";
-import { useEffect, useRef } from "react";
-import { Animated, View, useWindowDimensions } from "react-native";
+import { Animated, Pressable, View, useWindowDimensions } from "react-native";
 import ChapterReaderMenuItem from "./ChapterReaderMenuItem";
 import { useSettingsStore } from "@/common/store/settings.store";
+import { PagedScrapedChapter } from "../../../../../shared/src/types/Chapter";
+import { colors } from "../../../../../shared/src/config/enums/Colors";
 
 export default function ChapterReaderMenu({
+  animValue,
   shown,
-  chapterViewer,
+  scrapedChapter,
   onRequestClose,
 }: {
+  animValue: Animated.Value;
   shown: boolean;
-  chapterViewer?: ChapterViewer;
+  scrapedChapter?: PagedScrapedChapter;
   onRequestClose?: () => void;
 }) {
   const theme = useTheme();
@@ -22,24 +24,7 @@ export default function ChapterReaderMenu({
 
   const { readerHeaderHide, getNextReaderDisplayMode, setReaderOptions } =
     useSettingsStore();
-  const translateX = useRef(new Animated.Value(0)).current;
   const { nextDisplayMode, nextIcon, nextLabel } = getNextReaderDisplayMode();
-
-  useEffect(() => {
-    if (shown) {
-      Animated.timing(translateX, {
-        toValue: 1,
-        delay: 150,
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.timing(translateX, {
-        toValue: 0,
-        delay: 150,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [shown]);
 
   return (
     <>
@@ -58,7 +43,7 @@ export default function ChapterReaderMenu({
             zIndex: 15,
             transform: [
               {
-                translateX: translateX.interpolate({
+                translateX: animValue.interpolate({
                   inputRange: [0, 1],
                   outputRange: [width * 0.7, 0],
                 }),
@@ -74,18 +59,33 @@ export default function ChapterReaderMenu({
             onPress={onRequestClose}
           ></RounedButton>
         </View>
-        {chapterViewer ? (
+        {scrapedChapter ? (
           <>
             <RounedButton
               prependIcon="book"
-              content={chapterViewer.manga.name}
+              content={scrapedChapter.manga.title}
               styleProp={[{ width: "100%", justifyContent: "flex-start" }]}
             ></RounedButton>
             <RounedButton
               prependIcon="bookmark"
-              content={chapterViewer.title}
+              content={scrapedChapter.title}
               styleProp={[
-                { width: "100%", justifyContent: "flex-start", paddingTop: 0 },
+                {
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  paddingTop: 0,
+                },
+              ]}
+            ></RounedButton>
+            <RounedButton
+              prependIcon="source-branch"
+              content={scrapedChapter.src}
+              styleProp={[
+                {
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  paddingTop: 0,
+                },
               ]}
             ></RounedButton>
           </>
@@ -107,6 +107,13 @@ export default function ChapterReaderMenu({
         <ChapterReaderMenuItem
           icon={readerHeaderHide ? "page-layout-header" : "page-layout-body"}
           label={readerHeaderHide ? "Header" : "No Header"}
+          onPress={() => {
+            setReaderOptions("readerHeaderHide", !readerHeaderHide);
+          }}
+        ></ChapterReaderMenuItem>
+        <ChapterReaderMenuItem
+          icon={readerHeaderHide ? "page-layout-footer" : "page-layout-body"}
+          label={readerHeaderHide ? "Footer" : "No Footer"}
           onPress={() => {
             setReaderOptions("readerHeaderHide", !readerHeaderHide);
           }}

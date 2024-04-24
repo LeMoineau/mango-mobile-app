@@ -1,5 +1,5 @@
 import { IntersiteField } from "@shared/types/intersite/IntersiteField";
-import { SourceName } from "@shared/types/primitives/id";
+import { SourceName } from "@shared/types/primitives/Identifiers";
 
 export namespace IntersiteUtils {
   export function hasSource<T>(intersiteField: IntersiteField<T>): boolean {

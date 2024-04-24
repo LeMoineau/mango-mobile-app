@@ -1,5 +1,5 @@
-import { SourceName } from "@shared/types/primitives/id";
-import { ThemeName } from "./ThemeName";
+import { SourceName } from "@shared/types/primitives/Identifiers";
+import { ThemeName } from "../ThemeName";
 
 export interface Settings {
   theme: ThemeName;

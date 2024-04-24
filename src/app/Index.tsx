@@ -16,6 +16,7 @@ import Home from "./home/Home";
 import MangaInfosPage from "./manga-infos-modal/MangaInfosPage";
 import ChapterReaderPage from "./chapter-reader-modal.tsx/ChapterReaderPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import IntersiteMangaInfosPage from "./intersite-manga-infos/IntersiteMangaInfosPage";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -45,11 +46,11 @@ function AppNavigator() {
         ]}
       >
         <Tab.Screen
-          name="Settings"
-          component={SettingPage}
+          name="New Chapters"
+          component={LatestChaptersPage}
           options={{
             tabBarIcon: ({ color }) => (
-              <Ionicons name="settings" size={20} color={color}></Ionicons>
+              <Ionicons name="globe" size={20} color={color}></Ionicons>
             ),
           }}
         />
@@ -63,11 +64,11 @@ function AppNavigator() {
           }}
         />
         <Tab.Screen
-          name="New Chapters"
-          component={LatestChaptersPage}
+          name="Settings"
+          component={SettingPage}
           options={{
             tabBarIcon: ({ color }) => (
-              <Ionicons name="globe" size={20} color={color}></Ionicons>
+              <Ionicons name="settings" size={20} color={color}></Ionicons>
             ),
           }}
         />
@@ -95,7 +96,11 @@ export default function Index() {
             options={{ headerShown: false }}
           />
           <Stack.Screen name="ChapterReader" component={ChapterReaderPage} />
-          <Stack.Screen name="MangaInfo" component={MangaInfosPage} />
+          <Stack.Screen
+            name="IntersiteMangaInfo"
+            component={IntersiteMangaInfosPage}
+            options={{ animation: "fade_from_bottom" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
