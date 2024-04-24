@@ -2,13 +2,10 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
-  Text,
   View,
   useWindowDimensions,
 } from "react-native";
-import { style } from "../../common/utils/style-utils";
 import { useNavigation, useRoute, useTheme } from "@react-navigation/native";
-import Title from "../../common/components/text/Title";
 import MangaChapterItem from "./elements/IntersiteChapterItem";
 import { useEffect } from "react";
 import {
@@ -16,13 +13,11 @@ import {
   useRouteType,
 } from "@/common/types/NavigationTypes";
 import LoadingText from "@/common/components/text/LoadingText";
-import Gradient, {
-  GradientDirection,
-} from "@/common/components/image/Gradient";
-import RounedButton from "@/common/components/buttons/RoundedButton";
 import useIntersiteMangaInfos from "./hooks/useIntersiteMangaInfos";
 import { isParentlessIntersiteChapter } from "../../../../shared/src/types/IntersiteChapter";
 import ThemedText from "../../common/components/text/ThemedText";
+import IntersiteMangaInfosPageHeader from "./elements/IntersiteMangaInfosPageHeader";
+import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStickyHeader";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -77,39 +72,7 @@ export default function IntersiteMangaInfosPage() {
       <FlatList
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
-          <>
-            <View
-              style={[
-                style.flexRow,
-                style.justifyBetween,
-                style.itemsCenter,
-                { paddingHorizontal: 10, paddingTop: 10 },
-              ]}
-            >
-              <RounedButton
-                prependIcon="arrow-back"
-                prependIconStyle={[{ fontSize: 23 }]}
-                styleProp={[
-                  {
-                    backgroundColor: theme.colors.background,
-                  },
-                ]}
-                onPress={() => {
-                  navigation.goBack();
-                }}
-              ></RounedButton>
-              <RounedButton
-                prependIcon="dots-vertical"
-                prependIconStyle={[{ fontSize: 23 }]}
-                styleProp={[
-                  {
-                    backgroundColor: theme.colors.background,
-                  },
-                ]}
-                onPress={() => {}}
-              ></RounedButton>
-            </View>
-          </>
+          <IntersiteMangaInfosStickyHeader></IntersiteMangaInfosStickyHeader>
         }
         data={["header", ...chapters]}
         keyExtractor={(_, index) => `manga-chapter-item-${index}`}
@@ -133,44 +96,10 @@ export default function IntersiteMangaInfosPage() {
             );
           } else {
             return (
-              <>
-                <Gradient
-                  width={"100%"}
-                  height={loading || (manga && manga.image) ? 250 : 70}
-                  direction={GradientDirection.BOTTOM_TO_TOP}
-                ></Gradient>
-                <View
-                  style={[
-                    {
-                      paddingHorizontal: 10,
-                      marginTop: -2,
-                      backgroundColor: theme.colors.background,
-                    },
-                  ]}
-                >
-                  <Title
-                    styleProps={[
-                      style.text2Xl,
-                      style.textBold,
-                      { marginVertical: 0, paddingHorizontal: 0 },
-                    ]}
-                  >
-                    {manga ? (
-                      manga.title
-                    ) : (
-                      <LoadingText height={35} width={250}></LoadingText>
-                    )}
-                  </Title>
-                  {(loading || manga?.author) && (
-                    <Text style={[{ color: theme.colors.text }]}>
-                      {manga ? manga.author : <LoadingText></LoadingText>}
-                    </Text>
-                  )}
-                  <Title styleProps={[{ fontSize: 15, marginTop: 30 }]}>
-                    Chapters
-                  </Title>
-                </View>
-              </>
+              <IntersiteMangaInfosPageHeader
+                manga={manga}
+                loading={loading}
+              ></IntersiteMangaInfosPageHeader>
             );
           }
         }}
