@@ -24,6 +24,8 @@ const useIntersiteMangaInfos = () => {
     setIntersiteValue,
   } = useMoreTrustedValue<IntersiteManga>();
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [chaptersLoading, setChaptersLoading] = useState(false);
   const {
     elements,
     fullyLoaded,
@@ -107,9 +109,21 @@ const useIntersiteMangaInfos = () => {
 
   const fetchIntersiteChapters = async () => {
     if (!intersiteManga) return;
+    setChaptersLoading(true);
     await _fetchIntersiteChapters(
       `/intersiteMangas/${intersiteManga.id}/intersiteChapters`
     );
+    setChaptersLoading(false);
+  };
+
+  const refreshIntersiteChapters = async () => {
+    if (!intersiteManga) return;
+    setRefreshing(true);
+    await _fetchIntersiteChapters(
+      `/intersiteMangas/${intersiteManga.id}/intersiteChapters`,
+      { page: 1, resetElementsIfSuceed: true }
+    );
+    setRefreshing(false);
   };
 
   const _reset = () => {
@@ -122,9 +136,13 @@ const useIntersiteMangaInfos = () => {
     manga: moreTrustedManga,
     chapters: elements,
     loading,
+    chaptersLoading,
     chaptersFullyLoaded: fullyLoaded,
+    refreshing,
     fetch: _fetch,
+    fetchScrapedManga: _fetchScrapedManga,
     fetchIntersiteChapters,
+    refreshIntersiteChapters,
   };
 };
 

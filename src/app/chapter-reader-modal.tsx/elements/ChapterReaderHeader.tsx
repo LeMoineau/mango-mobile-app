@@ -5,7 +5,7 @@ import Gradient, {
 import LoadingText from "@/common/components/text/LoadingText";
 import ThemedText from "@/common/components/text/ThemedText";
 import { useSettingsStore } from "@/common/store/settings.store";
-import { useNavigationType } from "@/common/types/NavigationTypes";
+import { useNavigationType } from "@/common/types/navigation/NavigationTypes";
 import { style } from "@/common/utils/style-utils";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { View } from "react-native";

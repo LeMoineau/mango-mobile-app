@@ -13,10 +13,10 @@ import CustomTopBar from "../common/components/navigation/CustomTopBar";
 import { StatusBar, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Home from "./home/Home";
-import MangaInfosPage from "./manga-infos-modal/MangaInfosPage";
 import ChapterReaderPage from "./chapter-reader-modal.tsx/ChapterReaderPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IntersiteMangaInfosPage from "./intersite-manga-infos/IntersiteMangaInfosPage";
+import IntersiteMangaSearchPage from "./intersite-manga-search/IntersiteMangaSearchPage";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -99,6 +99,11 @@ export default function Index() {
           <Stack.Screen
             name="IntersiteMangaInfo"
             component={IntersiteMangaInfosPage}
+            options={{ animation: "fade_from_bottom" }}
+          />
+          <Stack.Screen
+            name="IntersiteMangaSearch"
+            component={IntersiteMangaSearchPage}
             options={{ animation: "fade_from_bottom" }}
           />
         </Stack.Navigator>

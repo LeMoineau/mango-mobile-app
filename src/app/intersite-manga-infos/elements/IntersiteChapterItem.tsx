@@ -2,7 +2,7 @@ import { Animated, Image, Pressable, Text, View } from "react-native";
 import { style } from "../../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { useEffect } from "react";
+import { memo, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
@@ -10,8 +10,10 @@ import { ParentlessIntersiteChapter } from "../../../../../shared/src/types/Inte
 import useAnimatedValue from "../../../common/hooks/use-animated-value";
 import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import { IdentifiedChapter } from "../../../../../shared/src/types/Chapter";
+import ThemedText from "../../../common/components/text/ThemedText";
+import IconedText from "../../../common/components/text/IconedText";
 
-export default function MangaChapterItem({
+function IntersiteChapterItem({
   intersiteChapter,
   pressReadBtn,
 }: {
@@ -137,21 +139,30 @@ export default function MangaChapterItem({
                 <Text style={[{ color: theme.colors.text, opacity: 0.7 }]}>
                   {chapter?.title}
                 </Text>
-                {chapter?.releaseDate ? (
-                  <Text
-                    style={[
-                      {
-                        color: theme.colors.text,
-                        opacity: 0.5,
-                        fontSize: 10,
-                      },
-                    ]}
+                <View style={[style.flexRow, {}]}>
+                  <IconedText
+                    fontSize={10}
+                    style={[{ opacity: 0.5 }]}
+                    iconName="source-branch"
                   >
-                    {new Date(chapter?.releaseDate!).toDateString()}
-                  </Text>
-                ) : (
-                  <></>
-                )}
+                    {chapter?.src}
+                  </IconedText>
+                  {chapter?.releaseDate && (
+                    <>
+                      <View style={[{ width: 10 }]}></View>
+                      <ThemedText
+                        style={[
+                          {
+                            opacity: 0.5,
+                            fontSize: 10,
+                          },
+                        ]}
+                      >
+                        {new Date(chapter?.releaseDate!).toDateString()}
+                      </ThemedText>
+                    </>
+                  )}
+                </View>
               </View>
               <View style={[style.flexRow, style.itemsCenter, {}]}>
                 <ExpoIcon
@@ -217,3 +228,5 @@ export default function MangaChapterItem({
     </>
   );
 }
+
+export default memo(IntersiteChapterItem);

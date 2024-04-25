@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { style } from "../../../common/utils/style-utils";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
 import { useNavigation, useTheme } from "@react-navigation/native";
-import { useNavigationType } from "../../../common/types/NavigationTypes";
+import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 
 export default function IntersiteMangaInfosStickyHeader() {
   const theme = useTheme();

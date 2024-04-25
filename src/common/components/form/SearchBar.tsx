@@ -6,10 +6,16 @@ import RounedButton from "../buttons/RoundedButton";
 
 export default function SearchBar({
   hasFilterBtn,
+  defaultValue,
   onFilterBtnPress,
+  onChange,
+  onSubmit,
 }: {
   hasFilterBtn?: boolean;
+  defaultValue?: string;
   onFilterBtnPress?: () => void;
+  onChange?: (text: string) => void;
+  onSubmit?: (text: string) => void;
 }) {
   const theme = useTheme();
 
@@ -49,8 +55,11 @@ export default function SearchBar({
               paddingHorizontal: 10,
             },
           ]}
+          value={defaultValue}
           placeholder="Search"
           placeholderTextColor={theme.colors.text}
+          onChangeText={(text) => onChange && onChange(text)}
+          onSubmitEditing={(evt) => onSubmit && onSubmit(evt.nativeEvent.text)}
         ></TextInput>
       </View>
       {hasFilterBtn && (

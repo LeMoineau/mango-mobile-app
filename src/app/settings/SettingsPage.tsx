@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useSettingsStore } from "../../common/store/settings.store";
 import Title from "../../common/components/text/Title";
 import ToggleSettingItem from "./elements/ToggleSettingItem";
@@ -15,9 +15,9 @@ export default function SettingPage() {
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
 
-  // useEffect(() => {
-  //   fetch("/settings");
-  // });
+  useEffect(() => {
+    fetch("/settings");
+  });
 
   return (
     <View style={[{ flex: 1, paddingHorizontal: 10 }]}>
@@ -52,6 +52,9 @@ export default function SettingPage() {
         <SettingSection sectionName="Scraping Preferences">
           <ToggleSettingItem title="Auto-Scrap Preferred Source"></ToggleSettingItem>
           <ToggleSettingItem title="Auto-Scrap Manga Infos"></ToggleSettingItem>
+          <ToggleSettingItem title="Auto-Scrap when image not found in manga infos"></ToggleSettingItem>
+          <ToggleSettingItem title="Auto-Scrap when image not found in search"></ToggleSettingItem>
+          <ToggleSettingItem title="Auto-Scrap in search"></ToggleSettingItem>
         </SettingSection>
       </ScrollView>
     </View>

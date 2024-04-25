@@ -15,11 +15,12 @@ export default function LatestChaptersPage() {
   const theme = useTheme();
   const {
     chapters,
-    fetchNextPage,
     noMoreChapters,
-    openIntersiteMangaPage,
     refreshing,
+    fetchNextPage,
     refresh,
+    openIntersiteMangaPage,
+    searchIntersiteManga,
   } = useLatestChapters();
 
   useEffect(() => {
@@ -31,9 +32,11 @@ export default function LatestChaptersPage() {
       <FlatList
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
-          <View>
-            <LatestChaptersSearchBar></LatestChaptersSearchBar>
-          </View>
+          <LatestChaptersSearchBar
+            onSearch={(text) => {
+              searchIntersiteManga(text);
+            }}
+          ></LatestChaptersSearchBar>
         }
         style={[{ flex: 1, width: "100%" }]}
         data={chapters}

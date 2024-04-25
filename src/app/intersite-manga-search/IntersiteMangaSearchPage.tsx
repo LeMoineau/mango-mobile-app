@@ -1,0 +1,49 @@
+import { FlatList, View } from "react-native";
+import { useRouteType } from "../../common/types/navigation/NavigationTypes";
+import { useRoute } from "@react-navigation/native";
+import { useEffect } from "react";
+import useIntersiteMangaSearch from "./hooks/useIntersiteMangaSearch";
+import IntersiteMangaItem from "./components/IntersiteMangaItem";
+import SearchBar from "../../common/components/form/SearchBar";
+import RounedButton from "../../common/components/buttons/RoundedButton";
+import { style } from "../../common/utils/style-utils";
+
+export default function IntersiteMangaSearchPage() {
+  const route: useRouteType<"IntersiteMangaSearch"> = useRoute();
+
+  const { intersiteMangas, fullyLoaded, fetchQuery } =
+    useIntersiteMangaSearch();
+
+  useEffect(() => {
+    fetchQuery(route.params.query);
+  }, []);
+
+  return (
+    <>
+      <View style={[{ flex: 1 }]}>
+        <FlatList
+          ListHeaderComponent={
+            <View
+              style={[
+                style.flexRow,
+                style.itemsCenter,
+                style.justifyCenter,
+                {},
+              ]}
+            >
+              <RounedButton prependIcon="arrow-back"></RounedButton>
+              <SearchBar defaultValue={route.params.query}></SearchBar>
+              <RounedButton prependIcon="dots-vertical"></RounedButton>
+            </View>
+          }
+          stickyHeaderIndices={[0]}
+          data={intersiteMangas}
+          keyExtractor={(_, index) => `search-result-${index}`}
+          renderItem={({ item }) => (
+            <IntersiteMangaItem intersiteManga={item}></IntersiteMangaItem>
+          )}
+        ></FlatList>
+      </View>
+    </>
+  );
+}

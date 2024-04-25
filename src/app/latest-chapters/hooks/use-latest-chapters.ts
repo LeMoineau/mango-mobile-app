@@ -1,28 +1,24 @@
 import { useState } from "react";
 import { StoredChapter } from "../../../../../shared/src/types/Chapter";
 import Config from "../../../common/config/Config";
-import { useNavigationType } from "../../../common/types/NavigationTypes";
+import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { useNavigation } from "@react-navigation/native";
 import { TextFormatUtils } from "../../../../../shared/src/utils/text-format-utils";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
 
 const useLatestChapters = () => {
-  // const { fetch } = useApi(Config.getEnv().MANGO_BD_API_ENDPOINT);
   const navigator: useNavigationType = useNavigation();
 
-  const [noMoreChapters, setNoMoreChapters] = useState(false);
-  const { elements, fetch, refresh } = useResponsePageApi<StoredChapter>(
-    Config.getEnv().MANGO_BD_API_ENDPOINT
-  );
+  const {
+    elements: chapters,
+    fullyLoaded: noMoreChapters,
+    fetch: fetchChapters,
+    refresh,
+  } = useResponsePageApi<StoredChapter>(Config.getEnv().MANGO_BD_API_ENDPOINT);
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchNextPage = () => {
-    fetch("/latestchapters").then((res) => {
-      if (!res || res.elements.length <= 0) {
-        setNoMoreChapters(true);
-        return;
-      }
-    });
+    fetchChapters("/latestchapters");
   };
 
   const openIntersiteMangaPage = (chapter: StoredChapter) => {
@@ -33,6 +29,12 @@ const useLatestChapters = () => {
     });
   };
 
+  const searchIntersiteManga = (queryMangaTitle: string) => {
+    navigator.navigate("IntersiteMangaSearch", {
+      query: queryMangaTitle,
+    });
+  };
+
   const _refresh = async () => {
     setRefreshing(true);
     await refresh();
@@ -40,12 +42,13 @@ const useLatestChapters = () => {
   };
 
   return {
-    chapters: elements,
-    fetchNextPage,
+    chapters,
     noMoreChapters,
-    openIntersiteMangaPage,
     refreshing,
+    fetchNextPage,
     refresh: _refresh,
+    openIntersiteMangaPage,
+    searchIntersiteManga,
   };
 };
 

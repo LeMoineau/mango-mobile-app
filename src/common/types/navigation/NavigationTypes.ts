@@ -6,7 +6,11 @@ import {
   UUID,
 } from "@shared/types/primitives/Identifiers";
 
-export type RouteName = "IntersiteMangaInfo" | "ChapterReader" | "App";
+export type RouteName =
+  | "IntersiteMangaInfo"
+  | "ChapterReader"
+  | "App"
+  | "IntersiteMangaSearch";
 
 export type ParamListBase = {
   IntersiteMangaInfo: {
@@ -18,6 +22,9 @@ export type ParamListBase = {
     storedMangaId?: UUID;
   };
   App: undefined;
+  IntersiteMangaSearch: {
+    query: string;
+  };
 };
 
 export type useNavigationType = NavigationProp<ParamListBase>;

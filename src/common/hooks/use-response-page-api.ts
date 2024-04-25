@@ -23,6 +23,7 @@ const useResponsePageApi = <T>(
       limit?: number;
       notIncrementPage?: boolean;
       resetElementsIfSuceed?: boolean;
+      params?: any;
     }
   ): Promise<ResponsePage<T> | undefined> => {
     previousEndpoint.current = endpoint;
@@ -32,6 +33,7 @@ const useResponsePageApi = <T>(
         params: {
           page: props?.page ?? page.current,
           limit: props?.limit ?? limit.current,
+          ...props?.params,
         },
       },
     })

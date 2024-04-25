@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   FlatList,
-  Image,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -11,13 +10,16 @@ import { useEffect } from "react";
 import {
   useNavigationType,
   useRouteType,
-} from "@/common/types/NavigationTypes";
+} from "@/common/types/navigation/NavigationTypes";
 import LoadingText from "@/common/components/text/LoadingText";
 import useIntersiteMangaInfos from "./hooks/useIntersiteMangaInfos";
 import { isParentlessIntersiteChapter } from "../../../../shared/src/types/IntersiteChapter";
 import ThemedText from "../../common/components/text/ThemedText";
 import IntersiteMangaInfosPageHeader from "./elements/IntersiteMangaInfosPageHeader";
 import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStickyHeader";
+import CustomImage from "../../common/components/image/CustomImage";
+import { style } from "../../common/utils/style-utils";
+import RounedButton from "../../common/components/buttons/RoundedButton";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -29,9 +31,13 @@ export default function IntersiteMangaInfosPage() {
     loading,
     manga,
     chapters,
+    chaptersLoading,
     chaptersFullyLoaded,
+    refreshing,
     fetch,
+    fetchScrapedManga,
     fetchIntersiteChapters,
+    refreshIntersiteChapters,
   } = useIntersiteMangaInfos();
 
   useEffect(() => {
@@ -53,18 +59,15 @@ export default function IntersiteMangaInfosPage() {
           },
         ]}
       >
-        {!loading && manga ? (
-          <Image
-            source={{
-              uri: manga.image,
+        {manga && manga.image ? (
+          <CustomImage
+            uri={manga.image}
+            width={"100%"}
+            height={300}
+            onError={async () => {
+              await fetchScrapedManga(manga.src, manga);
             }}
-            style={[
-              {
-                width: "100%",
-                height: 300,
-              },
-            ]}
-          ></Image>
+          ></CustomImage>
         ) : (
           <LoadingText width={"100%"} height={300}></LoadingText>
         )}
@@ -86,7 +89,7 @@ export default function IntersiteMangaInfosPage() {
                   pressReadBtn={(chapter) => {
                     if (!manga) return;
                     navigation.navigate("ChapterReader", {
-                      src: manga.src,
+                      src: chapter.src,
                       endpoint: chapter.endpoint,
                       storedMangaId: manga.id,
                     });
@@ -105,16 +108,45 @@ export default function IntersiteMangaInfosPage() {
         }}
         ListFooterComponent={
           <>
-            {loading || !chaptersFullyLoaded ? (
+            {loading || !chaptersFullyLoaded || chaptersLoading ? (
               <ActivityIndicator size={"large"}></ActivityIndicator>
             ) : (
-              <ThemedText>No more chapters to load</ThemedText>
+              <View
+                style={[
+                  style.flexCol,
+                  style.justifyCenter,
+                  style.itemsCenter,
+                  { paddingVertical: 10 },
+                ]}
+              >
+                <ThemedText>
+                  Seems that there are no more chapters...
+                </ThemedText>
+                <View style={[{ height: 10 }]}></View>
+                <RounedButton
+                  appendIcon={refreshing ? undefined : "refresh"}
+                  content={refreshing ? "REFRESHING" : "REFRESH"}
+                  contentStyle={[{ fontWeight: "500" }]}
+                  styleProp={[
+                    {
+                      backgroundColor: refreshing
+                        ? theme.colors.border
+                        : theme.colors.primary,
+                    },
+                  ]}
+                  onPress={async () => {
+                    if (refreshing) return;
+                    await refreshIntersiteChapters();
+                  }}
+                ></RounedButton>
+              </View>
             )}
             <View style={[{ height: 50 }]}></View>
           </>
         }
-        onEndReached={() => {
-          fetchIntersiteChapters();
+        onEndReached={async () => {
+          if (chaptersFullyLoaded || chaptersLoading) return;
+          await fetchIntersiteChapters();
         }}
       ></FlatList>
     </>

@@ -2,7 +2,7 @@ import { FlatList, Image, Text, useWindowDimensions, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import useChapterReader from "@/app/chapter-reader-modal.tsx/hooks/use-chapter-reader";
-import { useRouteType } from "@/common/types/NavigationTypes";
+import { useRouteType } from "@/common/types/navigation/NavigationTypes";
 import ChapterReaderHeader from "./elements/ChapterReaderHeader";
 import ChapterReaderFooter from "./elements/ChapterReaderFooter";
 import useAnimatedValue from "../../common/hooks/use-animated-value";
