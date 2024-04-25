@@ -8,7 +8,6 @@ import ExpoIcon from "./../../../common/components/icons/ExpoIcon";
 export default function ToggleSettingItem({
   icon,
   title,
-  hasSwitch,
   defaultValue,
   onPress,
 }: {
@@ -42,9 +41,11 @@ export default function ToggleSettingItem({
         <Switch
           value={value}
           thumbColor={value ? theme.colors.primary : theme.colors.background}
-          onValueChange={() => {
-            setValue(!value);
+          trackColor={{
+            true: theme.colors.border,
+            false: theme.colors.background,
           }}
+          disabled
         ></Switch>
       </View>
     </Pressable>
