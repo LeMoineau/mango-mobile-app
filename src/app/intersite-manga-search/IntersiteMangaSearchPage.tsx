@@ -1,4 +1,4 @@
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { useRouteType } from "../../common/types/navigation/NavigationTypes";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
@@ -11,7 +11,7 @@ import { style } from "../../common/utils/style-utils";
 export default function IntersiteMangaSearchPage() {
   const route: useRouteType<"IntersiteMangaSearch"> = useRoute();
 
-  const { intersiteMangas, fullyLoaded, fetchNewQuery, fetchQuery } =
+  const { intersiteMangas, fullyLoaded, loading, fetchNewQuery, fetchQuery } =
     useIntersiteMangaSearch();
 
   useEffect(() => {
@@ -42,11 +42,18 @@ export default function IntersiteMangaSearchPage() {
             </View>
           }
           stickyHeaderIndices={[0]}
-          data={intersiteMangas}
+          data={intersiteMangas.filter((im) => im.mangas.length > 0)}
           keyExtractor={(_, index) => `search-result-${index}`}
           renderItem={({ item }) => (
             <IntersiteMangaItem intersiteManga={item}></IntersiteMangaItem>
           )}
+          ListFooterComponent={
+            <>
+              {!fullyLoaded && loading && (
+                <ActivityIndicator></ActivityIndicator>
+              )}
+            </>
+          }
           onEndReached={async () => {
             if (fullyLoaded) return;
             await fetchQuery();

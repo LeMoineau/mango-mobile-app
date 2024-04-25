@@ -38,7 +38,7 @@ export default function SinglePagePagesDisplayer({
       setCurrentPageReading,
       loadNextPage,
     });
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     if (pages.length > 0 && !currentPage) {
@@ -61,8 +61,16 @@ export default function SinglePagePagesDisplayer({
           {currentPage ? (
             <CustomImage
               uri={currentPage.base64Url}
-              width={width}
-              height={currentPage.height * (width / currentPage.width)}
+              width={
+                currentPage.height * (width / currentPage.width) > height
+                  ? currentPage.width * (height / currentPage.height)
+                  : width
+              }
+              height={
+                currentPage.height * (width / currentPage.width) > height
+                  ? height
+                  : currentPage.height * (width / currentPage.width)
+              }
             ></CustomImage>
           ) : (
             <ActivityIndicator></ActivityIndicator>
