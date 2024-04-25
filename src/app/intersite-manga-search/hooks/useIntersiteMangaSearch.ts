@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
 import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
@@ -8,14 +9,30 @@ const useIntersiteMangaSearch = () => {
     fetch,
     fullyLoaded,
   } = useResponsePageApi<IntersiteManga>(Config.getEnv().MANGO_BD_API_ENDPOINT);
+  const previousQuery = useRef<string>();
 
-  const fetchQuery = async (query: string) => {
-    await fetch("/intersiteMangas", { params: { mangaTitle: query } });
+  const fetchNewQuery = async (query: string) => {
+    previousQuery.current = query;
+    const res = await fetch("/intersiteMangas", {
+      params: { mangaTitle: query },
+      resetElementsIfSuceed: true,
+      page: 1,
+    });
+    console.log(res?.elements[0]);
+  };
+
+  const fetchQuery = async () => {
+    if (!previousQuery.current) return;
+    await fetch("/intersiteMangas", {
+      params: { mangaTitle: previousQuery.current },
+    });
   };
 
   return {
     intersiteMangas,
     fullyLoaded,
+    currentQuery: previousQuery.current,
+    fetchNewQuery,
     fetchQuery,
   };
 };

@@ -55,7 +55,7 @@ export default function SearchBar({
               paddingHorizontal: 10,
             },
           ]}
-          value={defaultValue}
+          defaultValue={defaultValue}
           placeholder="Search"
           placeholderTextColor={theme.colors.text}
           onChangeText={(text) => onChange && onChange(text)}

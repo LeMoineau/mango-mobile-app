@@ -11,11 +11,11 @@ import { style } from "../../common/utils/style-utils";
 export default function IntersiteMangaSearchPage() {
   const route: useRouteType<"IntersiteMangaSearch"> = useRoute();
 
-  const { intersiteMangas, fullyLoaded, fetchQuery } =
+  const { intersiteMangas, fullyLoaded, fetchNewQuery, fetchQuery } =
     useIntersiteMangaSearch();
 
   useEffect(() => {
-    fetchQuery(route.params.query);
+    fetchNewQuery(route.params.query);
   }, []);
 
   return (
@@ -28,11 +28,16 @@ export default function IntersiteMangaSearchPage() {
                 style.flexRow,
                 style.itemsCenter,
                 style.justifyCenter,
-                {},
+                { paddingTop: 10, paddingBottom: 20 },
               ]}
             >
               <RounedButton prependIcon="arrow-back"></RounedButton>
-              <SearchBar defaultValue={route.params.query}></SearchBar>
+              <SearchBar
+                defaultValue={route.params.query}
+                onSubmit={async (query) => {
+                  await fetchNewQuery(query);
+                }}
+              ></SearchBar>
               <RounedButton prependIcon="dots-vertical"></RounedButton>
             </View>
           }
@@ -42,6 +47,10 @@ export default function IntersiteMangaSearchPage() {
           renderItem={({ item }) => (
             <IntersiteMangaItem intersiteManga={item}></IntersiteMangaItem>
           )}
+          onEndReached={async () => {
+            if (fullyLoaded) return;
+            await fetchQuery();
+          }}
         ></FlatList>
       </View>
     </>
