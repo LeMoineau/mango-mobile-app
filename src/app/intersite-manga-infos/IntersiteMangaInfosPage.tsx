@@ -38,6 +38,7 @@ export default function IntersiteMangaInfosPage() {
   return (
     <>
       <IntersiteMangaInfosBackground
+        manga={manga}
         onLoadingImageError={async (m) => {
           await fetchScrapedManga(m.src, m);
         }}
@@ -56,8 +57,9 @@ export default function IntersiteMangaInfosPage() {
                 manga={manga}
                 loading={loading}
                 onDotsButtonPress={() => {
-                  if (!intersiteManga) return;
+                  if (!intersiteManga || !manga) return;
                   navigation.navigate("IntersiteMangaInfoDotsOptions", {
+                    url: manga.url,
                     intersiteMangaId: intersiteManga.id,
                   });
                 }}
@@ -78,6 +80,7 @@ export default function IntersiteMangaInfosPage() {
                 }}
                 pressDotsBtn={(chapter) => {
                   navigation.navigate("IntersiteMangaInfoDotsOptions", {
+                    url: chapter.url,
                     chapterId: chapter.id,
                   });
                 }}

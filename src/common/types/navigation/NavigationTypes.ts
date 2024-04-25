@@ -17,13 +17,14 @@ export type ParamListBase = {
   IntersiteMangaInfo: {
     intersiteMangaFormattedName: MangaFormattedName;
   };
-  IntersiteMangaInfoDotsOptions:
+  IntersiteMangaInfoDotsOptions: { url: string } & (
     | {
         intersiteMangaId: UUID;
       }
     | {
         chapterId: UUID;
-      };
+      }
+  );
   ChapterReader: {
     src: SourceName;
     endpoint: ChapterEndpoint;

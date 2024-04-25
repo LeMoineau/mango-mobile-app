@@ -30,7 +30,7 @@ export default function IntersiteMangaInfosStickyHeader() {
             navigation.goBack();
           }}
         ></RounedButton>
-        <RounedButton
+        {/* <RounedButton
           prependIcon="dots-vertical"
           prependIconStyle={[{ fontSize: 23 }]}
           styleProp={[
@@ -39,7 +39,7 @@ export default function IntersiteMangaInfosStickyHeader() {
             },
           ]}
           onPress={() => {}}
-        ></RounedButton>
+        ></RounedButton> */}
       </View>
     </>
   );

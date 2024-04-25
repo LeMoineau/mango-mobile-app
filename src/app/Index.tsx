@@ -105,7 +105,10 @@ export default function Index() {
           <Stack.Screen
             name="IntersiteMangaInfoDotsOptions"
             component={IntersiteMangaInfosDotsOptionsPage}
-            options={{ animation: "slide_from_bottom" }}
+            options={{
+              presentation: "transparentModal",
+              animation: "fade_from_bottom",
+            }}
           />
           <Stack.Screen
             name="IntersiteMangaSearch"
