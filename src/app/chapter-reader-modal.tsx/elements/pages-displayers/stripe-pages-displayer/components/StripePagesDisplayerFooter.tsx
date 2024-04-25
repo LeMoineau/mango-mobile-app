@@ -1,6 +1,6 @@
 import { ActivityIndicator } from "react-native";
 
-export default function ChapterReaderFooter({
+export default function StripePagesDisplayerFooter({
   chapterFullyLoaded,
 }: {
   chapterFullyLoaded?: boolean;

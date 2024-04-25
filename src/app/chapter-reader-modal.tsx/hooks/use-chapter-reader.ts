@@ -6,16 +6,9 @@ import {
 } from "@shared/types/primitives/Identifiers";
 import Config from "../../../common/config/Config";
 import { encode } from "base-64";
-import { Image, NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { DefaultValues } from "../../../common/config/DefaultValues";
+import { Image } from "react-native";
 import useApi from "../../../../../shared/src/hooks/use-api";
 import { PagedScrapedChapter } from "../../../../../shared/src/types/Chapter";
-
-interface ChapterPageLoaded {
-  base64Url: string;
-  width: number;
-  height: number;
-}
 
 const useChapterReader = () => {
   const { fetch } = useApi(Config.getEnv().MANGO_SCRAPER_API_ENDPOINT);
@@ -37,7 +30,7 @@ const useChapterReader = () => {
    * Pages currently loading
    */
   const pagesLoading = useRef<number[]>([]);
-  const [currentPageReading, setCurrentPageReading] = useState<number>(1);
+  const [currentPageReading, setCurrentPageReading] = useState<number>(0);
 
   const fetchPages = async (_src: SourceName, endpoint: ChapterEndpoint) => {
     reset();
@@ -145,25 +138,7 @@ const useChapterReader = () => {
     _pages.current = [];
     setPages([]);
     setIsFullyLoaded(false);
-  };
-
-  const onReaderScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const scrollMax =
-      event.nativeEvent.contentSize.height -
-      event.nativeEvent.layoutMeasurement.height;
-    const currentScrollHeight = event.nativeEvent.contentOffset.y;
-    if (scrapedChapter.current) {
-      const currentPage = Math.floor(
-        currentScrollHeight / (scrollMax / pages.length)
-      );
-      setCurrentPageReading(currentPage <= 0 ? 0 : currentPage);
-    }
-    if (
-      currentScrollHeight / scrollMax >=
-      DefaultValues.READER_HEIGHT_RATE_UPDATE
-    ) {
-      loadNextPage(2);
-    }
+    setCurrentPageReading(0);
   };
 
   return {
@@ -177,7 +152,7 @@ const useChapterReader = () => {
     loadPage,
     loadNextPage,
     reset,
-    onReaderScroll,
+    setCurrentPageReading,
   };
 };
 

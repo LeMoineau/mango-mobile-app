@@ -16,6 +16,7 @@ export type RouteName =
 export type ParamListBase = {
   IntersiteMangaInfo: {
     intersiteMangaFormattedName: MangaFormattedName;
+    action?: "forceMangaScraping" | "changeMangaSource";
   };
   IntersiteMangaInfoDotsOptions: { url: string } & (
     | {

@@ -3,6 +3,7 @@ import { PagedScrapedChapter } from "../../../../../shared/src/types/Chapter";
 import { style } from "../../../common/utils/style-utils";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 import { useTheme } from "@react-navigation/native";
+import { useSettingsStore } from "../../../common/store/settings.store";
 
 export default function ChapterReaderStickyFooter({
   scrapedChapter,
@@ -17,9 +18,11 @@ export default function ChapterReaderStickyFooter({
 }) {
   const { width } = useWindowDimensions();
   const theme = useTheme();
+  const { get } = useSettingsStore();
+
   return (
     <>
-      {scrapedChapter && (
+      {scrapedChapter && get("chapterReaderHasFooter") && (
         <View
           style={[
             style.flexRow,

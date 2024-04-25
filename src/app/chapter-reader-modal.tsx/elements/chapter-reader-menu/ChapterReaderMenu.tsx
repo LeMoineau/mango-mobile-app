@@ -2,29 +2,27 @@ import RounedButton from "@/common/components/buttons/RoundedButton";
 import LoadingText from "@/common/components/text/LoadingText";
 import { style } from "@/common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import { Animated, Pressable, View, useWindowDimensions } from "react-native";
-import ChapterReaderMenuItem from "./ChapterReaderMenuItem";
+import { Animated, Linking, View, useWindowDimensions } from "react-native";
+import ChapterReaderMenuItem from "../ChapterReaderMenuItem";
 import { useSettingsStore } from "@/common/store/settings.store";
-import { PagedScrapedChapter } from "../../../../../shared/src/types/Chapter";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { PagedScrapedChapter } from "../../../../../../shared/src/types/Chapter";
+import useChapterReaderMenu from "./use-chapter-reader-menu";
 
 export default function ChapterReaderMenu({
   animValue,
-  shown,
   scrapedChapter,
   onRequestClose,
 }: {
   animValue: Animated.Value;
-  shown: boolean;
   scrapedChapter?: PagedScrapedChapter;
   onRequestClose?: () => void;
 }) {
   const theme = useTheme();
   const { width, height } = useWindowDimensions();
 
-  const { readerHeaderHide, getNextReaderDisplayMode, setReaderOptions } =
-    useSettingsStore();
-  const { nextDisplayMode, nextIcon, nextLabel } = getNextReaderDisplayMode();
+  const { get, set } = useSettingsStore();
+  const { getCurrentChapterReaderInfos, getNextChapterReaderDisplayMode } =
+    useChapterReaderMenu();
 
   return (
     <>
@@ -80,6 +78,7 @@ export default function ChapterReaderMenu({
             <RounedButton
               prependIcon="source-branch"
               content={scrapedChapter.src}
+              contentStyle={[{ textDecorationLine: "underline" }]}
               styleProp={[
                 {
                   width: "100%",
@@ -87,6 +86,9 @@ export default function ChapterReaderMenu({
                   paddingTop: 0,
                 },
               ]}
+              onPress={() => {
+                Linking.openURL(scrapedChapter.url);
+              }}
             ></RounedButton>
           </>
         ) : (
@@ -97,25 +99,38 @@ export default function ChapterReaderMenu({
           </View>
         )}
         <View style={[{ height: 30 }]}></View>
+        {
+          <ChapterReaderMenuItem
+            icon={getCurrentChapterReaderInfos().icon}
+            label={getCurrentChapterReaderInfos().label}
+            onPress={() => {
+              set(
+                "chapterReaderDisplayMode",
+                getNextChapterReaderDisplayMode()
+              );
+            }}
+          ></ChapterReaderMenuItem>
+        }
         <ChapterReaderMenuItem
-          icon={nextIcon}
-          label={nextLabel}
+          icon={
+            get("chapterReaderHasHeader")
+              ? "page-layout-header"
+              : "page-layout-body"
+          }
+          label={get("chapterReaderHasHeader") ? "Header" : "No Header"}
           onPress={() => {
-            setReaderOptions("readerDisplayMode", nextDisplayMode);
+            set("chapterReaderHasHeader", !get("chapterReaderHasHeader"));
           }}
         ></ChapterReaderMenuItem>
         <ChapterReaderMenuItem
-          icon={readerHeaderHide ? "page-layout-header" : "page-layout-body"}
-          label={readerHeaderHide ? "Header" : "No Header"}
+          icon={
+            get("chapterReaderHasFooter")
+              ? "page-layout-footer"
+              : "page-layout-body"
+          }
+          label={get("chapterReaderHasFooter") ? "Footer" : "No Footer"}
           onPress={() => {
-            setReaderOptions("readerHeaderHide", !readerHeaderHide);
-          }}
-        ></ChapterReaderMenuItem>
-        <ChapterReaderMenuItem
-          icon={readerHeaderHide ? "page-layout-footer" : "page-layout-body"}
-          label={readerHeaderHide ? "Footer" : "No Footer"}
-          onPress={() => {
-            setReaderOptions("readerHeaderHide", !readerHeaderHide);
+            set("chapterReaderHasFooter", !get("chapterReaderHasFooter"));
           }}
         ></ChapterReaderMenuItem>
       </Animated.View>

@@ -19,11 +19,11 @@ export default function ChapterReaderHeader({
 }) {
   const theme = useTheme();
   const navigation: useNavigationType = useNavigation();
-  const { readerHeaderHide } = useSettingsStore();
+  const { get } = useSettingsStore();
 
   return (
     <>
-      {readerHeaderHide ? (
+      {!get("chapterReaderHasHeader") ? (
         <View
           style={[
             style.flexRow,

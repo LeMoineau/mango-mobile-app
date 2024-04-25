@@ -13,12 +13,11 @@ const useIntersiteMangaSearch = () => {
 
   const fetchNewQuery = async (query: string) => {
     previousQuery.current = query;
-    const res = await fetch("/intersiteMangas", {
+    await fetch("/intersiteMangas", {
       params: { mangaTitle: query },
       resetElementsIfSuceed: true,
       page: 1,
     });
-    console.log(res?.elements[0]);
   };
 
   const fetchQuery = async () => {

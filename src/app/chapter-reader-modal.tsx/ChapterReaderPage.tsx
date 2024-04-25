@@ -1,14 +1,13 @@
-import { FlatList, Image, Text, useWindowDimensions, View } from "react-native";
+import { View } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useChapterReader from "@/app/chapter-reader-modal.tsx/hooks/use-chapter-reader";
 import { useRouteType } from "@/common/types/navigation/NavigationTypes";
 import ChapterReaderHeader from "./elements/ChapterReaderHeader";
-import ChapterReaderFooter from "./elements/ChapterReaderFooter";
 import useAnimatedValue from "../../common/hooks/use-animated-value";
-import ChapterReaderMenu from "./elements/ChapterReaderMenu";
-import { colors } from "../../../../shared/src/config/enums/Colors";
+import ChapterReaderMenu from "./elements/chapter-reader-menu/ChapterReaderMenu";
 import ChapterReaderStickyFooter from "./elements/ChapterReaderStickyFooter";
+import PagesDisplayer from "./elements/pages-displayers/PagesDisplayer";
 
 export default function ChapterReaderPage() {
   const route: useRouteType<"ChapterReader"> = useRoute();
@@ -21,27 +20,50 @@ export default function ChapterReaderPage() {
     scrapedChapter,
     currentPageReading,
     fetchPages,
-    onReaderScroll,
+    setCurrentPageReading,
+    loadNextPage,
   } = useChapterReader();
-  const { width } = useWindowDimensions();
   const { animValue, enable, setEnabled } = useAnimatedValue({ duration: 350 });
+  // const { get, set } = useSettingsStore();
 
   useEffect(() => {
     const { src, endpoint } = route.params;
     fetchPages(src, endpoint);
+    console.log(currentPageReading);
   }, []);
 
   return (
     <>
       <ChapterReaderMenu
         animValue={animValue}
-        shown={enable}
         scrapedChapter={scrapedChapter}
         onRequestClose={() => setEnabled(!enable)}
       ></ChapterReaderMenu>
 
       <View style={[{ flex: 1 }]}>
-        <View style={[{ flex: 1 }]}>
+        <PagesDisplayer
+          pages={pages}
+          scrapedChapter={scrapedChapter}
+          chaptersFullyLoaded={isFullyLoaded}
+          currentPageReading={currentPageReading}
+          setCurrentPageReading={setCurrentPageReading}
+          loadNextPage={loadNextPage}
+          stickyHeader={
+            <ChapterReaderHeader
+              chapterTitle={scrapedChapter?.title}
+              onMenuButtonPress={() => setEnabled(!enable)}
+            ></ChapterReaderHeader>
+          }
+          stickyFooter={
+            <ChapterReaderStickyFooter
+              pagesLoaded={pagesLoaded}
+              pagesLoading={pagesLoading}
+              currentPageReading={currentPageReading}
+              scrapedChapter={scrapedChapter}
+            ></ChapterReaderStickyFooter>
+          }
+        ></PagesDisplayer>
+        {/* <View style={[{ flex: 1 }]}>
           <FlatList
             stickyHeaderIndices={[0]}
             ListHeaderComponent={
@@ -73,7 +95,7 @@ export default function ChapterReaderPage() {
           pagesLoading={pagesLoading}
           currentPageReading={currentPageReading}
           scrapedChapter={scrapedChapter}
-        ></ChapterReaderStickyFooter>
+        ></ChapterReaderStickyFooter> */}
       </View>
     </>
   );

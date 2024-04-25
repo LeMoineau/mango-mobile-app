@@ -8,10 +8,11 @@ import Config from "../../common/config/Config";
 import { useEffect } from "react";
 import SettingSection from "./elements/SettingSection";
 import SourceSettingList from "./elements/SourceSettingList";
+import { ApiSettings } from "../../../../shared/src/types/config/ApiSettings";
 
 export default function SettingPage() {
-  const settingsStore = useSettingsStore();
-  const { fetch, get } = useApi<{ scrapersEnabled: SourceName[] }>(
+  const { get, set } = useSettingsStore();
+  const { fetch, get: getApiSettings } = useApi<ApiSettings>(
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
 
@@ -27,12 +28,12 @@ export default function SettingPage() {
           <ToggleSettingItem
             icon="moon"
             title="Mode Sombre"
-            defaultValue={settingsStore.theme === "dark"}
+            defaultValue={get("theme") === "dark"}
             onPress={async (darkModeDisabled) => {
               if (darkModeDisabled) {
-                await settingsStore.setTheme("light");
+                await set("theme", "light");
               } else {
-                await settingsStore.setTheme("dark");
+                await set("theme", "dark");
               }
             }}
           ></ToggleSettingItem>
@@ -42,10 +43,10 @@ export default function SettingPage() {
           description="Sources sorted from most trusted to least trusted"
         >
           <SourceSettingList
-            srcs={settingsStore.srcs}
-            srcsEnabled={get()?.scrapersEnabled}
+            srcs={get("srcs") as SourceName[]}
+            srcsEnabled={getApiSettings()?.scrapersEnabled}
             onChange={(srcs) => {
-              settingsStore.setSourcesOrder(srcs);
+              set("srcs", srcs);
             }}
           ></SourceSettingList>
         </SettingSection>

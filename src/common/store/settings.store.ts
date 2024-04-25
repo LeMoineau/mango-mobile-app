@@ -1,30 +1,18 @@
 import { create } from "zustand";
 import { StorageKeys } from "../config/StorageKeys";
-import { ThemeName } from "../types/ThemeName";
 import { DefaultValues } from "../config/DefaultValues";
-import {
-  ReaderDisplayMode,
-  ReaderOption,
-  ReaderOptionsValue,
-  Settings,
-} from "../types/settings/Settings";
+import { Settings } from "../types/settings/Settings";
 import useStorage from "../hooks/use-storage";
-import { SourceName } from "@shared/types/primitives/Identifiers";
 import { ObjectUtils } from "../utils/object-utils";
-import { AllIconNames } from "../types/IconName";
+import { SettingsKey } from "../types/settings/SettingsKeys";
+import { SettingsValue } from "../types/settings/SettingsValues";
 
 interface SettingsStoreState extends Settings {
-  setTheme: (theme: ThemeName) => Promise<void>;
-  setSourcesOrder: (srcs: SourceName[]) => void;
-  setReaderOptions: <T extends ReaderOption>(
-    option: T,
-    value: ReaderOptionsValue[T]
+  set: (
+    setting: SettingsKey,
+    value: SettingsValue[SettingsKey]
   ) => Promise<void>;
-  getNextReaderDisplayMode: () => {
-    nextDisplayMode: ReaderDisplayMode;
-    nextLabel: string;
-    nextIcon: AllIconNames;
-  };
+  get: (setting: SettingsKey) => SettingsValue[typeof setting];
 }
 
 export const useSettingsStore = create<SettingsStoreState>()((set, get) => {
@@ -41,48 +29,21 @@ export const useSettingsStore = create<SettingsStoreState>()((set, get) => {
     }
   });
 
-  const setTheme = async (theme: ThemeName) => {
-    set({ theme: theme });
-    await saveItemInJson(StorageKeys.SETTINGS, "theme", theme);
+  const _set = async (
+    setting: SettingsKey,
+    value: SettingsValue[SettingsKey]
+  ): Promise<void> => {
+    set({ [setting]: value });
+    await saveItemInJson(StorageKeys.SETTINGS, setting, value);
   };
 
-  const setSourcesOrder = async (srcs: SourceName[]) => {
-    set({ srcs: srcs });
-    await saveItemInJson(StorageKeys.SETTINGS, "srcs", srcs);
-  };
-
-  const setReaderOptions = async <T extends ReaderOption>(
-    option: T,
-    value: ReaderOptionsValue[T]
-  ) => {
-    console.log(option, value);
-    set({ [option]: value });
-    await saveItemInJson(StorageKeys.SETTINGS, option, value);
-  };
-
-  const getNextReaderDisplayMode = (): {
-    nextDisplayMode: ReaderDisplayMode;
-    nextLabel: string;
-    nextIcon: AllIconNames;
-  } => {
-    const nextIndex =
-      (get().readerDisplayMode + 1) %
-      (Object.values(ReaderDisplayMode).length / 2);
-    return {
-      nextDisplayMode: [
-        ReaderDisplayMode.LONG_STRIPE,
-        ReaderDisplayMode.SINGLE_PAGE,
-      ][nextIndex],
-      nextLabel: ["Long Stripe", "Single Page"][nextIndex],
-      nextIcon: (["stretch-to-page", "page-copy"] as AllIconNames[])[nextIndex],
-    };
+  const _get = (setting: SettingsKey): SettingsValue[typeof setting] => {
+    return get()[setting];
   };
 
   return {
     ...DefaultValues.SETTINGS,
-    setTheme,
-    setSourcesOrder,
-    setReaderOptions,
-    getNextReaderDisplayMode,
+    set: _set,
+    get: _get,
   };
 });
