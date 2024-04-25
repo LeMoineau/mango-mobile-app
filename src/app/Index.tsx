@@ -17,6 +17,7 @@ import ChapterReaderPage from "./chapter-reader-modal.tsx/ChapterReaderPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IntersiteMangaInfosPage from "./intersite-manga-infos/IntersiteMangaInfosPage";
 import IntersiteMangaSearchPage from "./intersite-manga-search/IntersiteMangaSearchPage";
+import IntersiteMangaInfosDotsOptionsPage from "./intersite-manga-infos-dots-options/IntersiteMangaInfosDotsOptionsPage";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -100,6 +101,11 @@ export default function Index() {
             name="IntersiteMangaInfo"
             component={IntersiteMangaInfosPage}
             options={{ animation: "fade_from_bottom" }}
+          />
+          <Stack.Screen
+            name="IntersiteMangaInfoDotsOptions"
+            component={IntersiteMangaInfosDotsOptionsPage}
+            options={{ animation: "slide_from_bottom" }}
           />
           <Stack.Screen
             name="IntersiteMangaSearch"

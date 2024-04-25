@@ -8,6 +8,7 @@ import {
 
 export type RouteName =
   | "IntersiteMangaInfo"
+  | "IntersiteMangaInfoDotsOptions"
   | "ChapterReader"
   | "App"
   | "IntersiteMangaSearch";
@@ -16,6 +17,13 @@ export type ParamListBase = {
   IntersiteMangaInfo: {
     intersiteMangaFormattedName: MangaFormattedName;
   };
+  IntersiteMangaInfoDotsOptions:
+    | {
+        intersiteMangaId: UUID;
+      }
+    | {
+        chapterId: UUID;
+      };
   ChapterReader: {
     src: SourceName;
     endpoint: ChapterEndpoint;

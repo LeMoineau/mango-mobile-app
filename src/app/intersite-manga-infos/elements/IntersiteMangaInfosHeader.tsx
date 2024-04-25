@@ -10,12 +10,14 @@ import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
 import IconedText from "../../../common/components/text/IconedText";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
 
-export default function IntersiteMangaInfosPageHeader({
+export default function IntersiteMangaInfosHeader({
   loading,
   manga,
+  onDotsButtonPress,
 }: {
   loading: boolean;
   manga?: ParentlessStoredManga;
+  onDotsButtonPress?: () => void;
 }) {
   const theme = useTheme();
   return (
@@ -105,7 +107,7 @@ export default function IntersiteMangaInfosPageHeader({
                 backgroundColor: theme.colors.border,
               },
             ]}
-            onPress={() => {}}
+            onPress={onDotsButtonPress}
           ></RounedButton>
         </View>
         <Title styleProps={[{ fontSize: 15, marginTop: 30 }]}>Chapters</Title>

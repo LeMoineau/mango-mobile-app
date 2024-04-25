@@ -1,36 +1,27 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  View,
-  useWindowDimensions,
-} from "react-native";
-import { useNavigation, useRoute, useTheme } from "@react-navigation/native";
-import MangaChapterItem from "./elements/IntersiteChapterItem";
+import { FlatList } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import IntersiteChapterItem from "./elements/IntersiteChapterItem";
 import { useEffect } from "react";
 import {
   useNavigationType,
   useRouteType,
 } from "@/common/types/navigation/NavigationTypes";
-import LoadingText from "@/common/components/text/LoadingText";
 import useIntersiteMangaInfos from "./hooks/useIntersiteMangaInfos";
 import { isParentlessIntersiteChapter } from "../../../../shared/src/types/IntersiteChapter";
-import ThemedText from "../../common/components/text/ThemedText";
-import IntersiteMangaInfosPageHeader from "./elements/IntersiteMangaInfosPageHeader";
+import IntersiteMangaInfosHeader from "./elements/IntersiteMangaInfosHeader";
 import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStickyHeader";
-import CustomImage from "../../common/components/image/CustomImage";
-import { style } from "../../common/utils/style-utils";
-import RounedButton from "../../common/components/buttons/RoundedButton";
+import IntersiteMangaInfosFooter from "./elements/IntersiteMangaInfosFooter";
+import IntersiteMangaInfosBackground from "./elements/IntersiteMangaInfosBackground";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
-  const theme = useTheme();
-  const { width, height } = useWindowDimensions();
   const navigation: useNavigationType = useNavigation();
 
   const {
-    loading,
+    intersiteManga,
     manga,
     chapters,
+    loading,
     chaptersLoading,
     chaptersFullyLoaded,
     refreshing,
@@ -46,32 +37,11 @@ export default function IntersiteMangaInfosPage() {
 
   return (
     <>
-      <View
-        style={[
-          {
-            position: "absolute",
-            top: 0,
-            left: 0,
-            flex: 1,
-            width: width,
-            minHeight: height,
-            backgroundColor: theme.colors.background,
-          },
-        ]}
-      >
-        {manga && manga.image ? (
-          <CustomImage
-            uri={manga.image}
-            width={"100%"}
-            height={300}
-            onError={async () => {
-              await fetchScrapedManga(manga.src, manga);
-            }}
-          ></CustomImage>
-        ) : (
-          <LoadingText width={"100%"} height={300}></LoadingText>
-        )}
-      </View>
+      <IntersiteMangaInfosBackground
+        onLoadingImageError={async (m) => {
+          await fetchScrapedManga(m.src, m);
+        }}
+      ></IntersiteMangaInfosBackground>
       <FlatList
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
@@ -80,69 +50,51 @@ export default function IntersiteMangaInfosPage() {
         data={["header", ...chapters]}
         keyExtractor={(_, index) => `manga-chapter-item-${index}`}
         renderItem={({ item, index }) => {
-          if (isParentlessIntersiteChapter(item)) {
+          if (!isParentlessIntersiteChapter(item)) {
             return (
-              <View style={[{ backgroundColor: theme.colors.background }]}>
-                <MangaChapterItem
-                  key={index}
-                  intersiteChapter={item}
-                  pressReadBtn={(chapter) => {
-                    if (!manga) return;
-                    navigation.navigate("ChapterReader", {
-                      src: chapter.src,
-                      endpoint: chapter.endpoint,
-                      storedMangaId: manga.id,
-                    });
-                  }}
-                ></MangaChapterItem>
-              </View>
+              <IntersiteMangaInfosHeader
+                manga={manga}
+                loading={loading}
+                onDotsButtonPress={() => {
+                  if (!intersiteManga) return;
+                  navigation.navigate("IntersiteMangaInfoDotsOptions", {
+                    intersiteMangaId: intersiteManga.id,
+                  });
+                }}
+              ></IntersiteMangaInfosHeader>
             );
           } else {
             return (
-              <IntersiteMangaInfosPageHeader
-                manga={manga}
-                loading={loading}
-              ></IntersiteMangaInfosPageHeader>
+              <IntersiteChapterItem
+                key={index}
+                intersiteChapter={item}
+                pressReadBtn={(chapter) => {
+                  if (!manga) return;
+                  navigation.navigate("ChapterReader", {
+                    src: chapter.src,
+                    endpoint: chapter.endpoint,
+                    storedMangaId: manga.id,
+                  });
+                }}
+                pressDotsBtn={(chapter) => {
+                  navigation.navigate("IntersiteMangaInfoDotsOptions", {
+                    chapterId: chapter.id,
+                  });
+                }}
+              ></IntersiteChapterItem>
             );
           }
         }}
         ListFooterComponent={
-          <>
-            {loading || !chaptersFullyLoaded || chaptersLoading ? (
-              <ActivityIndicator size={"large"}></ActivityIndicator>
-            ) : (
-              <View
-                style={[
-                  style.flexCol,
-                  style.justifyCenter,
-                  style.itemsCenter,
-                  { paddingVertical: 10 },
-                ]}
-              >
-                <ThemedText>
-                  Seems that there are no more chapters...
-                </ThemedText>
-                <View style={[{ height: 10 }]}></View>
-                <RounedButton
-                  appendIcon={refreshing ? undefined : "refresh"}
-                  content={refreshing ? "REFRESHING" : "REFRESH"}
-                  contentStyle={[{ fontWeight: "500" }]}
-                  styleProp={[
-                    {
-                      backgroundColor: refreshing
-                        ? theme.colors.border
-                        : theme.colors.primary,
-                    },
-                  ]}
-                  onPress={async () => {
-                    if (refreshing) return;
-                    await refreshIntersiteChapters();
-                  }}
-                ></RounedButton>
-              </View>
-            )}
-            <View style={[{ height: 50 }]}></View>
-          </>
+          <IntersiteMangaInfosFooter
+            loading={loading}
+            chaptersFullyLoaded={chaptersFullyLoaded}
+            chaptersLoading={chaptersLoading}
+            refreshing={refreshing}
+            onPressRefreshBtn={async () => {
+              await refreshIntersiteChapters();
+            }}
+          ></IntersiteMangaInfosFooter>
         }
         onEndReached={async () => {
           if (chaptersFullyLoaded || chaptersLoading) return;
