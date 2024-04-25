@@ -16,6 +16,7 @@ export default function LatestChaptersSearchBar({
           hasFilterBtn
           onFilterBtnPress={() => setFilterBubbleShown(!filterBubbleShown)}
           onSubmit={(text) => onSearch && onSearch(text)}
+          style={[{}]}
         ></SearchBar>
         <FilterBubble isShown={filterBubbleShown}></FilterBubble>
       </View>

@@ -4,8 +4,9 @@ import { useTheme } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { style } from "../../../common/utils/style-utils";
 import { StoredChapter } from "../../../../../shared/src/types/Chapter";
+import { memo } from "react";
 
-export default function ChapterItem({
+function ChapterItem({
   chapter,
   pressChapterTitle,
   pressChapterItem,
@@ -89,3 +90,5 @@ export default function ChapterItem({
     </>
   );
 }
+
+export default memo(ChapterItem);

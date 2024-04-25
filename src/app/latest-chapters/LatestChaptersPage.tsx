@@ -7,9 +7,9 @@ import {
 } from "react-native";
 import ChapterItem from "./elements/ChapterItem";
 import { useTheme } from "@react-navigation/native";
-import LatestChaptersSearchBar from "./elements/LatestChaptersSearchBar";
 import useLatestChapters from "./hooks/use-latest-chapters";
 import { useEffect } from "react";
+import LatestChaptersHeader from "./elements/LatestChaptersHeader";
 
 export default function LatestChaptersPage() {
   const theme = useTheme();
@@ -32,11 +32,11 @@ export default function LatestChaptersPage() {
       <FlatList
         stickyHeaderIndices={[0]}
         ListHeaderComponent={
-          <LatestChaptersSearchBar
+          <LatestChaptersHeader
             onSearch={(text) => {
               searchIntersiteManga(text);
             }}
-          ></LatestChaptersSearchBar>
+          ></LatestChaptersHeader>
         }
         style={[{ flex: 1, width: "100%" }]}
         data={chapters}

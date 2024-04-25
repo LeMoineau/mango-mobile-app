@@ -1,4 +1,4 @@
-import { View, TextInput } from "react-native";
+import { View, TextInput, StyleProp, ViewStyle } from "react-native";
 import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
 import { style } from "@/common/utils/style-utils";
@@ -10,12 +10,14 @@ export default function SearchBar({
   onFilterBtnPress,
   onChange,
   onSubmit,
+  style: styleProp,
 }: {
   hasFilterBtn?: boolean;
   defaultValue?: string;
   onFilterBtnPress?: () => void;
   onChange?: (text: string) => void;
   onSubmit?: (text: string) => void;
+  style?: StyleProp<ViewStyle>;
 }) {
   const theme = useTheme();
 
@@ -25,11 +27,9 @@ export default function SearchBar({
         style.flexRow,
         style.itemsCenter,
         {
-          paddingHorizontal: 10,
-          paddingTop: 10,
-          paddingBottom: 20,
           flex: 1,
         },
+        styleProp,
       ]}
     >
       <View
