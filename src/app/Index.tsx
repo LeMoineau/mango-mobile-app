@@ -79,12 +79,12 @@ function AppNavigator() {
 }
 
 export default function Index() {
-  const settingsStore = useSettingsStore();
+  const { get } = useSettingsStore();
 
   return (
     <View style={[{ flex: 1 }]}>
       <NavigationContainer
-        theme={settingsStore.theme === "dark" ? DarkTheme : DefaultTheme}
+        theme={get("theme") === "dark" ? DarkTheme : DefaultTheme}
       >
         <StatusBar hidden></StatusBar>
         <Stack.Navigator

@@ -3,6 +3,7 @@ import { style } from "../../../common/utils/style-utils";
 import ThemedText from "../../../common/components/text/ThemedText";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";
+import { colors } from "../../../../../shared/src/config/enums/Colors";
 
 export default function IntersiteMangaInfosFooter({
   loading,
@@ -37,6 +38,7 @@ export default function IntersiteMangaInfosFooter({
             appendIcon={refreshing ? undefined : "refresh"}
             content={refreshing ? "REFRESHING" : "REFRESH"}
             contentStyle={[{ fontWeight: "500" }]}
+            color={colors.white}
             styleProp={[
               {
                 backgroundColor: refreshing

@@ -55,6 +55,7 @@ export default function IntersiteMangaInfosPage() {
             return (
               <IntersiteMangaInfosHeader
                 manga={manga}
+                intersiteMangaId={intersiteManga?.id}
                 loading={loading}
                 onDotsButtonPress={() => {
                   if (!intersiteManga || !manga) return;

@@ -9,17 +9,22 @@ import LoadingText from "../../../common/components/text/LoadingText";
 import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
 import IconedText from "../../../common/components/text/IconedText";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
+import LikeButton from "../../../common/components/buttons/LikeButton";
+import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
 
 export default function IntersiteMangaInfosHeader({
   loading,
   manga,
+  intersiteMangaId,
   onDotsButtonPress,
 }: {
   loading: boolean;
   manga?: ParentlessStoredManga;
+  intersiteMangaId?: UUID;
   onDotsButtonPress?: () => void;
 }) {
   const theme = useTheme();
+
   return (
     <>
       <Gradient
@@ -86,19 +91,7 @@ export default function IntersiteMangaInfosHeader({
               }}
             ></RounedButton>
             <View style={[{ width: 10 }]}></View>
-            <RounedButton
-              appendIcon="heart"
-              content="LIKE"
-              contentStyle={[{ fontWeight: "700" }]}
-              styleProp={[
-                {
-                  backgroundColor: theme.colors.border,
-                },
-              ]}
-              onPress={() => {
-                manga && Linking.openURL(manga?.url);
-              }}
-            ></RounedButton>
+            <LikeButton intersiteMangaId={intersiteMangaId}></LikeButton>
           </View>
           <RounedButton
             appendIcon="dots-horizontal"

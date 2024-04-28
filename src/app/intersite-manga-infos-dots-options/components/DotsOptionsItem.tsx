@@ -7,10 +7,12 @@ import { style } from "../../../common/utils/style-utils";
 
 export default function DotsOptionsItem({
   iconName,
+  iconColor,
   label,
   onPress,
 }: {
   iconName: AllIconNames;
+  iconColor?: string;
   label: string;
   onPress?: () => void;
 }) {
@@ -33,7 +35,7 @@ export default function DotsOptionsItem({
         <ExpoIcon
           name={iconName}
           size={25}
-          color={theme.colors.text}
+          color={iconColor ?? theme.colors.text}
           styleProps={[{ opacity: 0.7 }]}
         ></ExpoIcon>
         <View style={[{ width: 25 }]}></View>

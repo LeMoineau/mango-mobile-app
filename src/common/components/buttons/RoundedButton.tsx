@@ -12,6 +12,7 @@ export default function RounedButton({
   appendIconStyle,
   prependIcon,
   prependIconStyle,
+  color,
   onPress,
 }: {
   content?: string;
@@ -21,6 +22,7 @@ export default function RounedButton({
   appendIconStyle?: StyleProp<TextStyle>;
   prependIcon?: AllIconNames;
   prependIconStyle?: StyleProp<TextStyle>;
+  color?: string;
   onPress?: () => void;
 }) {
   const theme = useTheme();
@@ -41,14 +43,17 @@ export default function RounedButton({
           <ExpoIcon
             name={prependIcon}
             styleProps={[
-              { color: theme.colors.text, marginRight: content ? 10 : 0 },
+              {
+                color: color ?? theme.colors.text,
+                marginRight: content ? 10 : 0,
+              },
               prependIconStyle,
             ]}
             size={20}
           ></ExpoIcon>
         )}
         {content && (
-          <Text style={[{ color: theme.colors.text }, contentStyle]}>
+          <Text style={[{ color: color ?? theme.colors.text }, contentStyle]}>
             {content}
           </Text>
         )}
@@ -56,7 +61,10 @@ export default function RounedButton({
           <ExpoIcon
             name={appendIcon}
             styleProps={[
-              { color: theme.colors.text, marginLeft: content ? 10 : 0 },
+              {
+                color: color ?? theme.colors.text,
+                marginLeft: content ? 10 : 0,
+              },
               appendIconStyle,
             ]}
             size={20}

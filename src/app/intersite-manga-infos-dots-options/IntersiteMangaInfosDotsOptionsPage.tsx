@@ -9,6 +9,7 @@ import Gradient, {
   GradientDirection,
 } from "../../common/components/image/Gradient";
 import DotsOptionsItem from "./components/DotsOptionsItem";
+import LikeDotsOptionsItem from "./components/LikeDotsOptionsItem";
 
 export default function IntersiteMangaInfosDotsOptionsPage() {
   const navigator: useNavigationType = useNavigation();
@@ -36,7 +37,9 @@ export default function IntersiteMangaInfosDotsOptionsPage() {
         ></Gradient>
         <View style={[{ backgroundColor: theme.colors.background }]}>
           {openForIntersiteManga(route.params) && (
-            <DotsOptionsItem iconName="heart" label="LIKE"></DotsOptionsItem>
+            <LikeDotsOptionsItem
+              intersiteMangaId={route.params.intersiteMangaId}
+            ></LikeDotsOptionsItem>
           )}
           {!openForIntersiteManga(route.params) && (
             <DotsOptionsItem iconName="book" label="READ"></DotsOptionsItem>

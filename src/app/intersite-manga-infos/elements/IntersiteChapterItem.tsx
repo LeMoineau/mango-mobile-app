@@ -228,7 +228,6 @@ function IntersiteChapterItem({
                 <View style={[{ width: 10 }]}></View>
                 <RounedButton
                   appendIcon="dots-vertical"
-                  appendIconStyle={[{ color: colors.white }]}
                   styleProp={[{ backgroundColor: theme.colors.border }]}
                   onPress={() =>
                     pressDotsBtn && chapter && pressDotsBtn(chapter)

@@ -1,3 +1,4 @@
+import { Favorites } from "../types/favorites/Favorites";
 import { Settings } from "../types/settings/Settings";
 
 export namespace DefaultValues {
@@ -9,4 +10,13 @@ export namespace DefaultValues {
     chapterReaderHasFooter: true,
   };
   export const READER_HEIGHT_RATE_UPDATE = 0.7;
+  export const LIKE_FAVORITES_LIST_NAME = "Liked Mangas";
+  export const FAVORITES: Favorites = {
+    lists: [
+      {
+        name: LIKE_FAVORITES_LIST_NAME,
+        intersiteMangaIds: [],
+      },
+    ],
+  };
 }
