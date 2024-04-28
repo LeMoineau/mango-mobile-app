@@ -59,7 +59,7 @@ export default function IntersiteMangaInfosPage() {
                 loading={loading}
                 onDotsButtonPress={() => {
                   if (!intersiteManga || !manga) return;
-                  navigation.navigate("IntersiteMangaInfoDotsOptions", {
+                  navigation.navigate("DotsOptions", {
                     url: manga.url,
                     intersiteMangaId: intersiteManga.id,
                   });
@@ -80,7 +80,7 @@ export default function IntersiteMangaInfosPage() {
                   });
                 }}
                 pressDotsBtn={(chapter) => {
-                  navigation.navigate("IntersiteMangaInfoDotsOptions", {
+                  navigation.navigate("DotsOptions", {
                     url: chapter.url,
                     chapterId: chapter.id,
                   });

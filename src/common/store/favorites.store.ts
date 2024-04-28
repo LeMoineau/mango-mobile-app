@@ -30,8 +30,8 @@ export const useFavoritesStore = create<FavoritesStoreState>()(
 
     getJson(StorageKeys.FAVORITES).then(async (json) => {
       const baseValues = {
-        ...json,
         ...DefaultValues.FAVORITES,
+        ...json,
       };
       setState(baseValues);
       if (json === null || !ObjectUtils.equals(json, baseValues)) {
@@ -60,6 +60,7 @@ export const useFavoritesStore = create<FavoritesStoreState>()(
     };
 
     const _delete = async (name: string) => {
+      if (name === DefaultValues.LIKE_FAVORITES_LIST_NAME) return;
       let lists = getState().lists;
       const index = lists.findIndex((l) => l.name === name);
       if (index === -1) return;
@@ -78,7 +79,9 @@ export const useFavoritesStore = create<FavoritesStoreState>()(
 
     const addIn = async (favoritesListName: string, intersiteMangaId: UUID) => {
       const favList = get(favoritesListName);
-      if (!favList) return;
+      if (!favList || favList.intersiteMangaIds.includes(intersiteMangaId)) {
+        return;
+      }
       favList.intersiteMangaIds.push(intersiteMangaId);
       await _save(favList);
     };

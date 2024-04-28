@@ -17,7 +17,8 @@ import ChapterReaderPage from "./chapter-reader-modal.tsx/ChapterReaderPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IntersiteMangaInfosPage from "./intersite-manga-infos/IntersiteMangaInfosPage";
 import IntersiteMangaSearchPage from "./intersite-manga-search/IntersiteMangaSearchPage";
-import IntersiteMangaInfosDotsOptionsPage from "./intersite-manga-infos-dots-options/IntersiteMangaInfosDotsOptionsPage";
+import DotsOptionsPage from "./dots-options/DotsOptionsPage";
+import AddingInFavoritesListPage from "./adding-in-favorites-list/AddingInFavoritesListPage";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -89,7 +90,7 @@ export default function Index() {
         <StatusBar hidden></StatusBar>
         <Stack.Navigator
           initialRouteName="App"
-          screenOptions={{ headerShown: false, animation: "slide_from_right" }}
+          screenOptions={{ headerShown: false, animation: "fade_from_bottom" }}
         >
           <Stack.Screen
             name="App"
@@ -100,20 +101,25 @@ export default function Index() {
           <Stack.Screen
             name="IntersiteMangaInfo"
             component={IntersiteMangaInfosPage}
-            options={{ animation: "fade_from_bottom" }}
           />
           <Stack.Screen
-            name="IntersiteMangaInfoDotsOptions"
-            component={IntersiteMangaInfosDotsOptionsPage}
+            name="DotsOptions"
+            component={DotsOptionsPage}
             options={{
               presentation: "transparentModal",
-              animation: "fade_from_bottom",
             }}
           />
           <Stack.Screen
             name="IntersiteMangaSearch"
             component={IntersiteMangaSearchPage}
-            options={{ animation: "fade_from_bottom" }}
+          />
+          <Stack.Screen
+            name="AddingInFavoritesList"
+            component={AddingInFavoritesListPage}
+            options={{
+              presentation: "transparentModal",
+              animation: "slide_from_right",
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

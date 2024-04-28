@@ -57,6 +57,15 @@ export default function SettingPage() {
           <ToggleSettingItem title="Auto-Scrap when image not found in search"></ToggleSettingItem>
           <ToggleSettingItem title="Auto-Scrap in search"></ToggleSettingItem>
         </SettingSection>
+        <SettingSection sectionName="Favorites">
+          <ToggleSettingItem title="When adding in favList, not close after one add"></ToggleSettingItem>
+        </SettingSection>
+        <SettingSection sectionName="Cache">
+          <ToggleSettingItem title="When adding in favorites, save mangas info"></ToggleSettingItem>
+          <ToggleSettingItem title="When adding in favorites, save chapters info"></ToggleSettingItem>
+          <ToggleSettingItem title="When save but can't load image, auto-scrap"></ToggleSettingItem>
+        </SettingSection>
+        <View style={[{ height: 90 }]}></View>
       </ScrollView>
     </View>
   );
