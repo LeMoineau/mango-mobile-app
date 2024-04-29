@@ -21,6 +21,6 @@ export namespace DefaultValues {
     ],
   };
   export const CACHE: Cache = {
-    mangaDatas: [],
+    intersiteMangas: [],
   };
 }

@@ -1,15 +1,26 @@
 import { FlatList, View } from "react-native";
 import { useFavoritesStore } from "../../common/store/favorites.store";
-import ThemedText from "../../common/components/text/ThemedText";
 import SearchBar from "../../common/components/form/SearchBar";
 import { style } from "../../common/utils/style-utils";
 import RounedButton from "../../common/components/buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";
 import HomeFavoritesListItem from "./components/HomeFavoritesListItem";
+import useHome from "./hooks/useHome";
+import useModals from "../../../../shared/src/hooks/use-modals";
+import CreateFavoritesListModal from "../../common/components/modals/CreateFavoritesListModal";
+import { useEffect } from "react";
+import { useCacheStore } from "../../common/store/cache.store";
 
 export default function Home() {
   const { getAll } = useFavoritesStore();
+  const { fetchIntersiteManga } = useHome();
+  const { isVisible, show, hide } = useModals<"create-favlist">();
   const theme = useTheme();
+  const { intersiteMangas } = useCacheStore();
+
+  useEffect(() => {
+    console.log(intersiteMangas);
+  }, []);
 
   return (
     <View style={[style.flexCol, { flex: 1, paddingHorizontal: 10 }]}>
@@ -22,6 +33,7 @@ export default function Home() {
             style.rounded,
             { backgroundColor: theme.colors.border, width: 50 },
           ]}
+          onPress={() => show("create-favlist")}
         ></RounedButton>
       </View>
       <View style={[{ height: 10 }]}></View>
@@ -29,9 +41,19 @@ export default function Home() {
         data={getAll()}
         keyExtractor={(_, index) => `home-favList-${index}`}
         renderItem={({ item }) => (
-          <HomeFavoritesListItem favList={item}></HomeFavoritesListItem>
+          <HomeFavoritesListItem
+            favList={item}
+            onIntersiteMangaUnfind={async (intersiteMangaId) => {
+              await fetchIntersiteManga(intersiteMangaId);
+            }}
+          ></HomeFavoritesListItem>
         )}
+        ListFooterComponent={() => <View style={[{ height: 90 }]}></View>}
       ></FlatList>
+      <CreateFavoritesListModal
+        visible={isVisible("create-favlist")}
+        onRequestClose={() => hide("create-favlist")}
+      ></CreateFavoritesListModal>
     </View>
   );
 }

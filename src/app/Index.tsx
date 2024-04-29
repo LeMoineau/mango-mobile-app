@@ -19,6 +19,7 @@ import IntersiteMangaInfosPage from "./intersite-manga-infos/IntersiteMangaInfos
 import IntersiteMangaSearchPage from "./intersite-manga-search/IntersiteMangaSearchPage";
 import DotsOptionsPage from "./dots-options/DotsOptionsPage";
 import AddingInFavoritesListPage from "./adding-in-favorites-list/AddingInFavoritesListPage";
+import FavoritesListInfosPage from "./favorites-list-infos/FavoritesListInfosPage";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -120,6 +121,10 @@ export default function Index() {
               presentation: "transparentModal",
               animation: "slide_from_right",
             }}
+          />
+          <Stack.Screen
+            name="FavoritesListInfos"
+            component={FavoritesListInfosPage}
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -32,7 +32,7 @@ export default function IntersiteMangaInfosPage() {
   } = useIntersiteMangaInfos();
 
   useEffect(() => {
-    fetch(route.params.intersiteMangaFormattedName);
+    fetch(route.params);
   }, []);
 
   return (

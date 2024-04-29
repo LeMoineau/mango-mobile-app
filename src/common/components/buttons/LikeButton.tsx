@@ -3,6 +3,7 @@ import { useFavoritesStore } from "../../store/favorites.store";
 import RounedButton from "./RoundedButton";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
+import { useCacheStore } from "../../store/cache.store";
 
 export default function LikeButton({
   intersiteMangaId,
@@ -10,6 +11,7 @@ export default function LikeButton({
   intersiteMangaId?: UUID;
 }) {
   const { intersiteMangaAlreadyLiked, like, unlike } = useFavoritesStore();
+  const { saveCurrentIntersiteManga } = useCacheStore();
   const theme = useTheme();
 
   const alreadyLiked = (): boolean => {
@@ -41,12 +43,13 @@ export default function LikeButton({
             : theme.colors.border,
         },
       ]}
-      onPress={() => {
+      onPress={async () => {
         if (!intersiteMangaId) return;
         if (alreadyLiked()) {
           unlike(intersiteMangaId);
         } else {
           like(intersiteMangaId);
+          saveCurrentIntersiteManga();
         }
       }}
     ></RounedButton>

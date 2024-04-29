@@ -4,21 +4,22 @@ import {
   useRouteType,
 } from "../../common/types/navigation/NavigationTypes";
 import { View } from "react-native";
-import ThemedText from "../../common/components/text/ThemedText";
 import { useFavoritesStore } from "../../common/store/favorites.store";
 import FavoritesListItem from "../../common/components/items/FavoritesListItem";
 import RounedButton from "../../common/components/buttons/RoundedButton";
 import { style } from "../../common/utils/style-utils";
-import TextInputModal from "../../common/components/modals/TextInputModal";
 import useModals from "../../../../shared/src/hooks/use-modals";
 import { colors } from "../../../../shared/src/config/enums/Colors";
+import CustomPageHeader from "../../common/components/navigation/CustomPageHeader";
+import CreateFavoritesListModal from "../../common/components/modals/CreateFavoritesListModal";
+import { useCacheStore } from "../../common/store/cache.store";
 
 export default function AddingInFavoritesListPage() {
   const route: useRouteType<"AddingInFavoritesList"> = useRoute();
   const navigator: useNavigationType = useNavigation();
 
-  const { create, getAll, addIn, intersiteMangaAlreadyIn } =
-    useFavoritesStore();
+  const { getAll, addIn, intersiteMangaAlreadyIn } = useFavoritesStore();
+  const { saveCurrentIntersiteManga } = useCacheStore();
 
   const theme = useTheme();
   const { isVisible, show, hide } = useModals<"text-input">();
@@ -30,24 +31,7 @@ export default function AddingInFavoritesListPage() {
         { flex: 1, backgroundColor: theme.colors.background },
       ]}
     >
-      <View style={[style.flexRow, style.itemsCenter, {}]}>
-        <RounedButton
-          prependIcon="arrow-back"
-          prependIconStyle={[{ fontSize: 25 }]}
-          styleProp={[{ position: "absolute", left: 10, zIndex: 5 }]}
-          onPress={() => {
-            navigator.goBack();
-          }}
-        ></RounedButton>
-        <ThemedText
-          style={[
-            style.textCenter,
-            { fontWeight: "500", flex: 1, fontSize: 17, paddingVertical: 10 },
-          ]}
-        >
-          Add to Favorites List
-        </ThemedText>
-      </View>
+      <CustomPageHeader title="Add to Favorites List"></CustomPageHeader>
       <View style={[{ height: 40 }]}></View>
       <RounedButton
         prependIcon="playlist-add"
@@ -78,6 +62,7 @@ export default function AddingInFavoritesListPage() {
               return;
             }
             await addIn(favList.name, route.params.intersiteMangaId);
+            await saveCurrentIntersiteManga();
             navigator.goBack();
           }}
           onDotsBtnPress={() => {
@@ -91,19 +76,10 @@ export default function AddingInFavoritesListPage() {
           }}
         ></FavoritesListItem>
       ))}
-      <TextInputModal
+      <CreateFavoritesListModal
         visible={isVisible("text-input")}
-        label="Enter the new favorites list name :"
-        onRequestClose={() => {
-          hide("text-input");
-        }}
-        onSubmit={async (name) => {
-          console.log(name);
-          if (name.length > 0) {
-            await create(name);
-          }
-        }}
-      ></TextInputModal>
+        onRequestClose={() => hide("text-input")}
+      ></CreateFavoritesListModal>
     </View>
   );
 }

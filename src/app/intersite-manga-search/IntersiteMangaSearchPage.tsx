@@ -3,7 +3,7 @@ import { useRouteType } from "../../common/types/navigation/NavigationTypes";
 import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import useIntersiteMangaSearch from "./hooks/useIntersiteMangaSearch";
-import IntersiteMangaItem from "./components/IntersiteMangaItem";
+import IntersiteMangaItem from "../../common/components/items/IntersiteMangaItem";
 import SearchBar from "../../common/components/form/SearchBar";
 import RounedButton from "../../common/components/buttons/RoundedButton";
 import { style } from "../../common/utils/style-utils";

@@ -1,5 +1,4 @@
 import SearchBar from "@/common/components/form/SearchBar";
-import FilterBubble from "./FilterBubble";
 import { useState } from "react";
 import { View } from "react-native";
 
@@ -19,7 +18,6 @@ export default function LatestChaptersSearchBar({
           onSubmit={(text) => onSearch && onSearch(text)}
           style={[{}]}
         ></SearchBar>
-        <FilterBubble isShown={filterBubbleShown}></FilterBubble>
       </View>
     </>
   );

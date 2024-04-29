@@ -6,13 +6,16 @@ import {
   View,
 } from "react-native";
 import ChapterItem from "./elements/ChapterItem";
-import { useTheme } from "@react-navigation/native";
+import { useNavigation, useTheme } from "@react-navigation/native";
 import useLatestChapters from "./hooks/use-latest-chapters";
 import { useEffect } from "react";
 import LatestChaptersHeader from "./elements/LatestChaptersHeader";
+import { useNavigationType } from "../../common/types/navigation/NavigationTypes";
+import { TextFormatUtils } from "../../../../shared/src/utils/text-format-utils";
 
 export default function LatestChaptersPage() {
   const theme = useTheme();
+  const navigator: useNavigationType = useNavigation();
   const {
     chapters,
     noMoreChapters,
@@ -44,8 +47,20 @@ export default function LatestChaptersPage() {
         renderItem={({ item }) => (
           <ChapterItem
             chapter={item}
-            pressChapterTitle={openIntersiteMangaPage}
-            pressChapterItem={openIntersiteMangaPage}
+            pressChapterTitle={() => {
+              navigator.navigate("ChapterReader", {
+                src: item.src,
+                endpoint: item.endpoint,
+                storedMangaId: item.manga.id,
+              });
+            }}
+            pressChapterItem={() => {
+              navigator.navigate("IntersiteMangaInfo", {
+                intersiteMangaFormattedName: TextFormatUtils.formatMangaTitle(
+                  item.manga.title
+                ),
+              });
+            }}
           ></ChapterItem>
         )}
         ListFooterComponent={

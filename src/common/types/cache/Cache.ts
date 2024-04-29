@@ -1,5 +1,6 @@
-import { StoredManga } from "../../../../../shared/src/types/Manga";
+import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
 
 export interface Cache {
-  mangaDatas: StoredManga[];
+  intersiteMangas: IntersiteManga[];
+  currentIntersiteManga?: IntersiteManga;
 }

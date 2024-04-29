@@ -74,13 +74,29 @@ function ChapterItem({
               },
             ]}
           >
-            <Text style={{ fontWeight: "500", color: theme.colors.text }}>
-              {chapter.manga.title}
-            </Text>
+            <View
+              style={[
+                style.flexCol,
+                {
+                  justifyContent: "flex-end",
+                  flex: 1,
+                },
+              ]}
+            >
+              <Text
+                style={{
+                  fontWeight: "500",
+                  color: theme.colors.text,
+                }}
+              >
+                {chapter.manga.title}
+              </Text>
+            </View>
             <Pressable
               onPress={() => {
                 pressChapterTitle && pressChapterTitle(chapter);
               }}
+              style={[{ flex: 1, opacity: 0.7 }]}
             >
               <Text style={{ color: theme.colors.text }}>{chapter.title}</Text>
             </Pressable>

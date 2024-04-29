@@ -4,12 +4,14 @@ import { DefaultValues } from "../config/DefaultValues";
 import { StorageKeys } from "../config/StorageKeys";
 import { ObjectUtils } from "../utils/object-utils";
 import { Cache } from "../types/cache/Cache";
-import { StoredManga } from "../../../../shared/src/types/Manga";
 import { UUID } from "../../../../shared/src/types/primitives/Identifiers";
+import { IntersiteManga } from "../../../../shared/src/types/IntersiteManga";
 
 interface CacheStoreState extends Cache {
-  getCachedManga: (mangaId: UUID) => StoredManga | undefined;
-  saveManga: (mangaData: StoredManga) => Promise<void>;
+  getIntersiteManga: (intersiteMangaId: UUID) => IntersiteManga | undefined;
+  saveIntersiteManga: (intersiteMangaData: IntersiteManga) => Promise<void>;
+  setCurrentIntersiteManga: (intersiteManga: IntersiteManga) => void;
+  saveCurrentIntersiteManga: () => Promise<void>;
 }
 
 export const useCacheStore = create<CacheStoreState>()((set, get) => {
@@ -26,21 +28,39 @@ export const useCacheStore = create<CacheStoreState>()((set, get) => {
     }
   });
 
-  const getCachedManga = (mangaId: UUID): StoredManga | undefined => {
-    return get().mangaDatas.find((m) => m.id === mangaId);
+  const getIntersiteManga = (
+    intersiteMangaId: UUID
+  ): IntersiteManga | undefined => {
+    return get().intersiteMangas.find((m) => m.id === intersiteMangaId);
   };
 
-  const saveManga = async (mangaData: StoredManga) => {
-    if (getCachedManga(mangaData.id)) return;
+  const saveIntersiteManga = async (intersiteManga: IntersiteManga) => {
+    if (getIntersiteManga(intersiteManga.id)) return;
     set({
-      mangaDatas: [...get().mangaDatas, mangaData],
+      intersiteMangas: [...get().intersiteMangas, intersiteManga],
     });
-    await saveItemInJson(StorageKeys.CACHE, "mangaDatas", get().mangaDatas);
+    await saveItemInJson(
+      StorageKeys.CACHE,
+      "intersiteMangas",
+      get().intersiteMangas
+    );
+  };
+
+  const setCurrentIntersiteManga = (intersiteManga: IntersiteManga) => {
+    set({ currentIntersiteManga: intersiteManga });
+  };
+
+  const saveCurrentIntersiteManga = async () => {
+    const { currentIntersiteManga } = get();
+    if (!currentIntersiteManga) return;
+    await saveIntersiteManga(currentIntersiteManga);
   };
 
   return {
     ...DefaultValues.CACHE,
-    getCachedManga,
-    saveManga,
+    getIntersiteManga,
+    saveIntersiteManga,
+    setCurrentIntersiteManga,
+    saveCurrentIntersiteManga,
   };
 });

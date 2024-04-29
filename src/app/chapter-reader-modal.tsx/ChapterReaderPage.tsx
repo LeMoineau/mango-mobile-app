@@ -29,7 +29,6 @@ export default function ChapterReaderPage() {
   useEffect(() => {
     const { src, endpoint } = route.params;
     fetchPages(src, endpoint);
-    console.log(currentPageReading);
   }, []);
 
   return (

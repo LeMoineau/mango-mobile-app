@@ -65,6 +65,10 @@ export default function SettingPage() {
           <ToggleSettingItem title="When adding in favorites, save mangas info"></ToggleSettingItem>
           <ToggleSettingItem title="When adding in favorites, save chapters info"></ToggleSettingItem>
           <ToggleSettingItem title="When save but can't load image, auto-scrap"></ToggleSettingItem>
+          <ToggleSettingItem
+            title="Vider le cache"
+            hasSwitch={false}
+          ></ToggleSettingItem>
         </SettingSection>
         <View style={[{ height: 90 }]}></View>
       </ScrollView>

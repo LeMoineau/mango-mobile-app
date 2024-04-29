@@ -11,6 +11,7 @@ interface FavoritesStoreState extends Favorites {
   get: (name: string) => FavoritesList | undefined;
   getAll: () => FavoritesList[];
   delete: (name: string) => Promise<void>;
+  clear: (name: string) => Promise<void>;
   create: (name: string, intersiteMangaIds?: UUID[]) => Promise<void>;
   addIn: (name: string, intersiteMangaId: UUID) => Promise<void>;
   like: (intersiteMangaId: UUID) => Promise<void>;
@@ -111,6 +112,13 @@ export const useFavoritesStore = create<FavoritesStoreState>()(
       );
     };
 
+    const clear = async (favoritesListName: string) => {
+      const favList = get(favoritesListName);
+      if (!favList) return;
+      favList.intersiteMangaIds = [];
+      await _save(favList);
+    };
+
     const rename = async (oldName: string, newName: string) => {
       if (oldName === DefaultValues.LIKE_FAVORITES_LIST_NAME) return;
       const favList = get(oldName);
@@ -147,6 +155,7 @@ export const useFavoritesStore = create<FavoritesStoreState>()(
       removeFrom,
       unlike,
       rename,
+      clear,
       delete: _delete,
       intersiteMangaAlreadyIn,
       intersiteMangaAlreadyLiked,

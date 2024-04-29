@@ -4,6 +4,7 @@ import Gradient, {
   GradientDirection,
 } from "../../../common/components/image/Gradient";
 import { useTheme } from "@react-navigation/native";
+import SearchBar from "../../../common/components/form/SearchBar";
 
 export default function LatestChaptersHeader({
   onSearch,
@@ -17,9 +18,13 @@ export default function LatestChaptersHeader({
         <View
           style={[{ backgroundColor: theme.colors.background, paddingTop: 10 }]}
         >
-          <LatestChaptersSearchBar
-            onSearch={onSearch}
-          ></LatestChaptersSearchBar>
+          <SearchBar
+            placeholder="Search Manga"
+            hasFilterBtn
+            onFilterBtnPress={() => {}}
+            onSubmit={(text) => {}}
+            style={[{}]}
+          ></SearchBar>
         </View>
         <Gradient
           direction={GradientDirection.TOP_TO_BOTTOM}

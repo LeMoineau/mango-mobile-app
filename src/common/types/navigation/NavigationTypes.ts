@@ -6,6 +6,7 @@ import {
   UUID,
 } from "@shared/types/primitives/Identifiers";
 import { FavoritesListName } from "../favorites/FavoritesList";
+import { NavigationDotsParams } from "./NavigationDotsParams";
 
 export type RouteName =
   | "IntersiteMangaInfo"
@@ -17,24 +18,10 @@ export type RouteName =
   | "FavoritesListInfos";
 
 export type ParamListBase = {
-  IntersiteMangaInfo: {
-    intersiteMangaFormattedName: MangaFormattedName;
-    action?: "forceMangaScraping" | "changeMangaSource";
-  };
-  DotsOptions:
-    | {
-        url: string;
-        intersiteMangaId: UUID;
-      }
-    | {
-        url: string;
-        chapterId: UUID;
-      }
-    | {
-        favoritesListName: FavoritesListName;
-        addIntersiteMangaIn?: UUID;
-        canOpenListInfos?: boolean;
-      };
+  IntersiteMangaInfo:
+    | { intersiteMangaId: UUID }
+    | { intersiteMangaFormattedName: MangaFormattedName };
+  DotsOptions: NavigationDotsParams;
   ChapterReader: {
     src: SourceName;
     endpoint: ChapterEndpoint;

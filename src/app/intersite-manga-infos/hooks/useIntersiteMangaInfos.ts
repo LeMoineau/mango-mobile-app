@@ -1,6 +1,7 @@
 import {
   MangaFormattedName,
   SourceName,
+  UUID,
 } from "../../../../../shared/src/types/primitives/Identifiers";
 import Config from "../../../common/config/Config";
 import useApi from "../../../../../shared/src/hooks/use-api";
@@ -14,6 +15,7 @@ import {
   ScrapedManga,
 } from "../../../../../shared/src/types/Manga";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
+import { useCacheStore } from "../../../common/store/cache.store";
 
 const useIntersiteMangaInfos = () => {
   const { fetch } = useApi(Config.getEnv().MANGO_BD_API_ENDPOINT);
@@ -34,10 +36,12 @@ const useIntersiteMangaInfos = () => {
   } = useResponsePageApi<ParentlessIntersiteChapter>(
     Config.getEnv().MANGO_BD_API_ENDPOINT
   );
+  const { setCurrentIntersiteManga } = useCacheStore();
 
   useEffect(() => {
     if (!intersiteManga) return;
     setIntersiteValue(intersiteManga);
+    setCurrentIntersiteManga(intersiteManga);
 
     //Fetch intersiteChapters
     fetchIntersiteChapters();
@@ -56,28 +60,49 @@ const useIntersiteMangaInfos = () => {
     }
   }, [moreTrustedSrc, moreTrustedManga]);
 
-  const _fetch = async (intersiteMangaFormattedName: MangaFormattedName) => {
+  const _fetch = async (props: {
+    intersiteMangaId?: UUID;
+    intersiteMangaFormattedName?: MangaFormattedName;
+  }) => {
     _reset();
-    await _fetchIntersiteManga(intersiteMangaFormattedName);
+    await _fetchIntersiteManga(props);
   };
 
-  const _fetchIntersiteManga = async (
-    intersiteMangaFormattedName: MangaFormattedName
-  ): Promise<IntersiteManga | undefined> => {
-    const intersiteMangaPage = await fetch<ResponsePage<IntersiteManga>>(
-      "/intersiteMangas",
-      {
-        forceRefresh: true,
-        config: { params: { formattedName: intersiteMangaFormattedName } },
+  const _fetchIntersiteManga = async (props: {
+    intersiteMangaId?: UUID;
+    intersiteMangaFormattedName?: MangaFormattedName;
+  }): Promise<IntersiteManga | undefined> => {
+    if (props.intersiteMangaId) {
+      const targetIntersiteManga = await fetch<IntersiteManga>(
+        `/intersiteMangas/${props.intersiteMangaId}`,
+        {
+          forceRefresh: true,
+        }
+      );
+      if (!targetIntersiteManga) {
+        setLoading(false);
+        return;
       }
-    );
-    if (!intersiteMangaPage || intersiteMangaPage.elements.length <= 0) {
-      setLoading(false);
-      return;
+      setIntersiteManga(targetIntersiteManga);
+      return targetIntersiteManga;
+    } else {
+      const intersiteMangaPage = await fetch<ResponsePage<IntersiteManga>>(
+        "/intersiteMangas",
+        {
+          forceRefresh: true,
+          config: {
+            params: { formattedName: props.intersiteMangaFormattedName },
+          },
+        }
+      );
+      if (!intersiteMangaPage || intersiteMangaPage.elements.length <= 0) {
+        setLoading(false);
+        return;
+      }
+      const targetIntersiteManga = intersiteMangaPage.elements[0];
+      setIntersiteManga(targetIntersiteManga);
+      return targetIntersiteManga;
     }
-    const targetIntersiteManga = intersiteMangaPage.elements[0];
-    setIntersiteManga(targetIntersiteManga);
-    return targetIntersiteManga;
   };
 
   const _fetchScrapedManga = async (
