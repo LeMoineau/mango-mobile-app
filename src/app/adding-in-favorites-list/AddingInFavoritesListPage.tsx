@@ -83,7 +83,10 @@ export default function AddingInFavoritesListPage() {
           onDotsBtnPress={() => {
             navigator.navigate({
               name: "DotsOptions",
-              params: { favoritesListName: favList.name },
+              params: {
+                favoritesListName: favList.name,
+                addIntersiteMangaIn: route.params.intersiteMangaId,
+              },
             });
           }}
         ></FavoritesListItem>

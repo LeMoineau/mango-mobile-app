@@ -13,7 +13,8 @@ export type RouteName =
   | "ChapterReader"
   | "App"
   | "IntersiteMangaSearch"
-  | "AddingInFavoritesList";
+  | "AddingInFavoritesList"
+  | "FavoritesListInfos";
 
 export type ParamListBase = {
   IntersiteMangaInfo: {
@@ -31,6 +32,8 @@ export type ParamListBase = {
       }
     | {
         favoritesListName: FavoritesListName;
+        addIntersiteMangaIn?: UUID;
+        canOpenListInfos?: boolean;
       };
   ChapterReader: {
     src: SourceName;
@@ -43,6 +46,9 @@ export type ParamListBase = {
   };
   AddingInFavoritesList: {
     intersiteMangaId: UUID;
+  };
+  FavoritesListInfos: {
+    favoritesListName: FavoritesListName;
   };
 };
 

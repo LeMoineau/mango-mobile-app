@@ -5,6 +5,7 @@ import { style } from "@/common/utils/style-utils";
 import RounedButton from "../buttons/RoundedButton";
 
 export default function SearchBar({
+  placeholder,
   hasFilterBtn,
   defaultValue,
   onFilterBtnPress,
@@ -12,6 +13,7 @@ export default function SearchBar({
   onSubmit,
   style: styleProp,
 }: {
+  placeholder?: string;
   hasFilterBtn?: boolean;
   defaultValue?: string;
   onFilterBtnPress?: () => void;
@@ -28,6 +30,7 @@ export default function SearchBar({
         style.itemsCenter,
         {
           flex: 1,
+          height: 50,
         },
         styleProp,
       ]}
@@ -56,7 +59,7 @@ export default function SearchBar({
             },
           ]}
           defaultValue={defaultValue}
-          placeholder="Search"
+          placeholder={placeholder ?? "Search"}
           placeholderTextColor={theme.colors.text}
           onChangeText={(text) => onChange && onChange(text)}
           onSubmitEditing={(evt) => onSubmit && onSubmit(evt.nativeEvent.text)}

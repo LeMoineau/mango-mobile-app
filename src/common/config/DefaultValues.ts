@@ -1,3 +1,4 @@
+import { Cache } from "../types/cache/Cache";
 import { Favorites } from "../types/favorites/Favorites";
 import { Settings } from "../types/settings/Settings";
 
@@ -18,5 +19,8 @@ export namespace DefaultValues {
         intersiteMangaIds: [],
       },
     ],
+  };
+  export const CACHE: Cache = {
+    mangaDatas: [],
   };
 }

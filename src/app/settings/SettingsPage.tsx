@@ -59,6 +59,7 @@ export default function SettingPage() {
         </SettingSection>
         <SettingSection sectionName="Favorites">
           <ToggleSettingItem title="When adding in favList, not close after one add"></ToggleSettingItem>
+          <ToggleSettingItem title="Default favList item state expanded"></ToggleSettingItem>
         </SettingSection>
         <SettingSection sectionName="Cache">
           <ToggleSettingItem title="When adding in favorites, save mangas info"></ToggleSettingItem>

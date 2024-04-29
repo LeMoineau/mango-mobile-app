@@ -2,19 +2,21 @@ import { useEffect, useRef, useState } from "react";
 import { Animated, EasingFunction } from "react-native";
 
 const useAnimatedValue = ({
+  defaultState,
   enableDuration,
   disableDuration,
   duration,
   delay,
   easing,
 }: {
+  defaultState?: boolean;
   enableDuration?: number;
   disableDuration?: number;
   duration?: number;
   delay?: number;
   easing?: EasingFunction;
 }) => {
-  const [enable, setEnabled] = useState(false);
+  const [enable, setEnabled] = useState(defaultState ?? false);
   const animValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {

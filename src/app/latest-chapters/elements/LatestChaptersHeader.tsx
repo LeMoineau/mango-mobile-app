@@ -14,7 +14,9 @@ export default function LatestChaptersHeader({
   return (
     <>
       <View style={[{ marginBottom: 20 }]}>
-        <View style={[{ backgroundColor: theme.colors.background }]}>
+        <View
+          style={[{ backgroundColor: theme.colors.background, paddingTop: 10 }]}
+        >
           <LatestChaptersSearchBar
             onSearch={onSearch}
           ></LatestChaptersSearchBar>

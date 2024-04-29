@@ -18,13 +18,27 @@ import useModals from "../../../../shared/src/hooks/use-modals";
 import ConfirmModal from "../../common/components/modals/ConfirmModal";
 import { DefaultValues } from "../../common/config/DefaultValues";
 import TextInputModal from "../../common/components/modals/TextInputModal";
+import { useEffect, useState } from "react";
 
 export default function DotsOptionsPage() {
   const navigator: useNavigationType = useNavigation();
   const route: useRouteType<"DotsOptions"> = useRoute();
   const theme = useTheme();
   const { isVisible, show, hide } = useModals<"confirm" | "rename">();
-  const { delete: deleteFavList, rename } = useFavoritesStore();
+  const {
+    delete: deleteFavList,
+    rename,
+    intersiteMangaAlreadyIn,
+    addIn,
+    removeFrom,
+  } = useFavoritesStore();
+  const [favListName, setFavListName] = useState("");
+
+  useEffect(() => {
+    if (isFavoritesListDotsOptions(route.params)) {
+      setFavListName(route.params.favoritesListName);
+    }
+  }, []);
 
   const isChapterDotsOptions = (
     param: any
@@ -111,6 +125,57 @@ export default function DotsOptionsPage() {
             </>
           ) : isFavoritesListDotsOptions(route.params) ? (
             <>
+              {route.params.canOpenListInfos && (
+                <DotsOptionsItem
+                  iconName="open-in-new"
+                  label="OPEN INFOS"
+                  onPress={async () => {
+                    show("rename");
+                  }}
+                ></DotsOptionsItem>
+              )}
+              {route.params.addIntersiteMangaIn &&
+                !intersiteMangaAlreadyIn(
+                  favListName,
+                  route.params.addIntersiteMangaIn
+                ) && (
+                  <DotsOptionsItem
+                    iconName="push-pin"
+                    label="ADD IN THIS LIST"
+                    onPress={async () => {
+                      if (
+                        !isFavoritesListDotsOptions(route.params) ||
+                        !route.params.addIntersiteMangaIn
+                      )
+                        return;
+                      await addIn(
+                        favListName,
+                        route.params.addIntersiteMangaIn
+                      );
+                    }}
+                  ></DotsOptionsItem>
+                )}
+              {route.params.addIntersiteMangaIn &&
+                intersiteMangaAlreadyIn(
+                  favListName,
+                  route.params.addIntersiteMangaIn
+                ) && (
+                  <DotsOptionsItem
+                    iconName="pin-off"
+                    label="REMOVE FROM THIS LIST"
+                    onPress={async () => {
+                      if (
+                        !isFavoritesListDotsOptions(route.params) ||
+                        !route.params.addIntersiteMangaIn
+                      )
+                        return;
+                      await removeFrom(
+                        favListName,
+                        route.params.addIntersiteMangaIn
+                      );
+                    }}
+                  ></DotsOptionsItem>
+                )}
               <DotsOptionsItem
                 iconName="pen"
                 label="RENAME"
@@ -118,8 +183,7 @@ export default function DotsOptionsPage() {
                   show("rename");
                 }}
               ></DotsOptionsItem>
-              {route.params.favoritesListName !==
-                DefaultValues.LIKE_FAVORITES_LIST_NAME && (
+              {favListName !== DefaultValues.LIKE_FAVORITES_LIST_NAME && (
                 <DotsOptionsItem
                   iconName="trash"
                   label="DELETE"
@@ -138,24 +202,24 @@ export default function DotsOptionsPage() {
       {isFavoritesListDotsOptions(route.params) && (
         <>
           <TextInputModal
-            label={`Enter the new name of "${route.params.favoritesListName}" :`}
+            label={`Enter the new name of "${favListName}" :`}
             visible={isVisible("rename")}
             onRequestClose={() => hide("rename")}
             onSubmit={async (text) => {
               if (!isFavoritesListDotsOptions(route.params)) return;
-              await rename(route.params.favoritesListName, text);
-              route.params.favoritesListName = text;
+              await rename(favListName, text);
+              setFavListName(text);
             }}
           ></TextInputModal>
           <ConfirmModal
-            label={`Are you sure to you want to delete "${route.params.favoritesListName}" list ?`}
+            label={`Are you sure to you want to delete "${favListName}" list ?`}
             visible={isVisible("confirm")}
             onRequestClose={() => {
               hide("confirm");
             }}
             onConfirm={async () => {
               if (!isFavoritesListDotsOptions(route.params)) return;
-              await deleteFavList(route.params.favoritesListName);
+              await deleteFavList(favListName);
               navigator.goBack();
             }}
           ></ConfirmModal>

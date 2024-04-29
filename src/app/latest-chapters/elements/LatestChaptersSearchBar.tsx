@@ -13,6 +13,7 @@ export default function LatestChaptersSearchBar({
     <>
       <View>
         <SearchBar
+          placeholder="Search Manga"
           hasFilterBtn
           onFilterBtnPress={() => setFilterBubbleShown(!filterBubbleShown)}
           onSubmit={(text) => onSearch && onSearch(text)}
