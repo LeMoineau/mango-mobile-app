@@ -1,21 +1,21 @@
-import { Modal, ModalProps, Pressable, TextInput, View } from "react-native";
-import { style } from "../../utils/style-utils";
+import { Modal, ModalProps, Pressable, View } from "react-native";
+import { style } from "../../../utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import ThemedText from "../text/ThemedText";
-import RounedButton from "../buttons/RoundedButton";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
-import { useRef } from "react";
+import ThemedText from "../../text/ThemedText";
+import RounedButton from "../../buttons/RoundedButton";
+import { colors } from "../../../../../../shared/src/config/enums/Colors";
 
-export default function TextInputModal({
+export default function ConfirmModal({
   label,
-  onSubmit,
+  onConfirm,
+  onCancel,
   ...props
 }: {
   label?: string;
-  onSubmit?: (text: string) => void;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 } & ModalProps) {
   const theme = useTheme();
-  const value = useRef<string>("");
 
   return (
     <Modal animationType="fade" transparent {...props}>
@@ -34,44 +34,30 @@ export default function TextInputModal({
           style={[
             style.border,
             style.rounded,
+            style.flexCol,
             {
               backgroundColor: theme.colors.card,
               padding: 20,
               paddingBottom: 0,
               borderColor: theme.colors.background,
+              maxWidth: 300,
             },
           ]}
         >
           {label && (
             <>
               <ThemedText
-                style={[{ fontSize: 12, textAlign: "left", width: "100%" }]}
+                style={[
+                  {
+                    fontSize: 12,
+                    textAlign: "center",
+                  },
+                ]}
               >
                 {label}
               </ThemedText>
-              <View style={[{ height: 10 }]}></View>
             </>
           )}
-          <TextInput
-            style={[
-              style.roundedSm,
-              {
-                width: 250,
-                paddingVertical: 12,
-                paddingHorizontal: 25,
-                color: theme.colors.text,
-                backgroundColor: theme.colors.border,
-              },
-            ]}
-            onChange={(evt) => {
-              value.current = evt.nativeEvent.text;
-            }}
-            onSubmitEditing={(evt) => {
-              onSubmit && onSubmit(evt.nativeEvent.text.trim());
-              props.onRequestClose && props.onRequestClose({} as any);
-            }}
-            autoFocus
-          ></TextInput>
           <View
             style={[
               style.flexRow,
@@ -83,6 +69,7 @@ export default function TextInputModal({
               content="CANCEL"
               contentStyle={[{ fontWeight: "500", opacity: 0.7 }]}
               onPress={() => {
+                onCancel && onCancel();
                 props.onRequestClose && props.onRequestClose({} as any);
               }}
             ></RounedButton>
@@ -90,7 +77,7 @@ export default function TextInputModal({
               content="CONFIRM"
               contentStyle={[{ fontWeight: "500", color: colors.green[400] }]}
               onPress={() => {
-                onSubmit && onSubmit(value.current.trim());
+                onConfirm && onConfirm();
                 props.onRequestClose && props.onRequestClose({} as any);
               }}
             ></RounedButton>

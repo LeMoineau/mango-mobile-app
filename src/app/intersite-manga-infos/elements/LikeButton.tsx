@@ -1,9 +1,9 @@
 import { useTheme } from "@react-navigation/native";
-import { useFavoritesStore } from "../../store/favorites.store";
-import RounedButton from "./RoundedButton";
+import { useFavoritesStore } from "../../../common/store/favorites.store";
+import RounedButton from "../../../common/components/buttons/RoundedButton";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
-import { useCacheStore } from "../../store/cache.store";
+import { useCacheStore } from "../../../common/store/cache.store";
 
 export default function LikeButton({
   intersiteMangaId,

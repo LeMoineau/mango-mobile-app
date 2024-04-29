@@ -1,5 +1,6 @@
 import {
   isUUID,
+  SourceName,
   UUID,
 } from "../../../../../shared/src/types/primitives/Identifiers";
 import { FavoritesListName } from "../favorites/FavoritesList";
@@ -12,6 +13,8 @@ export type NavigationDotsParams =
 export type IntersiteMangaInfosDotsParams = {
   url: string;
   intersiteMangaId: UUID;
+  availablesSources: SourceName[];
+  currentSource: SourceName;
 };
 
 export type ChapterItemDotsParams = {

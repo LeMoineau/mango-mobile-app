@@ -2,13 +2,13 @@ import { Pressable, Text, View } from "react-native";
 import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
 import { style } from "../../utils/style-utils";
 import { useNavigation, useTheme } from "@react-navigation/native";
-import useMoreTrustedValue from "../../hooks/use-more-trusted-value";
 import { useEffect } from "react";
 import CustomImage from "../image/CustomImage";
 import LoadingText from "../text/LoadingText";
 import { useNavigationType } from "../../types/navigation/NavigationTypes";
 import RounedButton from "../buttons/RoundedButton";
 import Gradient, { GradientDirection } from "../image/Gradient";
+import useTrustedManga from "../../hooks/use-trusted-manga";
 
 export default function IntersiteMangaItem({
   height,
@@ -22,14 +22,15 @@ export default function IntersiteMangaItem({
   onDotsBtnPress?: () => void;
 }) {
   const theme = useTheme();
-  const { moreTrustedValue: manga, setIntersiteValue } =
-    useMoreTrustedValue<IntersiteManga>();
+  const { manga, setIntersiteManga } = useTrustedManga();
 
   const navigator: useNavigationType = useNavigation();
 
   useEffect(() => {
-    setIntersiteValue(intersiteManga);
-  }, []);
+    if (intersiteManga) {
+      setIntersiteManga(intersiteManga);
+    }
+  }, [intersiteManga]);
 
   return (
     <>

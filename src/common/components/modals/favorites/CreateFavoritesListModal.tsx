@@ -1,5 +1,5 @@
-import { useFavoritesStore } from "../../store/favorites.store";
-import TextInputModal from "./TextInputModal";
+import { useFavoritesStore } from "../../../store/favorites.store";
+import TextInputModal from "../primitives/TextInputModal";
 
 export default function CreateFavoritesListModal({
   visible,

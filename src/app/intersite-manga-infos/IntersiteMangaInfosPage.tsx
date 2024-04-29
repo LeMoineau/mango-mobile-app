@@ -12,6 +12,7 @@ import IntersiteMangaInfosHeader from "./elements/IntersiteMangaInfosHeader";
 import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStickyHeader";
 import IntersiteMangaInfosFooter from "./elements/IntersiteMangaInfosFooter";
 import IntersiteMangaInfosBackground from "./elements/IntersiteMangaInfosBackground";
+import { ArrayUtils } from "../../../../shared/src/utils/array-utils";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -26,21 +27,28 @@ export default function IntersiteMangaInfosPage() {
     chaptersFullyLoaded,
     refreshing,
     fetch,
-    fetchScrapedManga,
+    scrapeManga,
     fetchIntersiteChapters,
     refreshIntersiteChapters,
+    changeSource,
   } = useIntersiteMangaInfos();
 
   useEffect(() => {
     fetch(route.params);
   }, []);
 
+  useEffect(() => {
+    if (route.params.changeSource) {
+      changeSource(route.params.changeSource);
+    }
+  }, [route.params]);
+
   return (
     <>
       <IntersiteMangaInfosBackground
         manga={manga}
         onLoadingImageError={async (m) => {
-          await fetchScrapedManga(m.src, m);
+          await scrapeManga(m);
         }}
       ></IntersiteMangaInfosBackground>
       <FlatList
@@ -62,6 +70,10 @@ export default function IntersiteMangaInfosPage() {
                   navigation.navigate("DotsOptions", {
                     url: manga.url,
                     intersiteMangaId: intersiteManga.id,
+                    availablesSources: ArrayUtils.uniques(
+                      intersiteManga.mangas.map((m) => m.src)
+                    ),
+                    currentSource: manga.src,
                   });
                 }}
               ></IntersiteMangaInfosHeader>

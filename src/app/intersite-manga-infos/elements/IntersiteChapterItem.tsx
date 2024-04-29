@@ -8,10 +8,10 @@ import RounedButton from "../../../common/components/buttons/RoundedButton";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 import { ParentlessIntersiteChapter } from "../../../../../shared/src/types/IntersiteChapter";
 import useAnimatedValue from "../../../common/hooks/use-animated-value";
-import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import { IdentifiedChapter } from "../../../../../shared/src/types/Chapter";
 import ThemedText from "../../../common/components/text/ThemedText";
 import IconedText from "../../../common/components/text/IconedText";
+import useTrustedChapter from "../../../common/hooks/use-trusted-chapter";
 
 function IntersiteChapterItem({
   intersiteChapter,
@@ -25,11 +25,10 @@ function IntersiteChapterItem({
   const theme = useTheme();
 
   const { animValue, enable, setEnabled } = useAnimatedValue({ duration: 250 });
-  const { moreTrustedValue: chapter, setIntersiteValue } =
-    useMoreTrustedValue<ParentlessIntersiteChapter>();
+  const { chapter, setIntersiteChapter } = useTrustedChapter();
 
   useEffect(() => {
-    setIntersiteValue(intersiteChapter);
+    setIntersiteChapter(intersiteChapter);
   }, [intersiteChapter]);
 
   return (

@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import LatestChaptersSearchBar from "./LatestChaptersSearchBar";
 import Gradient, {
   GradientDirection,
 } from "../../../common/components/image/Gradient";
@@ -22,7 +21,9 @@ export default function LatestChaptersHeader({
             placeholder="Search Manga"
             hasFilterBtn
             onFilterBtnPress={() => {}}
-            onSubmit={(text) => {}}
+            onSubmit={(text) => {
+              onSearch && onSearch(text);
+            }}
             style={[{}]}
           ></SearchBar>
         </View>

@@ -16,15 +16,8 @@ import { TextFormatUtils } from "../../../../shared/src/utils/text-format-utils"
 export default function LatestChaptersPage() {
   const theme = useTheme();
   const navigator: useNavigationType = useNavigation();
-  const {
-    chapters,
-    noMoreChapters,
-    refreshing,
-    fetchNextPage,
-    refresh,
-    openIntersiteMangaPage,
-    searchIntersiteManga,
-  } = useLatestChapters();
+  const { chapters, noMoreChapters, refreshing, fetchNextPage, refresh } =
+    useLatestChapters();
 
   useEffect(() => {
     fetchNextPage();
@@ -37,7 +30,9 @@ export default function LatestChaptersPage() {
         ListHeaderComponent={
           <LatestChaptersHeader
             onSearch={(text) => {
-              searchIntersiteManga(text);
+              navigator.navigate("IntersiteMangaSearch", {
+                query: text,
+              });
             }}
           ></LatestChaptersHeader>
         }

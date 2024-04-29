@@ -7,7 +7,7 @@ import { useTheme } from "@react-navigation/native";
 import HomeFavoritesListItem from "./components/HomeFavoritesListItem";
 import useHome from "./hooks/useHome";
 import useModals from "../../../../shared/src/hooks/use-modals";
-import CreateFavoritesListModal from "../../common/components/modals/CreateFavoritesListModal";
+import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
 import { useEffect } from "react";
 import { useCacheStore } from "../../common/store/cache.store";
 

@@ -9,7 +9,7 @@ import LoadingText from "../../../common/components/text/LoadingText";
 import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
 import IconedText from "../../../common/components/text/IconedText";
 import RounedButton from "../../../common/components/buttons/RoundedButton";
-import LikeButton from "../../../common/components/buttons/LikeButton";
+import LikeButton from "./LikeButton";
 import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
 
 export default function IntersiteMangaInfosHeader({

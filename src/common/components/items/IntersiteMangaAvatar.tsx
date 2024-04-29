@@ -1,12 +1,12 @@
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 import CustomImage from "../../../common/components/image/CustomImage";
 import { style } from "../../../common/utils/style-utils";
-import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
-import { useEffect } from "react";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import LoadingText from "../../../common/components/text/LoadingText";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
+import { useEffect } from "react";
+import useTrustedManga from "../../hooks/use-trusted-manga";
 
 export default function IntersiteMangaAvatar({
   size,
@@ -21,12 +21,11 @@ export default function IntersiteMangaAvatar({
 }) {
   const theme = useTheme();
   const navigator: useNavigationType = useNavigation();
-  const { moreTrustedValue: manga, setIntersiteValue } =
-    useMoreTrustedValue<IntersiteManga>();
+  const { manga, setIntersiteManga } = useTrustedManga();
 
   useEffect(() => {
     if (intersiteManga) {
-      setIntersiteValue(intersiteManga);
+      setIntersiteManga(intersiteManga);
     }
   }, [intersiteManga]);
 

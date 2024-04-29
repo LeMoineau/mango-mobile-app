@@ -11,7 +11,7 @@ import { style } from "../../common/utils/style-utils";
 import useModals from "../../../../shared/src/hooks/use-modals";
 import { colors } from "../../../../shared/src/config/enums/Colors";
 import CustomPageHeader from "../../common/components/navigation/CustomPageHeader";
-import CreateFavoritesListModal from "../../common/components/modals/CreateFavoritesListModal";
+import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
 import { useCacheStore } from "../../common/store/cache.store";
 
 export default function AddingInFavoritesListPage() {

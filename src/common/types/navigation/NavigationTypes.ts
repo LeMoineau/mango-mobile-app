@@ -18,9 +18,10 @@ export type RouteName =
   | "FavoritesListInfos";
 
 export type ParamListBase = {
-  IntersiteMangaInfo:
+  IntersiteMangaInfo: (
     | { intersiteMangaId: UUID }
-    | { intersiteMangaFormattedName: MangaFormattedName };
+    | { intersiteMangaFormattedName: MangaFormattedName }
+  ) & { changeSource?: SourceName };
   DotsOptions: NavigationDotsParams;
   ChapterReader: {
     src: SourceName;
