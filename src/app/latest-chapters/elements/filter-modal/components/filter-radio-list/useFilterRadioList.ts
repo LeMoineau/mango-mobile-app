@@ -30,19 +30,23 @@ const useFilterRadioList = ({
       return _setAllOptionsTo(newBoolVal);
     }
     let tmp = [...optionsSelected];
-    if (newBoolVal) {
-      tmp.push(value);
-      if (tmp.length === options.length - (noAllOption ? 0 : 1)) {
-        tmp.push(DefaultValues.ALL_OPTION_VALUE);
-      }
+    if (tmp.includes(DefaultValues.ALL_OPTION_VALUE)) {
+      tmp = [value];
     } else {
-      if (tmp.includes(DefaultValues.ALL_OPTION_VALUE)) {
-        tmp = ArrayUtils.removeFrom(
-          tmp,
-          (option) => option === DefaultValues.ALL_OPTION_VALUE
-        );
+      if (newBoolVal) {
+        tmp.push(value);
+        if (tmp.length === options.length - (noAllOption ? 0 : 1)) {
+          tmp.push(DefaultValues.ALL_OPTION_VALUE);
+        }
+      } else {
+        if (tmp.includes(DefaultValues.ALL_OPTION_VALUE)) {
+          tmp = ArrayUtils.removeFrom(
+            tmp,
+            (option) => option === DefaultValues.ALL_OPTION_VALUE
+          );
+        }
+        tmp = ArrayUtils.removeFrom(tmp, (option) => option === value);
       }
-      tmp = ArrayUtils.removeFrom(tmp, (option) => option === value);
     }
     setOptionsSelected(tmp);
     return tmp;

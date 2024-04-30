@@ -8,15 +8,12 @@ import HomeFavoritesListItem from "./components/HomeFavoritesListItem";
 import useHome from "./hooks/useHome";
 import useModals from "../../../../shared/src/hooks/use-modals";
 import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
-import { useEffect } from "react";
-import { useCacheStore } from "../../common/store/cache.store";
 
 export default function Home() {
   const { getAll } = useFavoritesStore();
   const { fetchIntersiteManga } = useHome();
   const { isVisible, show, hide } = useModals<"create-favlist">();
   const theme = useTheme();
-  const { intersiteMangas } = useCacheStore();
 
   return (
     <View style={[style.flexCol, { flex: 1, paddingHorizontal: 10 }]}>

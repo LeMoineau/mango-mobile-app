@@ -75,12 +75,13 @@ export default function FilterRadioList({
                 style.rounded,
                 {
                   backgroundColor: !optionsSelected.includes(item.value)
-                    ? theme.colors.background
+                    ? theme.colors.border
                     : theme.colors.text,
                   flex: 0,
                   paddingHorizontal: 15,
                   paddingVertical: 7,
                   marginRight: 10,
+                  marginBottom: 10,
                 },
               ]}
             ></RoundedButton>

@@ -49,7 +49,7 @@ export default function LatestChaptersFilterModal({
             filter.current.srcs = optionsSelected;
           }}
         ></FilterRadioList>
-        <View style={[{ height: 30 }]}></View>
+        <View style={[{ height: 20 }]}></View>
         <FilterRadioList
           title="Favorites"
           defaultOptionsSelected={filter.current.favoritesLists}
@@ -68,7 +68,7 @@ export default function LatestChaptersFilterModal({
               paddingTop: 10,
               paddingBottom: 5,
               justifyContent: "space-evenly",
-              marginTop: 40,
+              marginTop: 30,
             },
           ]}
         >
@@ -76,7 +76,9 @@ export default function LatestChaptersFilterModal({
             styleProp={[{ backgroundColor: theme.colors.border }]}
             content="CANCEL"
             contentStyle={[{ fontWeight: "500", opacity: 0.7 }]}
-            onPress={() => {}}
+            onPress={() => {
+              onRequestClose && onRequestClose();
+            }}
           ></RoundedButton>
           <RoundedButton
             styleProp={[
