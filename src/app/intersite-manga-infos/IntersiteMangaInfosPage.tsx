@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import IntersiteChapterItem from "./elements/IntersiteChapterItem";
 import { useEffect } from "react";
@@ -7,12 +7,11 @@ import {
   useRouteType,
 } from "@/common/types/navigation/NavigationTypes";
 import useIntersiteMangaInfos from "./hooks/useIntersiteMangaInfos";
-import { isParentlessIntersiteChapter } from "../../../../shared/src/types/IntersiteChapter";
 import IntersiteMangaInfosHeader from "./elements/IntersiteMangaInfosHeader";
 import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStickyHeader";
 import IntersiteMangaInfosFooter from "./elements/IntersiteMangaInfosFooter";
 import IntersiteMangaInfosBackground from "./elements/IntersiteMangaInfosBackground";
-import { ArrayUtils } from "../../../../shared/src/utils/array-utils";
+import { FlashList } from "@shopify/flash-list";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -28,9 +27,11 @@ export default function IntersiteMangaInfosPage() {
     refreshing,
     fetch,
     scrapeManga,
-    fetchIntersiteChapters,
     refreshIntersiteChapters,
     changeSource,
+    forceScrapingCurrentManga,
+    onChaptersScroll,
+    getAvailablesSources,
   } = useIntersiteMangaInfos();
 
   useEffect(() => {
@@ -41,82 +42,82 @@ export default function IntersiteMangaInfosPage() {
     if (route.params.changeSource) {
       changeSource(route.params.changeSource);
     }
+    if (route.params.forceScraping) {
+      forceScrapingCurrentManga();
+    }
   }, [route.params]);
 
   return (
     <>
-      <IntersiteMangaInfosBackground
-        manga={manga}
-        onLoadingImageError={async (m) => {
-          await scrapeManga(m);
-        }}
-      ></IntersiteMangaInfosBackground>
-      <FlatList
-        stickyHeaderIndices={[0]}
-        ListHeaderComponent={
-          <IntersiteMangaInfosStickyHeader></IntersiteMangaInfosStickyHeader>
-        }
-        data={["header", ...chapters]}
-        keyExtractor={(_, index) => `manga-chapter-item-${index}`}
-        renderItem={({ item, index }) => {
-          if (!isParentlessIntersiteChapter(item)) {
-            return (
-              <IntersiteMangaInfosHeader
-                manga={manga}
-                intersiteMangaId={intersiteManga?.id}
-                loading={loading}
-                onDotsButtonPress={() => {
-                  if (!intersiteManga || !manga) return;
-                  navigation.navigate("DotsOptions", {
-                    url: manga.url,
-                    intersiteMangaId: intersiteManga.id,
-                    availablesSources: ArrayUtils.uniques(
-                      intersiteManga.mangas.map((m) => m.src)
-                    ),
-                    currentSource: manga.src,
-                  });
-                }}
-              ></IntersiteMangaInfosHeader>
-            );
-          } else {
-            return (
-              <IntersiteChapterItem
-                key={index}
-                intersiteChapter={item}
-                pressReadBtn={(chapter) => {
-                  if (!manga) return;
-                  navigation.navigate("ChapterReader", {
-                    src: chapter.src,
-                    endpoint: chapter.endpoint,
-                    storedMangaId: manga.id,
-                  });
-                }}
-                pressDotsBtn={(chapter) => {
-                  navigation.navigate("DotsOptions", {
-                    url: chapter.url,
-                    chapterId: chapter.id,
-                  });
-                }}
-              ></IntersiteChapterItem>
-            );
+      <View style={[{ flex: 1 }]}>
+        <IntersiteMangaInfosBackground
+          manga={manga}
+          onLoadingImageError={async (m) => {
+            console.log("error");
+            await scrapeManga(m);
+          }}
+        ></IntersiteMangaInfosBackground>
+        <IntersiteMangaInfosStickyHeader></IntersiteMangaInfosStickyHeader>
+        <FlashList
+          ListHeaderComponent={
+            <IntersiteMangaInfosHeader
+              manga={manga}
+              loading={loading}
+              availablesSources={
+                intersiteManga ? getAvailablesSources() : undefined
+              }
+              intersiteMangaId={intersiteManga?.id}
+              onDotsButtonPress={() => {
+                if (!intersiteManga || !manga) return;
+                navigation.navigate("DotsOptions", {
+                  url: manga.url,
+                  intersiteMangaId: intersiteManga.id,
+                  availablesSources: getAvailablesSources()!,
+                  currentSource: manga.src,
+                });
+              }}
+              onChangeSource={(src) => {
+                changeSource(src);
+              }}
+            ></IntersiteMangaInfosHeader>
           }
-        }}
-        ListFooterComponent={
-          <IntersiteMangaInfosFooter
-            loading={loading}
-            chaptersFullyLoaded={chaptersFullyLoaded}
-            chaptersLoading={chaptersLoading}
-            refreshing={refreshing}
-            onPressRefreshBtn={async () => {
-              await refreshIntersiteChapters();
-            }}
-          ></IntersiteMangaInfosFooter>
-        }
-        onEndReached={async () => {
-          if (chaptersFullyLoaded || chaptersLoading) return;
-          await fetchIntersiteChapters();
-        }}
-      ></FlatList>
+          data={chapters}
+          estimatedItemSize={100}
+          keyExtractor={(_, index) => `manga-chapter-item-${index}`}
+          renderItem={({ item, index }) => (
+            <IntersiteChapterItem
+              key={index}
+              intersiteChapter={item}
+              pressReadBtn={(chapter) => {
+                if (!manga) return;
+                navigation.navigate("ChapterReader", {
+                  src: chapter.src,
+                  endpoint: chapter.endpoint,
+                  storedMangaId: manga.id,
+                });
+              }}
+              pressDotsBtn={(chapter) => {
+                navigation.navigate("DotsOptions", {
+                  url: chapter.url,
+                  chapterId: chapter.id,
+                });
+              }}
+            ></IntersiteChapterItem>
+          )}
+          ListFooterComponent={
+            <IntersiteMangaInfosFooter
+              loading={loading}
+              chaptersFullyLoaded={chaptersFullyLoaded}
+              chaptersLoading={chaptersLoading}
+              refreshing={refreshing}
+              onPressRefreshBtn={async () => {
+                await refreshIntersiteChapters();
+              }}
+            ></IntersiteMangaInfosFooter>
+          }
+          onScroll={onChaptersScroll}
+        ></FlashList>
+      </View>
     </>
   );
 }

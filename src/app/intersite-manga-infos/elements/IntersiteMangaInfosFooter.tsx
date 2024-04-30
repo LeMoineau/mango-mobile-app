@@ -21,38 +21,38 @@ export default function IntersiteMangaInfosFooter({
   const theme = useTheme();
   return (
     <>
-      {loading || !chaptersFullyLoaded || chaptersLoading ? (
+      {(loading || !chaptersFullyLoaded || chaptersLoading) && (
         <ActivityIndicator size={"large"}></ActivityIndicator>
-      ) : (
-        <View
-          style={[
-            style.flexCol,
-            style.justifyCenter,
-            style.itemsCenter,
-            { paddingVertical: 10 },
-          ]}
-        >
-          <ThemedText>Seems that there are no more chapters...</ThemedText>
-          <View style={[{ height: 10 }]}></View>
-          <RounedButton
-            appendIcon={refreshing ? undefined : "refresh"}
-            content={refreshing ? "REFRESHING" : "REFRESH"}
-            contentStyle={[{ fontWeight: "500" }]}
-            color={colors.white}
-            styleProp={[
-              {
-                backgroundColor: refreshing
-                  ? theme.colors.border
-                  : theme.colors.primary,
-              },
-            ]}
-            onPress={() => {
-              if (refreshing) return;
-              onPressRefreshBtn && onPressRefreshBtn();
-            }}
-          ></RounedButton>
-        </View>
       )}
+      <View
+        style={[
+          style.flexCol,
+          style.justifyCenter,
+          style.itemsCenter,
+          { paddingVertical: 10 },
+        ]}
+      >
+        <View style={[{ height: 10 }]}></View>
+        <ThemedText>Seems that there are no more chapters...</ThemedText>
+        <View style={[{ height: 10 }]}></View>
+        <RounedButton
+          appendIcon={refreshing ? undefined : "refresh"}
+          content={refreshing ? "REFRESHING" : "REFRESH"}
+          contentStyle={[{ fontWeight: "500" }]}
+          color={colors.white}
+          styleProp={[
+            {
+              backgroundColor: refreshing
+                ? theme.colors.border
+                : theme.colors.primary,
+            },
+          ]}
+          onPress={() => {
+            if (refreshing) return;
+            onPressRefreshBtn && onPressRefreshBtn();
+          }}
+        ></RounedButton>
+      </View>
       <View style={[{ height: 50 }]}></View>
     </>
   );

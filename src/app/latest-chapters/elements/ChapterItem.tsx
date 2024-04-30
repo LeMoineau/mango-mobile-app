@@ -5,6 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { style } from "../../../common/utils/style-utils";
 import { StoredChapter } from "../../../../../shared/src/types/Chapter";
 import { memo } from "react";
+import LoadingText from "../../../common/components/text/LoadingText";
 
 function ChapterItem({
   chapter,
@@ -40,9 +41,13 @@ function ChapterItem({
           ]}
         >
           <View style={[]}>
-            {chapter.image && (
-              <CustomImage uri={chapter.image} size={100}></CustomImage>
-            )}
+            <View style={[{ width: 100, height: 100 }]}>
+              {chapter.image ? (
+                <CustomImage uri={chapter.image} size={100}></CustomImage>
+              ) : (
+                <LoadingText width={100} height={100}></LoadingText>
+              )}
+            </View>
             <View
               style={[
                 {

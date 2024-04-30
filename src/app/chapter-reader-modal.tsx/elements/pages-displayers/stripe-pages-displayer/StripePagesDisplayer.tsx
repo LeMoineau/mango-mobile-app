@@ -1,8 +1,9 @@
 import React from "react";
-import { FlatList, Image, useWindowDimensions, View } from "react-native";
+import { Image, useWindowDimensions, View } from "react-native";
 import useStripePagesDisplayer from "./hooks/use-stripe-pages-displayer";
 import { PagedScrapedChapter } from "../../../../../../../shared/src/types/Chapter";
 import StripePagesDisplayerFooter from "./components/StripePagesDisplayerFooter";
+import { FlashList } from "@shopify/flash-list";
 
 export default function StripePagesDisplayer({
   stickyHeader,
@@ -32,12 +33,12 @@ export default function StripePagesDisplayer({
   return (
     <>
       <View style={[{ flex: 1 }]}>
-        <FlatList
-          stickyHeaderIndices={[0]}
-          ListHeaderComponent={stickyHeader}
+        {stickyHeader}
+        <FlashList
           onScroll={onReaderScroll}
           onMomentumScrollEnd={onReaderScroll}
           scrollEventThrottle={16}
+          estimatedItemSize={560}
           data={pages}
           renderItem={({ item: page }) => (
             <Image
@@ -51,7 +52,7 @@ export default function StripePagesDisplayer({
               chapterFullyLoaded={chaptersFullyLoaded}
             ></StripePagesDisplayerFooter>
           }
-        ></FlatList>
+        ></FlashList>
       </View>
       {stickyFooter}
     </>

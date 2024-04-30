@@ -43,7 +43,8 @@
     "react-native-triangle": "^0.0.9",
     "react-native-web": "~0.19.6",
     "react-native-webview": "13.2.2",
-    "zustand": "^4.4.6"
+    "zustand": "^4.4.6",
+    "@shopify/flash-list": "1.4.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

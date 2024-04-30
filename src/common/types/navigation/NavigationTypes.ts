@@ -21,7 +21,7 @@ export type ParamListBase = {
   IntersiteMangaInfo: (
     | { intersiteMangaId: UUID }
     | { intersiteMangaFormattedName: MangaFormattedName }
-  ) & { changeSource?: SourceName };
+  ) & { changeSource?: SourceName; forceScraping?: boolean };
   DotsOptions: NavigationDotsParams;
   ChapterReader: {
     src: SourceName;

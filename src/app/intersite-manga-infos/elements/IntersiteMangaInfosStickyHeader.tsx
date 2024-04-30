@@ -15,7 +15,15 @@ export default function IntersiteMangaInfosStickyHeader() {
           style.flexRow,
           style.justifyBetween,
           style.itemsCenter,
-          { paddingHorizontal: 10, paddingTop: 10 },
+          {
+            position: "absolute",
+            zIndex: 15,
+            top: 0,
+            left: 0,
+            width: "100%",
+            paddingHorizontal: 10,
+            paddingTop: 10,
+          },
         ]}
       >
         <RounedButton

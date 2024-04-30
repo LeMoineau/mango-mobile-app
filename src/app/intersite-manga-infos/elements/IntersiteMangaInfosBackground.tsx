@@ -31,13 +31,13 @@ export default function IntersiteMangaInfosBackground({
         <CustomImage
           uri={manga.image}
           width={"100%"}
-          height={300}
+          height={400}
           onError={() => {
             onLoadingImageError && onLoadingImageError(manga);
           }}
         ></CustomImage>
       ) : (
-        <LoadingText width={"100%"} height={300}></LoadingText>
+        <LoadingText width={"100%"} height={400}></LoadingText>
       )}
     </View>
   );
