@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import CustomImage from "../image/CustomImage";
 import LoadingText from "../text/LoadingText";
 import { useNavigationType } from "../../types/navigation/NavigationTypes";
-import RounedButton from "../buttons/RoundedButton";
+import RoundedButton from "../buttons/RoundedButton";
 import Gradient, { GradientDirection } from "../image/Gradient";
 import useTrustedManga from "../../hooks/use-trusted-manga";
 
@@ -119,10 +119,10 @@ export default function IntersiteMangaItem({
           </View>
           {hasDotsBtn && (
             <View style={[{ width: height ? undefined : 50 }]}>
-              <RounedButton
+              <RoundedButton
                 prependIcon="dots-vertical"
                 onPress={() => onDotsBtnPress && onDotsBtnPress()}
-              ></RounedButton>
+              ></RoundedButton>
             </View>
           )}
         </View>

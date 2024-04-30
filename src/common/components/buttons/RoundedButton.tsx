@@ -4,7 +4,7 @@ import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
 import { AllIconNames } from "src/common/types/IconName";
 
-export default function RounedButton({
+export default function RoundedButton({
   content,
   contentStyle,
   styleProp,

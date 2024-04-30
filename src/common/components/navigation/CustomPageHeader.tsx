@@ -1,16 +1,18 @@
 import { View } from "react-native";
 import { style } from "../../utils/style-utils";
 import ThemedText from "../text/ThemedText";
-import RounedButton from "../buttons/RoundedButton";
+import RoundedButton from "../buttons/RoundedButton";
 import { useNavigation } from "@react-navigation/native";
 import { useNavigationType } from "../../types/navigation/NavigationTypes";
 
 export default function CustomPageHeader({
   title,
   goBackBtnHide,
+  goBackBtnPress,
 }: {
   title: string;
   goBackBtnHide?: boolean;
+  goBackBtnPress?: () => void;
 }) {
   const navigator: useNavigationType = useNavigation();
 
@@ -28,14 +30,14 @@ export default function CustomPageHeader({
           {title}
         </ThemedText>
         {!goBackBtnHide && (
-          <RounedButton
+          <RoundedButton
             styleProp={[{ position: "absolute", left: 10, top: 0 }]}
             prependIcon="arrow-back"
             prependIconStyle={[{ fontSize: 25 }]}
             onPress={() => {
-              navigator.goBack();
+              goBackBtnPress ? goBackBtnPress() : navigator.goBack();
             }}
-          ></RounedButton>
+          ></RoundedButton>
         )}
       </View>
     </>

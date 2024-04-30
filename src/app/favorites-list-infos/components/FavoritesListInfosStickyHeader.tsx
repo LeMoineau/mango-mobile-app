@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { style } from "../../../common/utils/style-utils";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useNavigation } from "@react-navigation/native";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { FavoritesListName } from "../../../common/types/favorites/FavoritesList";
@@ -28,11 +28,11 @@ export function FavoritesListInfosStickyHeader({
         },
       ]}
     >
-      <RounedButton
+      <RoundedButton
         prependIcon="arrow-back"
         prependIconStyle={[{ fontSize: 23 }]}
-      ></RounedButton>
-      <RounedButton
+      ></RoundedButton>
+      <RoundedButton
         prependIcon="dots-vertical"
         prependIconStyle={[{ fontSize: 23 }]}
         onPress={() => {
@@ -42,7 +42,7 @@ export function FavoritesListInfosStickyHeader({
             goBackOnRename: true,
           });
         }}
-      ></RounedButton>
+      ></RoundedButton>
     </View>
   );
 }

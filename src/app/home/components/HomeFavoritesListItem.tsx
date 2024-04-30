@@ -7,7 +7,7 @@ import useAnimatedValue from "../../../common/hooks/use-animated-value";
 import Gradient, {
   GradientDirection,
 } from "../../../common/components/image/Gradient";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { useCacheStore } from "../../../common/store/cache.store";
 import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
@@ -75,11 +75,11 @@ export default function HomeFavoritesListItem({
               </ThemedText>
             </View>
             <View style={[style.flexRow, style.itemsCenter, {}]}>
-              <RounedButton
+              <RoundedButton
                 prependIcon={!enable ? "angle-down" : "angle-up"}
                 onPress={() => setEnabled(!enable)}
-              ></RounedButton>
-              <RounedButton
+              ></RoundedButton>
+              <RoundedButton
                 prependIcon="dots-vertical"
                 onPress={() => {
                   navigator.navigate("DotsOptions", {
@@ -87,7 +87,7 @@ export default function HomeFavoritesListItem({
                     canOpenListInfos: true,
                   });
                 }}
-              ></RounedButton>
+              ></RoundedButton>
             </View>
           </View>
           <Animated.View

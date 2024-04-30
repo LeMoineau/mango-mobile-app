@@ -1,6 +1,6 @@
 import { useTheme } from "@react-navigation/native";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
 import { useCacheStore } from "../../../common/store/cache.store";
@@ -22,7 +22,7 @@ export default function LikeButton({
   };
 
   return (
-    <RounedButton
+    <RoundedButton
       appendIcon="heart"
       appendIconStyle={[
         {
@@ -52,6 +52,6 @@ export default function LikeButton({
           saveCurrentIntersiteManga();
         }
       }}
-    ></RounedButton>
+    ></RoundedButton>
   );
 }

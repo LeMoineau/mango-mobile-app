@@ -6,7 +6,7 @@ import {
 import { View } from "react-native";
 import { useFavoritesStore } from "../../common/store/favorites.store";
 import FavoritesListItem from "../../common/components/items/FavoritesListItem";
-import RounedButton from "../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../common/components/buttons/RoundedButton";
 import { style } from "../../common/utils/style-utils";
 import useModals from "../../../../shared/src/hooks/use-modals";
 import { colors } from "../../../../shared/src/config/enums/Colors";
@@ -33,7 +33,7 @@ export default function AddingInFavoritesListPage() {
     >
       <CustomPageHeader title="Add to Favorites List"></CustomPageHeader>
       <View style={[{ height: 40 }]}></View>
-      <RounedButton
+      <RoundedButton
         prependIcon="playlist-add"
         content="New Favorites List"
         contentStyle={[{ fontWeight: "500", fontSize: 15 }]}
@@ -42,7 +42,7 @@ export default function AddingInFavoritesListPage() {
         onPress={() => {
           show("text-input");
         }}
-      ></RounedButton>
+      ></RoundedButton>
       <View style={[{ height: 20 }]}></View>
       {getAll().map((favList, index) => (
         <FavoritesListItem

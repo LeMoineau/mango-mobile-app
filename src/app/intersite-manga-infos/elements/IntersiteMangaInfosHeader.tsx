@@ -8,7 +8,7 @@ import { style } from "../../../common/utils/style-utils";
 import LoadingText from "../../../common/components/text/LoadingText";
 import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
 import IconedText from "../../../common/components/text/IconedText";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import LikeButton from "./LikeButton";
 import {
   SourceName,
@@ -93,7 +93,7 @@ export default function IntersiteMangaInfosHeader({
           ]}
         >
           <View style={[style.flexRow, {}]}>
-            <RounedButton
+            <RoundedButton
               appendIcon="earth"
               content="OPEN IN BROWSER"
               contentStyle={[{ fontWeight: "500" }]}
@@ -105,11 +105,11 @@ export default function IntersiteMangaInfosHeader({
               onPress={() => {
                 manga && Linking.openURL(manga?.url);
               }}
-            ></RounedButton>
+            ></RoundedButton>
             <View style={[{ width: 10 }]}></View>
             <LikeButton intersiteMangaId={intersiteMangaId}></LikeButton>
           </View>
-          <RounedButton
+          <RoundedButton
             appendIcon="dots-horizontal"
             styleProp={[
               {
@@ -117,7 +117,7 @@ export default function IntersiteMangaInfosHeader({
               },
             ]}
             onPress={onDotsButtonPress}
-          ></RounedButton>
+          ></RoundedButton>
         </View>
         <Title styleProps={[{ fontSize: 15, marginTop: 30 }]}>Chapters</Title>
       </View>

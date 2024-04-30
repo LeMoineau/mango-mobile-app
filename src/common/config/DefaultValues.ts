@@ -23,4 +23,5 @@ export namespace DefaultValues {
   export const CACHE: Cache = {
     intersiteMangas: [],
   };
+  export const ALL_OPTION_VALUE = "All";
 }

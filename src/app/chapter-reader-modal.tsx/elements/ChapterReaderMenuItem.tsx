@@ -1,4 +1,4 @@
-import RounedButton from "@/common/components/buttons/RoundedButton";
+import RoundedButton from "@/common/components/buttons/RoundedButton";
 import { AllIconNames } from "@/common/types/IconName";
 import { style } from "@/common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
@@ -28,7 +28,7 @@ export default function ChapterReaderMenuItem({
         },
       ]}
     >
-      <RounedButton
+      <RoundedButton
         prependIcon={icon}
         prependIconStyle={[{ paddingRight: 10 }]}
         styleProp={[
@@ -42,7 +42,7 @@ export default function ChapterReaderMenuItem({
         contentStyle={[{ fontSize: 15 }]}
         content={label}
         onPress={onPress}
-      ></RounedButton>
+      ></RoundedButton>
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { style } from "../../../common/utils/style-utils";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 
@@ -26,7 +26,7 @@ export default function IntersiteMangaInfosStickyHeader() {
           },
         ]}
       >
-        <RounedButton
+        <RoundedButton
           prependIcon="arrow-back"
           prependIconStyle={[{ fontSize: 23 }]}
           styleProp={[
@@ -37,8 +37,8 @@ export default function IntersiteMangaInfosStickyHeader() {
           onPress={() => {
             navigation.goBack();
           }}
-        ></RounedButton>
-        {/* <RounedButton
+        ></RoundedButton>
+        {/* <RoundedButton
           prependIcon="dots-vertical"
           prependIconStyle={[{ fontSize: 23 }]}
           styleProp={[
@@ -47,7 +47,7 @@ export default function IntersiteMangaInfosStickyHeader() {
             },
           ]}
           onPress={() => {}}
-        ></RounedButton> */}
+        ></RoundedButton> */}
       </View>
     </>
   );

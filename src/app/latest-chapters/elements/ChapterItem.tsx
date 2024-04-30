@@ -5,7 +5,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { style } from "../../../common/utils/style-utils";
 import { StoredChapter } from "../../../../../shared/src/types/Chapter";
 import { memo } from "react";
-import LoadingText from "../../../common/components/text/LoadingText";
+import ExpoIcon from "../../../common/components/icons/ExpoIcon";
 
 function ChapterItem({
   chapter,
@@ -41,11 +41,36 @@ function ChapterItem({
           ]}
         >
           <View style={[]}>
-            <View style={[{ width: 100, height: 100 }]}>
+            <View
+              style={[
+                {
+                  width: 100,
+                  height: 100,
+                },
+              ]}
+            >
               {chapter.image ? (
                 <CustomImage uri={chapter.image} size={100}></CustomImage>
               ) : (
-                <LoadingText width={100} height={100}></LoadingText>
+                <View
+                  style={[
+                    style.flexCol,
+                    style.justifyCenter,
+                    style.itemsCenter,
+                    {
+                      backgroundColor: theme.colors.text,
+                      opacity: 0.7,
+                      width: "100%",
+                      height: "100%",
+                    },
+                  ]}
+                >
+                  <ExpoIcon
+                    color={theme.colors.background}
+                    size={40}
+                    name="image-broken-variant"
+                  ></ExpoIcon>
+                </View>
               )}
             </View>
             <View

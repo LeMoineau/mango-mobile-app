@@ -1,7 +1,7 @@
 import { ActivityIndicator, View } from "react-native";
 import { style } from "../../../common/utils/style-utils";
 import ThemedText from "../../../common/components/text/ThemedText";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 
@@ -35,7 +35,7 @@ export default function IntersiteMangaInfosFooter({
         <View style={[{ height: 10 }]}></View>
         <ThemedText>Seems that there are no more chapters...</ThemedText>
         <View style={[{ height: 10 }]}></View>
-        <RounedButton
+        <RoundedButton
           appendIcon={refreshing ? undefined : "refresh"}
           content={refreshing ? "REFRESHING" : "REFRESH"}
           contentStyle={[{ fontWeight: "500" }]}
@@ -51,7 +51,7 @@ export default function IntersiteMangaInfosFooter({
             if (refreshing) return;
             onPressRefreshBtn && onPressRefreshBtn();
           }}
-        ></RounedButton>
+        ></RoundedButton>
       </View>
       <View style={[{ height: 50 }]}></View>
     </>

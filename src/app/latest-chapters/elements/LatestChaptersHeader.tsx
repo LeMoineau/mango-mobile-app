@@ -5,13 +5,20 @@ import Gradient, {
 import { useTheme } from "@react-navigation/native";
 import SearchBar from "../../../common/components/form/SearchBar";
 import { style } from "../../../common/utils/style-utils";
+import LatestChaptersFilterModal from "./filter-modal/LatestChaptersFilterModal";
+import useModals from "../../../../../shared/src/hooks/use-modals";
+import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
 
 export default function LatestChaptersHeader({
   onSearch,
+  onFilter,
 }: {
   onSearch?: (text: string) => void;
+  onFilter?: (filter: LatestChapterFilter) => void;
 }) {
   const theme = useTheme();
+  const { isVisible, show, hide } = useModals<"filter">();
+
   return (
     <>
       <View
@@ -26,15 +33,24 @@ export default function LatestChaptersHeader({
           },
         ]}
       >
-        <SearchBar
-          placeholder="Search Manga"
-          hasFilterBtn
-          onFilterBtnPress={() => {}}
-          onSubmit={(text) => {
-            onSearch && onSearch(text);
-          }}
-          style={[{ backgroundColor: theme.colors.background }]}
-        ></SearchBar>
+        <View
+          style={[
+            {
+              flex: 1,
+              backgroundColor: theme.colors.background,
+              paddingVertical: 10,
+            },
+          ]}
+        >
+          <SearchBar
+            placeholder="Search Manga"
+            hasFilterBtn
+            onFilterBtnPress={() => show("filter")}
+            onSubmit={(text) => {
+              onSearch && onSearch(text);
+            }}
+          ></SearchBar>
+        </View>
         <Gradient
           direction={GradientDirection.TOP_TO_BOTTOM}
           width={"100%"}
@@ -48,6 +64,13 @@ export default function LatestChaptersHeader({
           ]}
         ></Gradient>
       </View>
+      <LatestChaptersFilterModal
+        visible={isVisible("filter")}
+        onRequestClose={() => hide("filter")}
+        onFilter={(filter) => {
+          onFilter && onFilter(filter);
+        }}
+      ></LatestChaptersFilterModal>
     </>
   );
 }

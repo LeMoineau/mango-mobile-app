@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import useIntersiteMangaSearch from "./hooks/useIntersiteMangaSearch";
 import IntersiteMangaItem from "../../common/components/items/IntersiteMangaItem";
 import SearchBar from "../../common/components/form/SearchBar";
-import RounedButton from "../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../common/components/buttons/RoundedButton";
 import { style } from "../../common/utils/style-utils";
 
 export default function IntersiteMangaSearchPage() {
@@ -31,14 +31,14 @@ export default function IntersiteMangaSearchPage() {
                 { paddingTop: 10, paddingBottom: 20 },
               ]}
             >
-              <RounedButton prependIcon="arrow-back"></RounedButton>
+              <RoundedButton prependIcon="arrow-back"></RoundedButton>
               <SearchBar
                 defaultValue={route.params.query}
                 onSubmit={async (query) => {
                   await fetchNewQuery(query);
                 }}
               ></SearchBar>
-              <RounedButton prependIcon="dots-vertical"></RounedButton>
+              <RoundedButton prependIcon="dots-vertical"></RoundedButton>
             </View>
           }
           stickyHeaderIndices={[0]}

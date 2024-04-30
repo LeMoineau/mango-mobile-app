@@ -17,7 +17,6 @@ export default function CreateFavoritesListModal({
         onRequestClose();
       }}
       onSubmit={async (name) => {
-        console.log(name);
         if (name.length > 0) {
           await create(name);
         }

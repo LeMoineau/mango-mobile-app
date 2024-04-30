@@ -2,7 +2,7 @@ import { Modal, ModalProps, Pressable, View } from "react-native";
 import { style } from "../../../utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 import ThemedText from "../../text/ThemedText";
-import RounedButton from "../../buttons/RoundedButton";
+import RoundedButton from "../../buttons/RoundedButton";
 import { colors } from "../../../../../../shared/src/config/enums/Colors";
 
 export default function ConfirmModal({
@@ -65,22 +65,22 @@ export default function ConfirmModal({
               { paddingTop: 10, paddingBottom: 5 },
             ]}
           >
-            <RounedButton
+            <RoundedButton
               content="CANCEL"
               contentStyle={[{ fontWeight: "500", opacity: 0.7 }]}
               onPress={() => {
                 onCancel && onCancel();
                 props.onRequestClose && props.onRequestClose({} as any);
               }}
-            ></RounedButton>
-            <RounedButton
+            ></RoundedButton>
+            <RoundedButton
               content="CONFIRM"
               contentStyle={[{ fontWeight: "500", color: colors.green[400] }]}
               onPress={() => {
                 onConfirm && onConfirm();
                 props.onRequestClose && props.onRequestClose({} as any);
               }}
-            ></RounedButton>
+            ></RoundedButton>
           </View>
         </View>
       </Pressable>

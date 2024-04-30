@@ -1,4 +1,4 @@
-import RounedButton from "@/common/components/buttons/RoundedButton";
+import RoundedButton from "@/common/components/buttons/RoundedButton";
 import LoadingText from "@/common/components/text/LoadingText";
 import { style } from "@/common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
@@ -51,20 +51,20 @@ export default function ChapterReaderMenu({
         ]}
       >
         <View style={[style.flexRow, style.itemsCenter, {}]}>
-          <RounedButton
+          <RoundedButton
             prependIcon="close"
             prependIconStyle={[{ fontSize: 27, margin: 5 }]}
             onPress={onRequestClose}
-          ></RounedButton>
+          ></RoundedButton>
         </View>
         {scrapedChapter ? (
           <>
-            <RounedButton
+            <RoundedButton
               prependIcon="book"
               content={scrapedChapter.manga.title}
               styleProp={[{ width: "100%", justifyContent: "flex-start" }]}
-            ></RounedButton>
-            <RounedButton
+            ></RoundedButton>
+            <RoundedButton
               prependIcon="bookmark"
               content={scrapedChapter.title}
               styleProp={[
@@ -74,8 +74,8 @@ export default function ChapterReaderMenu({
                   paddingTop: 0,
                 },
               ]}
-            ></RounedButton>
-            <RounedButton
+            ></RoundedButton>
+            <RoundedButton
               prependIcon="source-branch"
               content={scrapedChapter.src}
               contentStyle={[{ textDecorationLine: "underline" }]}
@@ -89,7 +89,7 @@ export default function ChapterReaderMenu({
               onPress={() => {
                 Linking.openURL(scrapedChapter.url);
               }}
-            ></RounedButton>
+            ></RoundedButton>
           </>
         ) : (
           <View style={[{ paddingLeft: 15 }]}>

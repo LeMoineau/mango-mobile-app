@@ -53,7 +53,6 @@ export default function IntersiteMangaInfosPage() {
         <IntersiteMangaInfosBackground
           manga={manga}
           onLoadingImageError={async (m) => {
-            console.log("error");
             await scrapeManga(m);
           }}
         ></IntersiteMangaInfosBackground>

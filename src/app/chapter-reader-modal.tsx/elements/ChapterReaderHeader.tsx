@@ -1,4 +1,4 @@
-import RounedButton from "@/common/components/buttons/RoundedButton";
+import RoundedButton from "@/common/components/buttons/RoundedButton";
 import Gradient, {
   GradientDirection,
 } from "@/common/components/image/Gradient";
@@ -36,16 +36,16 @@ export default function ChapterReaderHeader({
             },
           ]}
         >
-          <RounedButton
+          <RoundedButton
             prependIcon="arrow-back"
             styleProp={[{ backgroundColor: theme.colors.background }]}
             onPress={() => navigation.goBack()}
-          ></RounedButton>
-          <RounedButton
+          ></RoundedButton>
+          <RoundedButton
             prependIcon="menu"
             styleProp={[{ backgroundColor: theme.colors.background }]}
             onPress={onMenuButtonPress}
-          ></RounedButton>
+          ></RoundedButton>
         </View>
       ) : (
         <View
@@ -74,12 +74,12 @@ export default function ChapterReaderHeader({
                 { flex: 1, justifyContent: "flex-start" },
               ]}
             >
-              <RounedButton
+              <RoundedButton
                 prependIcon="arrow-back"
                 onPress={() => {
                   navigation.goBack();
                 }}
-              ></RounedButton>
+              ></RoundedButton>
               {chapterTitle ? (
                 <ThemedText style={[{ fontSize: 15 }]}>
                   {chapterTitle}
@@ -89,11 +89,11 @@ export default function ChapterReaderHeader({
               )}
             </View>
             <View style={[]}>
-              <RounedButton
+              <RoundedButton
                 prependIcon="menu"
                 prependIconStyle={[{ fontSize: 25 }]}
                 onPress={onMenuButtonPress}
-              ></RounedButton>
+              ></RoundedButton>
             </View>
           </View>
           <Gradient

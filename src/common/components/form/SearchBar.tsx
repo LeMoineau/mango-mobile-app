@@ -2,7 +2,7 @@ import { View, TextInput, StyleProp, ViewStyle } from "react-native";
 import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
 import { style } from "@/common/utils/style-utils";
-import RounedButton from "../buttons/RoundedButton";
+import RoundedButton from "../buttons/RoundedButton";
 
 export default function SearchBar({
   placeholder,
@@ -67,7 +67,7 @@ export default function SearchBar({
       </View>
       {hasFilterBtn && (
         <>
-          <RounedButton
+          <RoundedButton
             appendIcon="filter-variant"
             appendIconStyle={[{ fontSize: 20 }]}
             styleProp={[
@@ -80,7 +80,7 @@ export default function SearchBar({
               },
             ]}
             onPress={onFilterBtnPress}
-          ></RounedButton>
+          ></RoundedButton>
         </>
       )}
     </View>

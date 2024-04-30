@@ -1,21 +1,30 @@
-import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
+import { RefreshControl, View } from "react-native";
 import ChapterItem from "./elements/ChapterItem";
-import { useNavigation, useTheme } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import useLatestChapters from "./hooks/use-latest-chapters";
 import { useEffect } from "react";
 import LatestChaptersHeader from "./elements/LatestChaptersHeader";
 import { useNavigationType } from "../../common/types/navigation/NavigationTypes";
 import { TextFormatUtils } from "../../../../shared/src/utils/text-format-utils";
 import { FlashList } from "@shopify/flash-list";
+import LatestChapterFooter from "./elements/LatestChapterFooter";
 
 export default function LatestChaptersPage() {
-  const theme = useTheme();
   const navigator: useNavigationType = useNavigation();
-  const { chapters, noMoreChapters, refreshing, fetchNextPage, refresh } =
-    useLatestChapters();
+  const {
+    chapters,
+    currentPage,
+    noMoreChapters,
+    refreshing,
+    mangaAllowed,
+    fetch,
+    fetchNextPage,
+    refresh,
+    filter,
+  } = useLatestChapters();
 
   useEffect(() => {
-    fetchNextPage();
+    fetch();
   }, []);
 
   return (
@@ -27,9 +36,12 @@ export default function LatestChaptersPage() {
               query: text,
             });
           }}
+          onFilter={async (filterParams) => {
+            await filter(filterParams);
+          }}
         ></LatestChaptersHeader>
       </View>
-      <View style={[{ height: 60 }]}></View>
+      <View style={[{ height: 75 }]}></View>
       <View style={[{ flex: 1 }]}>
         <FlashList
           data={chapters}
@@ -55,17 +67,14 @@ export default function LatestChaptersPage() {
             ></ChapterItem>
           )}
           ListFooterComponent={
-            <>
-              {noMoreChapters ? (
-                <Text>No More Chapters</Text>
-              ) : (
-                <ActivityIndicator
-                  size="large"
-                  style={{ paddingBottom: 20 }}
-                  color={theme.colors.primary}
-                />
-              )}
-            </>
+            <LatestChapterFooter
+              noMoreChapters={noMoreChapters}
+              mangaAllowed={mangaAllowed}
+              currentPage={currentPage}
+              onPressLoadMoreBtn={() => {
+                fetchNextPage();
+              }}
+            ></LatestChapterFooter>
           }
           onEndReached={() => {
             fetchNextPage();

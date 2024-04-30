@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
 import { FavoritesList } from "../../types/favorites/FavoritesList";
 import { style } from "../../utils/style-utils";
-import RounedButton from "../buttons/RoundedButton";
+import RoundedButton from "../buttons/RoundedButton";
 import ThemedText from "../text/ThemedText";
 import { DefaultValues } from "../../config/DefaultValues";
 import ExpoIcon from "../icons/ExpoIcon";
@@ -59,11 +59,11 @@ export default function FavoritesListItem({
           </ThemedText>
         </View>
         <View>
-          <RounedButton
+          <RoundedButton
             prependIcon="dots-vertical"
             prependIconStyle={[{ fontSize: 25 }]}
             onPress={() => onDotsBtnPress && onDotsBtnPress()}
-          ></RounedButton>
+          ></RoundedButton>
         </View>
       </Pressable>
     </>

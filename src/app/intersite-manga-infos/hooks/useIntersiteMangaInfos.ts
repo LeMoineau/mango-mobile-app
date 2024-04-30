@@ -42,25 +42,19 @@ const useIntersiteMangaInfos = () => {
     intersiteMangaFormattedName?: MangaFormattedName;
   }) => {
     _reset();
-    console.log("begin");
     let intersiteManga = await _fetchIntersiteManga(props);
-    console.log("intersitemanga", intersiteManga);
     if (!intersiteManga) return;
     let manga = getMoreTrustedManga(intersiteManga);
-    console.log("manga", manga);
     if (!manga) return;
     if (!manga.author || !manga.image) {
-      console.log("scraping");
       const scrapedManga = await _fetchScrapedManga(manga);
       const updatedManga: ParentlessStoredManga = {
         ...manga,
         ...scrapedManga,
       };
-      console.log("updatedManga", updatedManga);
       const index = intersiteManga.mangas.findIndex((m) => m.id === manga!.id);
       if (index !== -1) {
         intersiteManga.mangas.splice(index, 1, updatedManga);
-        console.log("change", intersiteManga);
       }
       manga = { ...updatedManga };
     }

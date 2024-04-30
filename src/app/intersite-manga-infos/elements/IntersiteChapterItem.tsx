@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
 import { memo, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import RounedButton from "../../../common/components/buttons/RoundedButton";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { colors } from "../../../../../shared/src/config/enums/Colors";
 import { ParentlessIntersiteChapter } from "../../../../../shared/src/types/IntersiteChapter";
 import useAnimatedValue from "../../../common/hooks/use-animated-value";
@@ -191,7 +191,7 @@ function IntersiteChapterItem({
               ]}
             >
               <View style={[style.flexRow, style.itemsCenter, {}]}>
-                <RounedButton
+                <RoundedButton
                   content="DOWNLOAD"
                   contentStyle={[{ fontSize: 12 }]}
                   appendIcon="file-download"
@@ -200,9 +200,9 @@ function IntersiteChapterItem({
                       backgroundColor: theme.colors.border,
                     },
                   ]}
-                ></RounedButton>
+                ></RoundedButton>
                 <View style={[{ width: 10 }]}></View>
-                {/* <RounedButton
+                {/* <RoundedButton
                 content="DOWNLOADED"
                 contentStyle={[style.textBold, { fontSize: 12 }]}
                 appendIcon="check-circle"
@@ -213,8 +213,8 @@ function IntersiteChapterItem({
                     opacity: 1,
                   },
                 ]}
-              ></RounedButton> */}
-                <RounedButton
+              ></RoundedButton> */}
+                <RoundedButton
                   content="READ"
                   contentStyle={[style.textBold, { color: colors.white }]}
                   appendIcon="book"
@@ -223,15 +223,15 @@ function IntersiteChapterItem({
                   onPress={() =>
                     pressReadBtn && chapter && pressReadBtn(chapter)
                   }
-                ></RounedButton>
+                ></RoundedButton>
                 <View style={[{ width: 10 }]}></View>
-                <RounedButton
+                <RoundedButton
                   appendIcon="dots-vertical"
                   styleProp={[{ backgroundColor: theme.colors.border }]}
                   onPress={() =>
                     pressDotsBtn && chapter && pressDotsBtn(chapter)
                   }
-                ></RounedButton>
+                ></RoundedButton>
               </View>
             </Animated.View>
           }

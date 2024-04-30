@@ -14,6 +14,7 @@ const useResponsePageApi = <T>(
   const [elements, setElements] = useState<T[]>([]);
   const { fetch } = useApi(baseURL);
   const previousEndpoint = useRef<string | undefined>();
+  const previousParams = useRef<any>();
   const [fullyLoaded, setFullyLoaded] = useState(false);
 
   const _fetch = async (
@@ -23,10 +24,14 @@ const useResponsePageApi = <T>(
       limit?: number;
       notIncrementPage?: boolean;
       resetElementsIfSuceed?: boolean;
+      saveParamsStateForNextFetching?: boolean;
       params?: any;
     }
   ): Promise<ResponsePage<T> | undefined> => {
     previousEndpoint.current = endpoint;
+    if (props && props.saveParamsStateForNextFetching) {
+      previousParams.current = props.params;
+    }
     return await fetch<ResponsePage<T>>(previousEndpoint.current, {
       forceRefresh: true,
       config: {
@@ -34,6 +39,7 @@ const useResponsePageApi = <T>(
           page: props?.page ?? page.current,
           limit: props?.limit ?? limit.current,
           ...props?.params,
+          ...previousParams.current,
         },
       },
     })
@@ -71,6 +77,7 @@ const useResponsePageApi = <T>(
   };
 
   return {
+    page: page.current,
     elements,
     fullyLoaded,
     fetch: _fetch,
