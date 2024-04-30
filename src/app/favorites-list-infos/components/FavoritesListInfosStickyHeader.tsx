@@ -31,6 +31,9 @@ export function FavoritesListInfosStickyHeader({
       <RoundedButton
         prependIcon="arrow-back"
         prependIconStyle={[{ fontSize: 23 }]}
+        onPress={() => {
+          navigator.goBack();
+        }}
       ></RoundedButton>
       <RoundedButton
         prependIcon="dots-vertical"

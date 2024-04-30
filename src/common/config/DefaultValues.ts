@@ -9,6 +9,15 @@ export namespace DefaultValues {
     chapterReaderDisplayMode: "singlePage",
     chapterReaderHasHeader: true,
     chapterReaderHasFooter: true,
+    autoScrapInSearch: true,
+    autoScrapMangaInfos: true,
+    autoScrapWhenImageNotFoundInCache: true,
+    autoScrapWhenImageNotFoundInMangaInfos: true,
+    autoScrapWhenImageNotFoundInSearch: true,
+    defaultFavoritesListItemExpanded: true,
+    notClosingAfterAddingMangaInList: false,
+    saveMangaWhenAddingInFavorites: true,
+    openMangaInfosOnMangaAvatarPress: false,
   };
   export const READER_HEIGHT_RATE_UPDATE = 0.7;
   export const LIKE_FAVORITES_LIST_NAME = "Liked Mangas";

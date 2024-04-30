@@ -13,6 +13,7 @@ import { colors } from "../../../../shared/src/config/enums/Colors";
 import CustomPageHeader from "../../common/components/navigation/CustomPageHeader";
 import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
 import { useCacheStore } from "../../common/store/cache.store";
+import { useSettingsStore } from "../../common/store/settings.store";
 
 export default function AddingInFavoritesListPage() {
   const route: useRouteType<"AddingInFavoritesList"> = useRoute();
@@ -20,6 +21,7 @@ export default function AddingInFavoritesListPage() {
 
   const { getAll, addIn, intersiteMangaAlreadyIn } = useFavoritesStore();
   const { saveCurrentIntersiteManga } = useCacheStore();
+  const { get } = useSettingsStore();
 
   const theme = useTheme();
   const { isVisible, show, hide } = useModals<"text-input">();
@@ -63,6 +65,7 @@ export default function AddingInFavoritesListPage() {
             }
             await addIn(favList.name, route.params.intersiteMangaId);
             await saveCurrentIntersiteManga();
+            if (get("notClosingAfterAddingMangaInList") === true) return;
             navigator.goBack();
           }}
           onDotsBtnPress={() => {

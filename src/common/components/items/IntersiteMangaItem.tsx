@@ -9,17 +9,22 @@ import { useNavigationType } from "../../types/navigation/NavigationTypes";
 import RoundedButton from "../buttons/RoundedButton";
 import Gradient, { GradientDirection } from "../image/Gradient";
 import useTrustedManga from "../../hooks/use-trusted-manga";
+import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
 
 export default function IntersiteMangaItem({
   height,
   hasDotsBtn,
   intersiteManga,
   onDotsBtnPress,
+  onImageLoadingError,
+  onImageNotFoundError,
 }: {
   height?: number;
   hasDotsBtn?: boolean;
   intersiteManga: IntersiteManga;
   onDotsBtnPress?: () => void;
+  onImageLoadingError?: (manga: ParentlessStoredManga) => void;
+  onImageNotFoundError?: (manga: ParentlessStoredManga) => void;
 }) {
   const theme = useTheme();
   const { manga, setIntersiteManga } = useTrustedManga();
@@ -31,6 +36,12 @@ export default function IntersiteMangaItem({
       setIntersiteManga(intersiteManga);
     }
   }, [intersiteManga]);
+
+  useEffect(() => {
+    if (manga && (!manga.author || manga.image)) {
+      onImageNotFoundError && onImageNotFoundError(manga);
+    }
+  }, [manga]);
 
   return (
     <>
@@ -66,6 +77,9 @@ export default function IntersiteMangaItem({
                   uri={manga.image}
                   size={"100%"}
                   minimizeOnError
+                  onError={() =>
+                    onImageLoadingError && onImageLoadingError(manga)
+                  }
                 ></CustomImage>
                 <Gradient
                   style={[

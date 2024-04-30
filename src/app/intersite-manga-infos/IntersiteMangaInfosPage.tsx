@@ -12,6 +12,7 @@ import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStick
 import IntersiteMangaInfosFooter from "./elements/IntersiteMangaInfosFooter";
 import IntersiteMangaInfosBackground from "./elements/IntersiteMangaInfosBackground";
 import { FlashList } from "@shopify/flash-list";
+import { useSettingsStore } from "../../common/store/settings.store";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -33,6 +34,7 @@ export default function IntersiteMangaInfosPage() {
     onChaptersScroll,
     getAvailablesSources,
   } = useIntersiteMangaInfos();
+  const { get } = useSettingsStore();
 
   useEffect(() => {
     fetch(route.params);
@@ -53,6 +55,7 @@ export default function IntersiteMangaInfosPage() {
         <IntersiteMangaInfosBackground
           manga={manga}
           onLoadingImageError={async (m) => {
+            if (get("autoScrapWhenImageNotFoundInMangaInfos") !== true) return;
             await scrapeManga(m);
           }}
         ></IntersiteMangaInfosBackground>

@@ -18,6 +18,7 @@ import useResponsePageApi from "../../../common/hooks/use-response-page-api";
 import { useCacheStore } from "../../../common/store/cache.store";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { ArrayUtils } from "../../../../../shared/src/utils/array-utils";
+import { useSettingsStore } from "../../../common/store/settings.store";
 
 const useIntersiteMangaInfos = () => {
   const { fetch } = useApi(Config.getEnv().MANGO_BD_API_ENDPOINT);
@@ -36,6 +37,7 @@ const useIntersiteMangaInfos = () => {
   );
   const { getMoreTrustedManga } = useMoreTrustedValue();
   const { setCurrentIntersiteManga } = useCacheStore();
+  const { get } = useSettingsStore();
 
   const _fetch = async (props: {
     intersiteMangaId?: UUID;
@@ -46,7 +48,10 @@ const useIntersiteMangaInfos = () => {
     if (!intersiteManga) return;
     let manga = getMoreTrustedManga(intersiteManga);
     if (!manga) return;
-    if (!manga.author || !manga.image) {
+    if (
+      (!manga.author || !manga.image) &&
+      get("autoScrapMangaInfos") === true
+    ) {
       const scrapedManga = await _fetchScrapedManga(manga);
       const updatedManga: ParentlessStoredManga = {
         ...manga,

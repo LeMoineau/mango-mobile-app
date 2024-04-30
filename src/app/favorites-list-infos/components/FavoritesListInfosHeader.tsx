@@ -58,7 +58,7 @@ export default function FavoritesListInfosHeader({
             fontWeight: "500",
             fontSize: 25,
             paddingHorizontal: 15,
-            paddingBottom: 10,
+            paddingBottom: 20,
           },
         ]}
       >

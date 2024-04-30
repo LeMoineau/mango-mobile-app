@@ -1,5 +1,4 @@
 import { FlatList, View } from "react-native";
-import { useFavoritesStore } from "../../common/store/favorites.store";
 import SearchBar from "../../common/components/form/SearchBar";
 import { style } from "../../common/utils/style-utils";
 import RoundedButton from "../../common/components/buttons/RoundedButton";
@@ -10,8 +9,7 @@ import useModals from "../../../../shared/src/hooks/use-modals";
 import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
 
 export default function Home() {
-  const { getAll } = useFavoritesStore();
-  const { fetchIntersiteManga } = useHome();
+  const { favorites, fetchIntersiteManga, scrapeMangas } = useHome();
   const { isVisible, show, hide } = useModals<"create-favlist">();
   const theme = useTheme();
 
@@ -31,13 +29,17 @@ export default function Home() {
       </View>
       <View style={[{ height: 10 }]}></View>
       <FlatList
-        data={getAll()}
+        data={favorites}
         keyExtractor={(_, index) => `home-favList-${index}`}
         renderItem={({ item }) => (
           <HomeFavoritesListItem
             favList={item}
-            onIntersiteMangaUnfind={async (intersiteMangaId) => {
+            onNoIntersiteManga={async (intersiteMangaId) => {
               await fetchIntersiteManga(intersiteMangaId);
+            }}
+            onImageError={async (src) => {
+              console.log(src);
+              await scrapeMangas(src);
             }}
           ></HomeFavoritesListItem>
         )}

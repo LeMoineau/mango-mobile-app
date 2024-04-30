@@ -10,23 +10,30 @@ import Gradient, {
 import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { useCacheStore } from "../../../common/store/cache.store";
-import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
+import {
+  SourceName,
+  UUID,
+} from "../../../../../shared/src/types/primitives/Identifiers";
 import IntersiteMangaAvatar from "../../../common/components/items/IntersiteMangaAvatar";
+import { useSettingsStore } from "../../../common/store/settings.store";
 
 const MANGA_AVATAR_CONTAINER_PADDING_BOTTOM = 25;
 const MANGA_AVATAR_SIZE = 100;
 
 export default function HomeFavoritesListItem({
   favList,
-  onIntersiteMangaUnfind,
+  onImageError,
+  onNoIntersiteManga,
 }: {
   favList: FavoritesList;
-  onIntersiteMangaUnfind?: (intersiteMangaId: UUID) => void;
+  onImageError?: (src: SourceName) => void;
+  onNoIntersiteManga?: (intersiteMangaId: UUID) => void;
 }) {
   const navigator: useNavigationType = useNavigation();
   const theme = useTheme();
+  const { get } = useSettingsStore();
   const { animValue, enable, setEnabled } = useAnimatedValue({
-    defaultState: true,
+    defaultState: get("defaultFavoritesListItemExpanded") === true,
     duration: 250,
   });
   const { getIntersiteManga } = useCacheStore();
@@ -116,9 +123,27 @@ export default function HomeFavoritesListItem({
                 <IntersiteMangaAvatar
                   size={MANGA_AVATAR_SIZE}
                   intersiteManga={getIntersiteManga(item)}
-                  onIntersiteMangaUnfind={() =>
-                    onIntersiteMangaUnfind && onIntersiteMangaUnfind(item)
+                  redirectToIntersiteMangaInfosOnPress={
+                    get("openMangaInfosOnMangaAvatarPress") === true
                   }
+                  onPress={
+                    get("openMangaInfosOnMangaAvatarPress") === true
+                      ? undefined
+                      : () => {
+                          navigator.navigate("FavoritesListInfos", {
+                            favoritesListName: favList.name,
+                          });
+                        }
+                  }
+                  onNoIntersiteManga={() => {
+                    onNoIntersiteManga && onNoIntersiteManga(item);
+                  }}
+                  onImageLoadingError={(manga) => {
+                    onImageError && onImageError(manga.src);
+                  }}
+                  onImageNotFoundError={(manga) => {
+                    onImageError && onImageError(manga.src);
+                  }}
                 ></IntersiteMangaAvatar>
               )}
               ListEmptyComponent={() => (

@@ -19,6 +19,7 @@ export default function ToggleSettingItem({
 }) {
   const theme = useTheme();
   const [value, setValue] = useState(defaultValue ?? false);
+
   return (
     <Pressable
       onPress={() => {
@@ -40,10 +41,10 @@ export default function ToggleSettingItem({
         </View>
         <Switch
           value={value}
-          thumbColor={value ? theme.colors.primary : theme.colors.background}
+          thumbColor={value ? theme.colors.primary : theme.colors.border}
           trackColor={{
             true: theme.colors.border,
-            false: theme.colors.background,
+            false: theme.colors.border,
           }}
           disabled
         ></Switch>

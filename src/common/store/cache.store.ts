@@ -9,7 +9,12 @@ import { IntersiteManga } from "../../../../shared/src/types/IntersiteManga";
 
 interface CacheStoreState extends Cache {
   getIntersiteManga: (intersiteMangaId: UUID) => IntersiteManga | undefined;
-  saveIntersiteManga: (intersiteMangaData: IntersiteManga) => Promise<void>;
+  saveIntersiteManga: (
+    intersiteMangaData: IntersiteManga,
+    props?: {
+      forceSave?: boolean;
+    }
+  ) => Promise<void>;
   setCurrentIntersiteManga: (intersiteManga: IntersiteManga) => void;
   saveCurrentIntersiteManga: () => Promise<void>;
 }
@@ -34,16 +39,26 @@ export const useCacheStore = create<CacheStoreState>()((set, get) => {
     return get().intersiteMangas.find((m) => m.id === intersiteMangaId);
   };
 
-  const saveIntersiteManga = async (intersiteManga: IntersiteManga) => {
-    if (getIntersiteManga(intersiteManga.id)) return;
+  const saveIntersiteManga = async (
+    intersiteManga: IntersiteManga,
+    props?: {
+      forceSave?: boolean;
+    }
+  ) => {
+    if (getIntersiteManga(intersiteManga.id) && (!props || !props.forceSave)) {
+      return;
+    }
+    const tmp = [...get().intersiteMangas];
+    const index = tmp.findIndex((im) => im.id === intersiteManga.id);
+    if (index !== -1) {
+      tmp.splice(index, 1, intersiteManga);
+    } else {
+      tmp.push(intersiteManga);
+    }
     set({
-      intersiteMangas: [...get().intersiteMangas, intersiteManga],
+      intersiteMangas: tmp,
     });
-    await saveItemInJson(
-      StorageKeys.CACHE,
-      "intersiteMangas",
-      get().intersiteMangas
-    );
+    await saveItemInJson(StorageKeys.CACHE, "intersiteMangas", tmp);
   };
 
   const setCurrentIntersiteManga = (intersiteManga: IntersiteManga) => {

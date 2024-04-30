@@ -7,16 +7,25 @@ import LoadingText from "../../../common/components/text/LoadingText";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { useEffect } from "react";
 import useTrustedManga from "../../hooks/use-trusted-manga";
+import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
 
 export default function IntersiteMangaAvatar({
   size,
   intersiteManga,
-  onIntersiteMangaUnfind,
+  redirectToIntersiteMangaInfosOnPress,
+  onImageLoadingError,
+  onImageNotFoundError,
+  onNoIntersiteManga,
+  onPress,
   style: styleProp,
 }: {
   size: number;
   intersiteManga?: IntersiteManga;
-  onIntersiteMangaUnfind?: () => void;
+  redirectToIntersiteMangaInfosOnPress?: boolean;
+  onImageLoadingError?: (manga: ParentlessStoredManga) => void;
+  onImageNotFoundError?: (manga: ParentlessStoredManga) => void;
+  onNoIntersiteManga?: () => void;
+  onPress?: () => void;
   style?: StyleProp<ViewStyle>;
 }) {
   const theme = useTheme();
@@ -26,8 +35,17 @@ export default function IntersiteMangaAvatar({
   useEffect(() => {
     if (intersiteManga) {
       setIntersiteManga(intersiteManga);
+    } else {
+      onNoIntersiteManga && onNoIntersiteManga();
     }
   }, [intersiteManga]);
+
+  useEffect(() => {
+    if (!manga) return;
+    if (!manga.image || !manga.author) {
+      onImageNotFoundError && onImageNotFoundError(manga);
+    }
+  }, [manga]);
 
   return (
     <>
@@ -46,7 +64,11 @@ export default function IntersiteMangaAvatar({
           styleProp,
         ]}
         onPress={() => {
-          if (!intersiteManga) return;
+          if (onPress) {
+            onPress();
+            return;
+          }
+          if (!intersiteManga || !redirectToIntersiteMangaInfosOnPress) return;
           navigator.navigate("IntersiteMangaInfo", {
             intersiteMangaId: intersiteManga.id,
           });
@@ -57,7 +79,7 @@ export default function IntersiteMangaAvatar({
             uri={manga.image}
             width="100%"
             height="100%"
-            onError={() => onIntersiteMangaUnfind && onIntersiteMangaUnfind()}
+            onError={() => onImageLoadingError && onImageLoadingError(manga)}
           ></CustomImage>
         ) : (
           <LoadingText width="100%" height="100%"></LoadingText>
