@@ -1,8 +1,8 @@
-import { ParentlessIntersiteChapter } from "../../../../shared/src/types/IntersiteChapter";
-import { IntersiteManga } from "../../../../shared/src/types/IntersiteManga";
-import { ParentlessStoredManga } from "../../../../shared/src/types/Manga";
+import { ParentlessIntersiteChapter } from "../../../../shared/src/types/basics/IntersiteChapter";
+import { IntersiteManga } from "../../../../shared/src/types/basics/IntersiteManga";
+import { ParentlessStoredManga } from "../../../../shared/src/types/basics/Manga";
 import { useSettingsStore } from "../store/settings.store";
-import { IdentifiedChapter } from "../../../../shared/src/types/Chapter";
+import { IdentifiedChapter } from "../../../../shared/src/types/basics/Chapter";
 
 const useMoreTrustedValue = () => {
   const { srcs } = useSettingsStore();

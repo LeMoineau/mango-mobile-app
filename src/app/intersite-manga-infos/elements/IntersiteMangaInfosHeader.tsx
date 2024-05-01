@@ -6,7 +6,7 @@ import Title from "../../../common/components/text/Title";
 import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import LoadingText from "../../../common/components/text/LoadingText";
-import { ParentlessStoredManga } from "../../../../../shared/src/types/Manga";
+import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
 import IconedText from "../../../common/components/text/IconedText";
 import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import LikeButton from "./LikeButton";

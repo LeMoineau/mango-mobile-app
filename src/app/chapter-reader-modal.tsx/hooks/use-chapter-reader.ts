@@ -7,10 +7,10 @@ import {
 import Config from "../../../common/config/Config";
 import { Image } from "react-native";
 import useApi from "../../../../../shared/src/hooks/use-api";
-import { PagedScrapedChapter } from "../../../../../shared/src/types/Chapter";
+import { PagedScrapedChapter } from "../../../../../shared/src/types/basics/Chapter";
 import { ImageUtils } from "../../../common/utils/image-utils";
 import { useDownloaderStore } from "../../../common/store/downloader.store";
-import { ChapterPage } from "../../../../../shared/src/types/ChapterPage";
+import { ChapterPage } from "../../../../../shared/src/types/basics/ChapterPage";
 import { isStoredDownloadedChapter } from "../../../common/types/downloader/DownloadedChapter";
 import useFileSystem from "../../../common/hooks/use-file-system";
 

@@ -1,4 +1,4 @@
-import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
+import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
 
 export interface Cache {
   intersiteMangas: IntersiteManga[];

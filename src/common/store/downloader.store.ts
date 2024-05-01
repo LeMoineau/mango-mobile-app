@@ -11,7 +11,7 @@ import {
   StoredDownloadedChapter,
 } from "../types/downloader/DownloadedChapter";
 import { DownloadState } from "../types/downloader/DownloadState";
-import { ScrapedChapter } from "../../../../shared/src/types/Chapter";
+import { ScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
 
 interface DownloaderStoreState extends Downloader {
   getDownloadedChapter: (chapterId: UUID) => DownloadedChapter | undefined;

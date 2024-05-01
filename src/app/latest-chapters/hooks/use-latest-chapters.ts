@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StoredChapter } from "../../../../../shared/src/types/Chapter";
+import { StoredChapter } from "../../../../../shared/src/types/basics/Chapter";
 import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";

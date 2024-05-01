@@ -4,7 +4,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { PagedScrapedChapter } from "../../../../../../../shared/src/types/Chapter";
+import { PagedScrapedChapter } from "../../../../../../../shared/src/types/basics/Chapter";
 import useSinglePageDisplayer from "./use-single-page-displayer";
 import { style } from "../../../../../common/utils/style-utils";
 import CustomImage from "../../../../../common/components/image/CustomImage";

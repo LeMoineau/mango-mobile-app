@@ -1,6 +1,6 @@
 import useApi from "../../../../shared/src/hooks/use-api";
-import { PagedScrapedChapter } from "../../../../shared/src/types/Chapter";
-import { ChapterPage } from "../../../../shared/src/types/ChapterPage";
+import { PagedScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
+import { ChapterPage } from "../../../../shared/src/types/basics/ChapterPage";
 import {
   ChapterEndpoint,
   SourceName,

@@ -5,14 +5,14 @@ import {
 } from "../../../../../shared/src/types/primitives/Identifiers";
 import useApi from "../../../../../shared/src/hooks/use-api";
 import Config from "../../../common/config/Config";
-import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
+import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
 import { useRef, useState } from "react";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { useSettingsStore } from "../../../common/store/settings.store";
 import {
   ParentlessStoredManga,
   ScrapedManga,
-} from "../../../../../shared/src/types/Manga";
+} from "../../../../../shared/src/types/basics/Manga";
 
 const useHome = () => {
   const { getAll } = useFavoritesStore();

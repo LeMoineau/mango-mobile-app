@@ -22,6 +22,7 @@ export default function Home() {
           onSubmit={(text) => {
             searchFavoritesLists(text);
           }}
+          submitOnClear
         ></SearchBar>
         <View style={[{ width: 10 }]}></View>
         <RoundedButton

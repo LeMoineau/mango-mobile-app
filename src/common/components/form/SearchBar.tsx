@@ -9,6 +9,7 @@ export default function SearchBar({
   placeholder,
   hasFilterBtn,
   defaultValue,
+  submitOnClear,
   onFilterBtnPress,
   onChange,
   onSubmit,
@@ -17,6 +18,7 @@ export default function SearchBar({
   placeholder?: string;
   hasFilterBtn?: boolean;
   defaultValue?: string;
+  submitOnClear?: boolean;
   onFilterBtnPress?: () => void;
   onChange?: (text: string) => void;
   onSubmit?: (text: string) => void;
@@ -81,6 +83,7 @@ export default function SearchBar({
           onPress={() => {
             textInputRef.current?.clear();
             onChange && onChange("");
+            if (submitOnClear && onSubmit) onSubmit("");
           }}
         ></RoundedButton>
       </View>
