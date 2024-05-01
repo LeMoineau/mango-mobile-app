@@ -14,21 +14,26 @@ export default function ChapterReaderPage() {
 
   const {
     pages,
+    maxPageNb,
     pagesLoading,
     pagesLoaded,
     isFullyLoaded,
     scrapedChapter,
     currentPageReading,
+    loadPages,
     fetchPages,
     setCurrentPageReading,
     loadNextPage,
   } = useChapterReader();
   const { animValue, enable, setEnabled } = useAnimatedValue({ duration: 350 });
-  // const { get, set } = useSettingsStore();
 
   useEffect(() => {
-    const { src, endpoint } = route.params;
-    fetchPages(src, endpoint);
+    const params = route.params as any;
+    if (params.chapterId) {
+      loadPages(params.chapterId);
+    } else if (params.src && params.endpoint) {
+      fetchPages(params.src, params.endpoint);
+    }
   }, []);
 
   return (
@@ -55,6 +60,7 @@ export default function ChapterReaderPage() {
           }
           stickyFooter={
             <ChapterReaderStickyFooter
+              maxPageNb={maxPageNb}
               pagesLoaded={pagesLoaded}
               pagesLoading={pagesLoading}
               currentPageReading={currentPageReading}
@@ -62,39 +68,6 @@ export default function ChapterReaderPage() {
             ></ChapterReaderStickyFooter>
           }
         ></PagesDisplayer>
-        {/* <View style={[{ flex: 1 }]}>
-          <FlatList
-            stickyHeaderIndices={[0]}
-            ListHeaderComponent={
-              <ChapterReaderHeader
-                chapterTitle={scrapedChapter?.title}
-                onMenuButtonPress={() => setEnabled(!enable)}
-              ></ChapterReaderHeader>
-            }
-            onScroll={onReaderScroll}
-            onMomentumScrollEnd={onReaderScroll}
-            scrollEventThrottle={16}
-            data={pages}
-            renderItem={({ item: page }) => (
-              <Image
-                source={{ uri: page.base64Url }}
-                style={[{ width, height: page.height * (width / page.width) }]}
-              ></Image>
-            )}
-            keyExtractor={(_, index) => `chapter-page-${index}`}
-            ListFooterComponent={
-              <ChapterReaderFooter
-                chapterFullyLoaded={isFullyLoaded}
-              ></ChapterReaderFooter>
-            }
-          ></FlatList>
-        </View>
-        <ChapterReaderStickyFooter
-          pagesLoaded={pagesLoaded}
-          pagesLoading={pagesLoading}
-          currentPageReading={currentPageReading}
-          scrapedChapter={scrapedChapter}
-        ></ChapterReaderStickyFooter> */}
       </View>
     </>
   );

@@ -38,7 +38,6 @@ export default function Home() {
               await fetchIntersiteManga(intersiteMangaId);
             }}
             onImageError={async (src) => {
-              console.log(src);
               await scrapeMangas(src);
             }}
           ></HomeFavoritesListItem>

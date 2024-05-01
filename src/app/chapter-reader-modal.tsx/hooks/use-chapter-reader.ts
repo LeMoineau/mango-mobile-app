@@ -1,17 +1,23 @@
-import axios from "axios";
 import { useRef, useState } from "react";
 import {
   ChapterEndpoint,
   SourceName,
+  UUID,
 } from "@shared/types/primitives/Identifiers";
 import Config from "../../../common/config/Config";
-import { encode } from "base-64";
 import { Image } from "react-native";
 import useApi from "../../../../../shared/src/hooks/use-api";
 import { PagedScrapedChapter } from "../../../../../shared/src/types/Chapter";
+import { ImageUtils } from "../../../common/utils/image-utils";
+import { useDownloaderStore } from "../../../common/store/downloader.store";
+import { ChapterPage } from "../../../../../shared/src/types/ChapterPage";
+import { isStoredDownloadedChapter } from "../../../common/types/downloader/DownloadedChapter";
+import useFileSystem from "../../../common/hooks/use-file-system";
 
 const useChapterReader = () => {
-  const { fetch } = useApi(Config.getEnv().MANGO_SCRAPER_API_ENDPOINT);
+  const { fetch, post } = useApi(Config.getEnv().MANGO_SCRAPER_API_ENDPOINT);
+  const { getDownloadedChapter } = useDownloaderStore();
+  const { readString } = useFileSystem();
   /**
    * loaded page return to component
    */
@@ -25,12 +31,24 @@ const useChapterReader = () => {
    * All loaded pages
    */
   const _pages = useRef<{ [key: number]: ChapterPageLoaded }>({});
+  const maxPageNb = useRef<number>(0);
   const [pages, setPages] = useState<ChapterPageLoaded[]>([]);
   /**
    * Pages currently loading
    */
   const pagesLoading = useRef<number[]>([]);
+  const downloadedChapterId = useRef<UUID>();
   const [currentPageReading, setCurrentPageReading] = useState<number>(0);
+
+  const loadPages = async (chapterId: UUID) => {
+    reset();
+    const downloadedChapter = getDownloadedChapter(chapterId);
+    if (!isStoredDownloadedChapter(downloadedChapter)) return;
+    downloadedChapterId.current = downloadedChapter.chapterId;
+    scrapedChapter.current = { ...downloadedChapter.chapter, pages: [] };
+    maxPageNb.current = downloadedChapter.pagesURL.length;
+    await loadNextPage(3);
+  };
 
   const fetchPages = async (_src: SourceName, endpoint: ChapterEndpoint) => {
     reset();
@@ -40,15 +58,25 @@ const useChapterReader = () => {
     }).then(async (res) => {
       if (!res) return;
       scrapedChapter.current = res;
+      maxPageNb.current = res.pages.length;
       await loadNextPage(3);
     });
   };
 
-  const _arrayBufferToBase64 = (buffer: Buffer) => {
-    let binary = "";
-    let bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => (binary += String.fromCharCode(b)));
-    return encode(binary);
+  const _fetchPage = async (page: ChapterPage) => {
+    return await post<Buffer>(
+      `${Config.getEnv().MANGO_SCRAPER_API_ENDPOINT}/srcs/${
+        src.current
+      }/generatePage`,
+      {
+        page,
+      },
+      {
+        config: {
+          responseType: "arraybuffer",
+        },
+      }
+    );
   };
 
   /**
@@ -56,10 +84,10 @@ const useChapterReader = () => {
    * @param pageNb page number
    */
   const loadPage = async (pageNb: number) => {
-    if (!scrapedChapter.current || !src.current || isFullyLoaded) {
+    if (!scrapedChapter.current || isFullyLoaded) {
       return;
     }
-    if (pageNb <= 0 || pageNb > scrapedChapter.current.pages.length) {
+    if (pageNb <= 0 || pageNb > maxPageNb.current) {
       return;
     }
     if (pagesLoading.current.includes(pageNb - 1)) {
@@ -67,23 +95,20 @@ const useChapterReader = () => {
     }
     const pageToLoad = scrapedChapter.current.pages[pageNb - 1];
     pagesLoading.current.push(pageNb - 1);
-    const imgBuffer = await axios.post(
-      `${Config.getEnv().MANGO_SCRAPER_API_ENDPOINT}/srcs/${
-        src.current
-      }/generatePage`,
-      {
-        page: {
-          ...pageToLoad,
-        },
-      },
-      {
-        responseType: "arraybuffer",
-      }
-    );
-    const targetUrl = new URL(pageToLoad.url).href;
-    const base64Url = `data:image/${_getImgExtFromURL(
-      targetUrl
-    )};base64,${_arrayBufferToBase64(imgBuffer.data)}`;
+    let base64Url = "";
+    if (downloadedChapterId.current) {
+      const downloadedChapter = getDownloadedChapter(
+        downloadedChapterId.current
+      );
+      if (!isStoredDownloadedChapter(downloadedChapter)) return;
+      const fileURI = downloadedChapter.pagesURL[pageNb - 1];
+      base64Url = await readString(fileURI);
+    } else {
+      const imgBuffer = await _fetchPage(pageToLoad);
+      if (!imgBuffer) return;
+      const targetUrl = new URL(pageToLoad.url).href;
+      base64Url = ImageUtils.generateBase64UrlFromBuffer(targetUrl, imgBuffer);
+    }
     Image.getSize(base64Url, (width, height) => {
       _pages.current[pageNb - 1] = {
         base64Url,
@@ -91,10 +116,7 @@ const useChapterReader = () => {
         height,
       };
       setPages(Object.values(_pages.current));
-      if (
-        Object.keys(_pages.current).length ===
-        scrapedChapter.current?.pages.length
-      ) {
+      if (Object.keys(_pages.current).length === maxPageNb.current) {
         setIsFullyLoaded(true);
       }
     });
@@ -114,27 +136,14 @@ const useChapterReader = () => {
     }
   };
 
-  const _getImgExtFromURL = (url: string): string => {
-    const res = url.match(/([\w-]+)(\.[\w-]+)+(?!.*\/)/gm);
-    if (res && res?.length > 0 && res[0].includes(".")) {
-      const ext = res[0].split(".")[1];
-      if (ext === "jpg") {
-        return "jpeg";
-      }
-      if (ext === "xml" || ext === "svg") {
-        return "svg+xml";
-      }
-      return ext;
-    }
-    return "jpeg";
-  };
-
   /**
    * Reset chapter reader
    */
   const reset = () => {
     src.current = undefined;
     pagesLoading.current = [];
+    downloadedChapterId.current = undefined;
+    maxPageNb.current = 0;
     _pages.current = [];
     setPages([]);
     setIsFullyLoaded(false);
@@ -143,11 +152,13 @@ const useChapterReader = () => {
 
   return {
     pages,
+    maxPageNb: maxPageNb.current,
     isFullyLoaded,
     pagesLoading: pagesLoading.current,
     pagesLoaded: Object.keys(_pages.current).map((k) => Number(k)),
     scrapedChapter: scrapedChapter.current,
     currentPageReading,
+    loadPages,
     fetchPages,
     loadPage,
     loadNextPage,

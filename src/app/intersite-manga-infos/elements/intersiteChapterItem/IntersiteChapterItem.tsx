@@ -1,17 +1,18 @@
 import { Animated, Image, Pressable, Text, View } from "react-native";
-import { style } from "../../../common/utils/style-utils";
+import { style } from "../../../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
-import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { memo, useEffect } from "react";
+import ExpoIcon from "../../../../common/components/icons/ExpoIcon";
+import { memo, useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import RoundedButton from "../../../common/components/buttons/RoundedButton";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
-import { ParentlessIntersiteChapter } from "../../../../../shared/src/types/IntersiteChapter";
-import useAnimatedValue from "../../../common/hooks/use-animated-value";
-import { IdentifiedChapter } from "../../../../../shared/src/types/Chapter";
-import ThemedText from "../../../common/components/text/ThemedText";
-import IconedText from "../../../common/components/text/IconedText";
-import useTrustedChapter from "../../../common/hooks/use-trusted-chapter";
+import RoundedButton from "../../../../common/components/buttons/RoundedButton";
+import { colors } from "../../../../../../shared/src/config/enums/Colors";
+import { ParentlessIntersiteChapter } from "../../../../../../shared/src/types/IntersiteChapter";
+import useAnimatedValue from "../../../../common/hooks/use-animated-value";
+import { IdentifiedChapter } from "../../../../../../shared/src/types/Chapter";
+import ThemedText from "../../../../common/components/text/ThemedText";
+import IconedText from "../../../../common/components/text/IconedText";
+import useTrustedChapter from "../../../../common/hooks/use-trusted-chapter";
+import IntersiteChapterDownloadButton from "./IntersiteChapterDownloadButton";
 
 function IntersiteChapterItem({
   intersiteChapter,
@@ -26,6 +27,7 @@ function IntersiteChapterItem({
 
   const { animValue, enable, setEnabled } = useAnimatedValue({ duration: 250 });
   const { chapter, setIntersiteChapter } = useTrustedChapter();
+  const [downloadingProgress, setDownloadingProgress] = useState(0);
 
   useEffect(() => {
     setIntersiteChapter(intersiteChapter);
@@ -191,16 +193,14 @@ function IntersiteChapterItem({
               ]}
             >
               <View style={[style.flexRow, style.itemsCenter, {}]}>
-                <RoundedButton
-                  content="DOWNLOAD"
-                  contentStyle={[{ fontSize: 12 }]}
-                  appendIcon="file-download"
-                  styleProp={[
-                    {
-                      backgroundColor: theme.colors.border,
-                    },
-                  ]}
-                ></RoundedButton>
+                {chapter && (
+                  <IntersiteChapterDownloadButton
+                    chapter={chapter}
+                    onProgress={(progress) => {
+                      setDownloadingProgress(progress);
+                    }}
+                  ></IntersiteChapterDownloadButton>
+                )}
                 <View style={[{ width: 10 }]}></View>
                 {/* <RoundedButton
                 content="DOWNLOADED"
@@ -235,6 +235,20 @@ function IntersiteChapterItem({
               </View>
             </Animated.View>
           }
+          {downloadingProgress < 0.99 && (
+            <View
+              style={[
+                {
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  backgroundColor: colors.green[700],
+                  height: 2,
+                  width: `${downloadingProgress * 100}%`,
+                },
+              ]}
+            ></View>
+          )}
         </Animated.View>
       </View>
     </>

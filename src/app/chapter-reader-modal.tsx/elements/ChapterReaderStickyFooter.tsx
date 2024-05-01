@@ -7,11 +7,13 @@ import { useSettingsStore } from "../../../common/store/settings.store";
 
 export default function ChapterReaderStickyFooter({
   scrapedChapter,
+  maxPageNb,
   pagesLoading,
   pagesLoaded,
   currentPageReading,
 }: {
   scrapedChapter?: PagedScrapedChapter;
+  maxPageNb: number;
   pagesLoading: number[];
   pagesLoaded: number[];
   currentPageReading: number;
@@ -38,7 +40,7 @@ export default function ChapterReaderStickyFooter({
             },
           ]}
         >
-          {scrapedChapter.pages.map((_, index) => {
+          {[...Array(maxPageNb).keys()].map((_, index) => {
             return (
               <View
                 key={`page-indicator-${index}`}

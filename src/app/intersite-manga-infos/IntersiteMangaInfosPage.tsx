@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import IntersiteChapterItem from "./elements/IntersiteChapterItem";
+import IntersiteChapterItem from "./elements/intersiteChapterItem/IntersiteChapterItem";
 import { useEffect } from "react";
 import {
   useNavigationType,
@@ -13,6 +13,7 @@ import IntersiteMangaInfosFooter from "./elements/IntersiteMangaInfosFooter";
 import IntersiteMangaInfosBackground from "./elements/IntersiteMangaInfosBackground";
 import { FlashList } from "@shopify/flash-list";
 import { useSettingsStore } from "../../common/store/settings.store";
+import { useDownloaderStore } from "../../common/store/downloader.store";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -35,6 +36,7 @@ export default function IntersiteMangaInfosPage() {
     getAvailablesSources,
   } = useIntersiteMangaInfos();
   const { get } = useSettingsStore();
+  const { isDownloaded } = useDownloaderStore();
 
   useEffect(() => {
     fetch(route.params);
@@ -92,11 +94,18 @@ export default function IntersiteMangaInfosPage() {
               intersiteChapter={item}
               pressReadBtn={(chapter) => {
                 if (!manga) return;
-                navigation.navigate("ChapterReader", {
-                  src: chapter.src,
-                  endpoint: chapter.endpoint,
-                  storedMangaId: manga.id,
-                });
+                if (isDownloaded(chapter.id)) {
+                  navigation.navigate("ChapterReader", {
+                    chapterId: chapter.id,
+                    storedMangaId: manga.id,
+                  });
+                } else {
+                  navigation.navigate("ChapterReader", {
+                    src: chapter.src,
+                    endpoint: chapter.endpoint,
+                    storedMangaId: manga.id,
+                  });
+                }
               }}
               pressDotsBtn={(chapter) => {
                 navigation.navigate("DotsOptions", {
