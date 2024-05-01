@@ -9,14 +9,20 @@ import useModals from "../../../../shared/src/hooks/use-modals";
 import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
 
 export default function Home() {
-  const { favorites, fetchIntersiteManga, scrapeMangas } = useHome();
+  const { favorites, fetchIntersiteManga, scrapeMangas, searchFavoritesLists } =
+    useHome();
   const { isVisible, show, hide } = useModals<"create-favlist">();
   const theme = useTheme();
 
   return (
     <View style={[style.flexCol, { flex: 1, paddingHorizontal: 10 }]}>
       <View style={[style.flexRow, { paddingTop: 10 }]}>
-        <SearchBar placeholder="Search Favorites"></SearchBar>
+        <SearchBar
+          placeholder="Search Favorites"
+          onSubmit={(text) => {
+            searchFavoritesLists(text);
+          }}
+        ></SearchBar>
         <View style={[{ width: 10 }]}></View>
         <RoundedButton
           prependIcon="add"

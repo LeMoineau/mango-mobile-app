@@ -6,7 +6,7 @@ import {
 import useApi from "../../../../../shared/src/hooks/use-api";
 import Config from "../../../common/config/Config";
 import { IntersiteManga } from "../../../../../shared/src/types/IntersiteManga";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { useSettingsStore } from "../../../common/store/settings.store";
 import {
@@ -15,11 +15,12 @@ import {
 } from "../../../../../shared/src/types/Manga";
 
 const useHome = () => {
-  const { lists, getAll } = useFavoritesStore();
+  const { getAll } = useFavoritesStore();
   const { getIntersiteManga, saveIntersiteManga } = useCacheStore();
   const { fetch } = useApi(Config.getEnv().MANGO_BD_API_ENDPOINT);
   const { get } = useSettingsStore();
   const beingScrapingMangas = useRef(false);
+  const [querySearch, setQuerySearch] = useState("");
 
   const fetchIntersiteManga = async (intersiteMangaId: UUID) => {
     const intersiteManga = await fetch<IntersiteManga>(
@@ -78,7 +79,21 @@ const useHome = () => {
     }
   };
 
-  return { favorites: lists, fetchIntersiteManga, scrapeMangas };
+  const searchFavoritesLists = (query: string) => {
+    setQuerySearch(query);
+  };
+
+  return {
+    favorites: getAll().filter(
+      (favList) =>
+        querySearch.length <= 0 ||
+        favList.name.includes(querySearch) ||
+        querySearch.includes(favList.name)
+    ),
+    fetchIntersiteManga,
+    scrapeMangas,
+    searchFavoritesLists,
+  };
 };
 
 export default useHome;
