@@ -87,8 +87,8 @@ const useHome = () => {
     favorites: getAll().filter(
       (favList) =>
         querySearch.length <= 0 ||
-        favList.name.includes(querySearch) ||
-        querySearch.includes(favList.name)
+        favList.name.toLowerCase().includes(querySearch.toLowerCase()) ||
+        querySearch.toLowerCase().includes(favList.name.toLowerCase())
     ),
     fetchIntersiteManga,
     scrapeMangas,

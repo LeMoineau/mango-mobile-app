@@ -3,6 +3,7 @@ import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
 import { style } from "@/common/utils/style-utils";
 import RoundedButton from "../buttons/RoundedButton";
+import { useRef } from "react";
 
 export default function SearchBar({
   placeholder,
@@ -22,6 +23,7 @@ export default function SearchBar({
   style?: StyleProp<ViewStyle>;
 }) {
   const theme = useTheme();
+  const textInputRef = useRef<TextInput>(null);
 
   return (
     <View
@@ -50,6 +52,7 @@ export default function SearchBar({
       >
         <ExpoIcon name="search" color={theme.colors.text} size={17}></ExpoIcon>
         <TextInput
+          ref={textInputRef}
           style={[
             {
               flex: 1,
@@ -64,6 +67,22 @@ export default function SearchBar({
           onChangeText={(text) => onChange && onChange(text)}
           onSubmitEditing={(evt) => onSubmit && onSubmit(evt.nativeEvent.text)}
         ></TextInput>
+        <RoundedButton
+          appendIcon="clear"
+          styleProp={[
+            {
+              position: "absolute",
+              right: 0,
+              top: 0,
+              height: 50,
+              paddingHorizontal: 10,
+            },
+          ]}
+          onPress={() => {
+            textInputRef.current?.clear();
+            onChange && onChange("");
+          }}
+        ></RoundedButton>
       </View>
       {hasFilterBtn && (
         <>
