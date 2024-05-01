@@ -5,7 +5,7 @@ import { style } from "../../../../common/utils/style-utils";
 import useChapterDownloader from "../../../../common/hooks/use-chapter-downloader";
 import { useEffect } from "react";
 import { IdentifiedChapter } from "../../../../../../shared/src/types/Chapter";
-import { isStoredDownloadedChapter } from "../../../../common/types/downloader/DownloadedChapter";
+import { useDownloaderStore } from "../../../../common/store/downloader.store";
 
 export default function IntersiteChapterDownloadButton({
   chapter,
@@ -16,6 +16,7 @@ export default function IntersiteChapterDownloadButton({
 }) {
   const theme = useTheme();
   const { downloadingChapter, download } = useChapterDownloader(chapter.id);
+  const { isDownloaded } = useDownloaderStore();
 
   useEffect(() => {
     if (onProgress && downloadingChapter?.progress) {
@@ -26,7 +27,7 @@ export default function IntersiteChapterDownloadButton({
   return (
     <>
       {downloadingChapter ? (
-        isStoredDownloadedChapter(downloadingChapter) ? (
+        isDownloaded(chapter.id) ? (
           <RoundedButton
             content="DOWNLOADED"
             contentStyle={[style.textBold, { fontSize: 12 }]}
@@ -77,7 +78,11 @@ export default function IntersiteChapterDownloadButton({
           ></RoundedButton>
         ) : (
           <RoundedButton
-            content="DOWNLOADING"
+            content={`DOWNLOADING (${
+              downloadingChapter.progress
+                ? Math.floor(downloadingChapter.progress * 100)
+                : 0
+            }%)`}
             contentStyle={[style.textBold, { fontSize: 12 }]}
             styleProp={[
               {
@@ -98,7 +103,7 @@ export default function IntersiteChapterDownloadButton({
             },
           ]}
           onPress={() => {
-            download(chapter);
+            download(chapter.src, chapter.endpoint);
           }}
         ></RoundedButton>
       )}

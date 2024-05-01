@@ -1,4 +1,5 @@
 import {
+  ChapterEndpoint,
   isUUID,
   SourceName,
   UUID,
@@ -20,6 +21,8 @@ export type IntersiteMangaInfosDotsParams = {
 export type ChapterItemDotsParams = {
   url: string;
   chapterId: UUID;
+  chapterSrc: SourceName;
+  chapterEndpoint: ChapterEndpoint;
 };
 
 export type FavoritesListItemDotsParams = {

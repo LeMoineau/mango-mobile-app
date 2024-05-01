@@ -1,4 +1,4 @@
-import { Animated, Image, Pressable, Text, View } from "react-native";
+import { Animated, Image, Pressable, View } from "react-native";
 import { style } from "../../../../common/utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 import ExpoIcon from "../../../../common/components/icons/ExpoIcon";
@@ -13,6 +13,7 @@ import ThemedText from "../../../../common/components/text/ThemedText";
 import IconedText from "../../../../common/components/text/IconedText";
 import useTrustedChapter from "../../../../common/hooks/use-trusted-chapter";
 import IntersiteChapterDownloadButton from "./IntersiteChapterDownloadButton";
+import { useDownloaderStore } from "../../../../common/store/downloader.store";
 
 function IntersiteChapterItem({
   intersiteChapter,
@@ -28,6 +29,7 @@ function IntersiteChapterItem({
   const { animValue, enable, setEnabled } = useAnimatedValue({ duration: 250 });
   const { chapter, setIntersiteChapter } = useTrustedChapter();
   const [downloadingProgress, setDownloadingProgress] = useState(0);
+  const { isDownloaded } = useDownloaderStore();
 
   useEffect(() => {
     setIntersiteChapter(intersiteChapter);
@@ -140,9 +142,18 @@ function IntersiteChapterItem({
                     },
                   ]}
                 >
-                  <Text style={[{ color: theme.colors.text, opacity: 0.7 }]}>
-                    {chapter?.title}
-                  </Text>
+                  <View style={[style.flexRow, style.itemsCenter, {}]}>
+                    <ThemedText style={[{ opacity: 0.8 }]}>
+                      {`${chapter?.title} `}
+                    </ThemedText>
+                    {chapter && isDownloaded(chapter.id) && (
+                      <ExpoIcon
+                        name="check-circle"
+                        color={colors.green[500]}
+                        size={17}
+                      ></ExpoIcon>
+                    )}
+                  </View>
                   <View style={[style.flexRow, {}]}>
                     <IconedText
                       fontSize={10}
@@ -202,18 +213,6 @@ function IntersiteChapterItem({
                   ></IntersiteChapterDownloadButton>
                 )}
                 <View style={[{ width: 10 }]}></View>
-                {/* <RoundedButton
-                content="DOWNLOADED"
-                contentStyle={[style.textBold, { fontSize: 12 }]}
-                appendIcon="check-circle"
-                styleProp={[
-                  {
-                    marginRight: 10,
-                    backgroundColor: colors.green[600],
-                    opacity: 1,
-                  },
-                ]}
-              ></RoundedButton> */}
                 <RoundedButton
                   content="READ"
                   contentStyle={[style.textBold, { color: colors.white }]}

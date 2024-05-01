@@ -1,8 +1,5 @@
 import useApi from "../../../../shared/src/hooks/use-api";
-import {
-  IdentifiedChapter,
-  PagedScrapedChapter,
-} from "../../../../shared/src/types/Chapter";
+import { PagedScrapedChapter } from "../../../../shared/src/types/Chapter";
 import { ChapterPage } from "../../../../shared/src/types/ChapterPage";
 import {
   ChapterEndpoint,
@@ -11,6 +8,7 @@ import {
 } from "../../../../shared/src/types/primitives/Identifiers";
 import Config from "../config/Config";
 import { useDownloaderStore } from "../store/downloader.store";
+import { isStoredDownloadedChapter } from "../types/downloader/DownloadedChapter";
 import { ImageUtils } from "../utils/image-utils";
 import useFileSystem from "./use-file-system";
 
@@ -22,8 +20,9 @@ const useChapterDownloader = (chapterId: UUID) => {
     progressDownloading,
     errorDownloading,
     finishDownloading,
+    eraseDownload: _eraseDownload,
   } = useDownloaderStore();
-  const { downloadString } = useFileSystem();
+  const { downloadString, deleteFile } = useFileSystem();
 
   const _scrapePagedScrapedChapter = async (
     src: SourceName,
@@ -51,11 +50,8 @@ const useChapterDownloader = (chapterId: UUID) => {
     );
   };
 
-  const download = async (chapter: IdentifiedChapter) => {
-    const chapterPage = await _scrapePagedScrapedChapter(
-      chapter.src,
-      chapter.endpoint
-    );
+  const download = async (src: SourceName, endpoint: ChapterEndpoint) => {
+    const chapterPage = await _scrapePagedScrapedChapter(src, endpoint);
     if (!chapterPage) return;
     const tmp = { ...chapterPage };
     tmp.pages = [];
@@ -64,7 +60,7 @@ const useChapterDownloader = (chapterId: UUID) => {
     let pagesURL = [];
     for (let page of chapterPage.pages) {
       index += 1;
-      const imgBuffer = await _scrapePage(chapter.src, page);
+      const imgBuffer = await _scrapePage(src, page);
       if (imgBuffer) {
         const targetUrl = new URL(page.url).href;
         const base64Url = ImageUtils.generateBase64UrlFromBuffer(
@@ -72,7 +68,7 @@ const useChapterDownloader = (chapterId: UUID) => {
           imgBuffer
         );
         const downloadURL = await downloadString(
-          `${chapter.id}-page-${index}`,
+          `${chapterId}-page-${index}`,
           ImageUtils.getImgExtFromURL(targetUrl),
           base64Url
         );
@@ -84,9 +80,20 @@ const useChapterDownloader = (chapterId: UUID) => {
     }
     finishDownloading(chapterId, pagesURL);
   };
+
+  const eraseDownload = async () => {
+    const downloadedChapter = getDownloadedChapter(chapterId);
+    if (!isStoredDownloadedChapter(downloadedChapter)) return;
+    for (let pageURL of downloadedChapter.pagesURL) {
+      await deleteFile(pageURL);
+    }
+    await _eraseDownload(chapterId);
+  };
+
   return {
     downloadingChapter: getDownloadedChapter(chapterId),
     download,
+    eraseDownload,
   };
 };
 

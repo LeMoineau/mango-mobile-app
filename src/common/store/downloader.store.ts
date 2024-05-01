@@ -23,6 +23,7 @@ interface DownloaderStoreState extends Downloader {
   errorDownloading: (chapterId: UUID) => void;
   cancelDownloading: (chapterId: UUID) => void;
   finishDownloading: (chapterId: UUID, pagesURL: string[]) => Promise<void>;
+  eraseDownload: (chapterId: UUID) => Promise<void>;
 }
 
 export const useDownloaderStore = create<DownloaderStoreState>()((set, get) => {
@@ -97,7 +98,7 @@ export const useDownloaderStore = create<DownloaderStoreState>()((set, get) => {
     _setDownloadState(chapterId, { downloadState: "error" });
   };
 
-  const cancelDownloading = (chapterId: UUID) => {};
+  const cancelDownloading = (_: UUID) => {};
 
   const finishDownloading = async (chapterId: UUID, pagesURL: string[]) => {
     _setDownloadState(chapterId, { downloadState: "finish", pagesURL });
@@ -116,6 +117,15 @@ export const useDownloaderStore = create<DownloaderStoreState>()((set, get) => {
     );
   };
 
+  const eraseDownload = async (chapterId: UUID) => {
+    const tmp = [...get().chapters];
+    const index = tmp.findIndex((c) => c.chapterId === chapterId);
+    if (index === -1) return;
+    tmp.splice(index, 1);
+    set({ chapters: tmp });
+    await saveItemInJson(StorageKeys.DOWNLOADER, "chapters", tmp);
+  };
+
   const isDownloaded = (chapterId: UUID) => {
     return isStoredDownloadedChapter(getDownloadedChapter(chapterId));
   };
@@ -131,5 +141,6 @@ export const useDownloaderStore = create<DownloaderStoreState>()((set, get) => {
     errorDownloading,
     cancelDownloading,
     finishDownloading,
+    eraseDownload,
   };
 });

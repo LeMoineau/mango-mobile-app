@@ -111,6 +111,8 @@ export default function IntersiteMangaInfosPage() {
                 navigation.navigate("DotsOptions", {
                   url: chapter.url,
                   chapterId: chapter.id,
+                  chapterSrc: chapter.src,
+                  chapterEndpoint: chapter.endpoint,
                 });
               }}
             ></IntersiteChapterItem>
