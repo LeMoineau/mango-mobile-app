@@ -4,14 +4,14 @@ import { DefaultValues } from "../config/DefaultValues";
 import { StorageKeys } from "../config/StorageKeys";
 import { ObjectUtils } from "../utils/object-utils";
 import useStorage from "../hooks/use-storage";
-import { UUID } from "../../../../shared/src/types/primitives/Identifiers";
+import { UUID } from "../../shared/src/types/primitives/Identifiers";
 import {
   DownloadedChapter,
   isStoredDownloadedChapter,
   StoredDownloadedChapter,
 } from "../types/downloader/DownloadedChapter";
 import { DownloadState } from "../types/downloader/DownloadState";
-import { ScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
+import { ScrapedChapter } from "../../shared/src/types/basics/Chapter";
 
 interface DownloaderStoreState extends Downloader {
   getDownloadedChapter: (chapterId: UUID) => DownloadedChapter | undefined;

@@ -1,16 +1,24 @@
-import { Text, View } from "react-native";
-import { SourceName } from "@shared/types/primitives/Identifiers";
+import { Pressable, Text, View } from "react-native";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../shared/src/config/enums/Colors";
 
 export default function SourceSettingItem({
   sourceName,
   online,
+  firstChild,
+  lastChild,
+  onUpBtnPress,
+  onDownBtnPress,
 }: {
   sourceName: SourceName;
   online?: boolean;
+  firstChild?: boolean;
+  lastChild?: boolean;
+  onUpBtnPress?: () => void;
+  onDownBtnPress?: () => void;
 }) {
   const theme = useTheme();
   return (
@@ -43,11 +51,33 @@ export default function SourceSettingItem({
             ></ExpoIcon>
           )}
         </View>
-        <ExpoIcon
-          name="drag-indicator"
-          size={25}
-          color={theme.colors.text}
-        ></ExpoIcon>
+        <View style={[style.flexRow, style.itemsCenter, {}]}>
+          {!firstChild && (
+            <Pressable
+              onPress={() => !firstChild && onUpBtnPress && onUpBtnPress()}
+            >
+              <ExpoIcon
+                name="arrow-up"
+                size={20}
+                color={theme.colors.text}
+                styleProps={[{ opacity: firstChild ? 0.5 : 1 }]}
+              ></ExpoIcon>
+            </Pressable>
+          )}
+          {!firstChild && !lastChild && <View style={[{ width: 10 }]}></View>}
+          {!lastChild && (
+            <Pressable
+              onPress={() => !lastChild && onDownBtnPress && onDownBtnPress()}
+            >
+              <ExpoIcon
+                name="arrow-down"
+                size={20}
+                color={theme.colors.text}
+                styleProps={[{ opacity: lastChild ? 0.5 : 1 }]}
+              ></ExpoIcon>
+            </Pressable>
+          )}
+        </View>
       </View>
     </>
   );

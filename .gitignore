@@ -36,3 +36,9 @@ yarn-error.*
 
 android
 ios
+
+# build shared folder
+# src/shared
+
+# eas inspect output
+~/

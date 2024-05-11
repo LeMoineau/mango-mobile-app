@@ -1,10 +1,10 @@
 import { useTheme } from "@react-navigation/native";
-import { colors } from "../../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../../shared/src/config/enums/Colors";
 import RoundedButton from "../../../../common/components/buttons/RoundedButton";
 import { style } from "../../../../common/utils/style-utils";
 import useChapterDownloader from "../../../../common/hooks/use-chapter-downloader";
 import { useEffect } from "react";
-import { IdentifiedChapter } from "../../../../../../shared/src/types/basics/Chapter";
+import { IdentifiedChapter } from "../../../../shared/src/types/basics/Chapter";
 import { useDownloaderStore } from "../../../../common/store/downloader.store";
 
 export default function IntersiteChapterDownloadButton({

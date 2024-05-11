@@ -1,4 +1,4 @@
-import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import { ThemeName } from "../ThemeName";
 
 export type SettingsValue = {

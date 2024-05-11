@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrayUtils } from "../../../../../../../../shared/src/utils/array-utils";
+import { ArrayUtils } from "../../../../../../shared/src/utils/array-utils";
 import { DefaultValues } from "../../../../../../common/config/DefaultValues";
 
 const useFilterRadioList = ({

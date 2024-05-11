@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { IntersiteManga } from "../../../../shared/src/types/basics/IntersiteManga";
-import { ParentlessStoredManga } from "../../../../shared/src/types/basics/Manga";
+import { IntersiteManga } from "../../shared/src/types/basics/IntersiteManga";
+import { ParentlessStoredManga } from "../../shared/src/types/basics/Manga";
 import useMoreTrustedValue from "./use-more-trusted-value";
 
 const useTrustedManga = () => {

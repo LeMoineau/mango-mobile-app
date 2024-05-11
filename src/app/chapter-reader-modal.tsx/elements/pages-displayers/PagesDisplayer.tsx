@@ -1,4 +1,4 @@
-import { PagedScrapedChapter } from "../../../../../../shared/src/types/basics/Chapter";
+import { PagedScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
 import { useSettingsStore } from "../../../../common/store/settings.store";
 import SinglePagePagesDisplayer from "./single-page-pages-displayer/SinglePagePagesDisplayer";
 import StripePagesDisplayer from "./stripe-pages-displayer/StripePagesDisplayer";

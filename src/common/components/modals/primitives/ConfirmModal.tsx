@@ -3,7 +3,7 @@ import { style } from "../../../utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 import ThemedText from "../../text/ThemedText";
 import RoundedButton from "../../buttons/RoundedButton";
-import { colors } from "../../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../../shared/src/config/enums/Colors";
 
 export default function ConfirmModal({
   label,

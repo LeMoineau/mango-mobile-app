@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PagedScrapedChapter } from "../../../../../../../shared/src/types/basics/Chapter";
+import { PagedScrapedChapter } from "../../../../../shared/src/types/basics/Chapter";
 
 const useSinglePageDisplayer = ({
   pages,

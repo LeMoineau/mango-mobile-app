@@ -1,8 +1,7 @@
-import { SafeAreaView, TouchableOpacity } from "react-native";
-import { SourceName } from "@shared/types/primitives/Identifiers";
+import { SafeAreaView } from "react-native";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import SourceSettingItem from "./SourceSettingItem";
-import DragList, { DragListRenderItemInfo } from "react-native-draglist";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function SourceSettingList({
   srcs,
@@ -13,52 +12,36 @@ export default function SourceSettingList({
   srcsEnabled?: SourceName[];
   onChange?: (srcs: SourceName[]) => void;
 }) {
-  const [firstPass, setFirstPass] = useState(true);
   const [data, setData] = useState(srcs);
-
-  useEffect(() => {
-    if (!firstPass) {
-      onChange && onChange(data);
-    }
-    setFirstPass(false);
-  }, [data]);
 
   return (
     <>
       <SafeAreaView style={[{ flex: 1 }]}>
-        <DragList
-          data={data ?? []}
-          keyExtractor={(str: string) => str}
-          onReordered={async (fromIndex: number, toIndex: number) => {
-            const copy = [...data]; // Don't modify react data in-place
-            const removed = copy.splice(fromIndex, 1);
-
-            copy.splice(toIndex, 0, removed[0]); // Now insert at the new pos
-            setData(copy);
-          }}
-          renderItem={({
-            item,
-            onDragStart,
-            onDragEnd,
-          }: DragListRenderItemInfo<string>) => {
-            return (
-              <TouchableOpacity
-                key={item}
-                onPressIn={onDragStart}
-                onPressOut={onDragEnd}
-              >
-                <SourceSettingItem
-                  sourceName={item as SourceName}
-                  online={
-                    srcsEnabled
-                      ? srcsEnabled.includes(item as SourceName)
-                      : undefined
-                  }
-                ></SourceSettingItem>
-              </TouchableOpacity>
-            );
-          }}
-        />
+        {data.map((item, index) => (
+          <SourceSettingItem
+            key={`source-setting-item-${index}`}
+            sourceName={item as SourceName}
+            online={
+              srcsEnabled ? srcsEnabled.includes(item as SourceName) : undefined
+            }
+            firstChild={index === 0}
+            lastChild={index === data.length - 1}
+            onUpBtnPress={() => {
+              const tmp = [...srcs];
+              tmp.splice(index, 1);
+              tmp.splice(index - 1, 0, item);
+              setData(tmp);
+              onChange && onChange(tmp);
+            }}
+            onDownBtnPress={() => {
+              const tmp = [...srcs];
+              tmp.splice(index, 1);
+              tmp.splice(index + 1, 0, item);
+              setData(tmp);
+              onChange && onChange(tmp);
+            }}
+          ></SourceSettingItem>
+        ))}
       </SafeAreaView>
     </>
   );

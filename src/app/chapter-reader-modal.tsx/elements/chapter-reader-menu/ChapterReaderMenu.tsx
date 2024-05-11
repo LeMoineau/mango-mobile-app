@@ -5,7 +5,7 @@ import { useTheme } from "@react-navigation/native";
 import { Animated, Linking, View, useWindowDimensions } from "react-native";
 import ChapterReaderMenuItem from "../ChapterReaderMenuItem";
 import { useSettingsStore } from "@/common/store/settings.store";
-import { PagedScrapedChapter } from "../../../../../../shared/src/types/basics/Chapter";
+import { PagedScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
 import useChapterReaderMenu from "./use-chapter-reader-menu";
 
 export default function ChapterReaderMenu({

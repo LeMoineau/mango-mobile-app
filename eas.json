@@ -1,0 +1,32 @@
+{
+  "cli": {
+    "version": ">= 8.0.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_MANGO_SCRAPER_API_ENDPOINT": "https://mango-scraper-api.vercel.app",
+        "EXPO_PUBLIC_MANGO_BD_API_ENDPOINT": "https://mango-bd-api.vercel.app/",
+        "EXPO_PUBLIC_MANGO_WEB_APP_ENDPOINT": "https://bigstones.fr/mango/"
+      }
+    },
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_MANGO_SCRAPER_API_ENDPOINT": "https://mango-scraper-api.vercel.app",
+        "EXPO_PUBLIC_MANGO_BD_API_ENDPOINT": "https://mango-bd-api.vercel.app/",
+        "EXPO_PUBLIC_MANGO_WEB_APP_ENDPOINT": "https://bigstones.fr/mango/"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

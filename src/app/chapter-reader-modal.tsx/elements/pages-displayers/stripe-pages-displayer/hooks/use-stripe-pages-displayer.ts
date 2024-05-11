@@ -1,5 +1,5 @@
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { PagedScrapedChapter } from "../../../../../../../../shared/src/types/basics/Chapter";
+import { PagedScrapedChapter } from "../../../../../../shared/src/types/basics/Chapter";
 import { DefaultValues } from "../../../../../../common/config/DefaultValues";
 
 const useStripePagesDisplayer = ({

@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
-import useApi from "../../../../../shared/src/hooks/use-api";
+import useApi from "../../../shared/src/hooks/use-api";
 import { useSettingsStore } from "../../../common/store/settings.store";
 import {
   ParentlessStoredManga,
   ScrapedManga,
-} from "../../../../../shared/src/types/basics/Manga";
+} from "../../../shared/src/types/basics/Manga";
 import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 
 const useIntersiteMangaSearch = () => {

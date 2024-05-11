@@ -2,22 +2,22 @@ import {
   MangaFormattedName,
   SourceName,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
+} from "../../../shared/src/types/primitives/Identifiers";
 import Config from "../../../common/config/Config";
-import useApi from "../../../../../shared/src/hooks/use-api";
-import { ResponsePage } from "../../../../../shared/src/types/responses/ResponsePage";
+import useApi from "../../../shared/src/hooks/use-api";
+import { ResponsePage } from "../../../shared/src/types/responses/ResponsePage";
 import { useState } from "react";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
-import { ParentlessIntersiteChapter } from "../../../../../shared/src/types/basics/IntersiteChapter";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
+import { ParentlessIntersiteChapter } from "../../../shared/src/types/basics/IntersiteChapter";
 import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import {
   ParentlessStoredManga,
   ScrapedManga,
-} from "../../../../../shared/src/types/basics/Manga";
+} from "../../../shared/src/types/basics/Manga";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
 import { useCacheStore } from "../../../common/store/cache.store";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { ArrayUtils } from "../../../../../shared/src/utils/array-utils";
+import { ArrayUtils } from "../../../shared/src/utils/array-utils";
 import { useSettingsStore } from "../../../common/store/settings.store";
 
 const useIntersiteMangaInfos = () => {

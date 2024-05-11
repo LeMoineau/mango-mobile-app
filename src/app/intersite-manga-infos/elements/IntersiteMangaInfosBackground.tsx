@@ -2,7 +2,7 @@ import { useTheme } from "@react-navigation/native";
 import { useWindowDimensions, View } from "react-native";
 import CustomImage from "../../../common/components/image/CustomImage";
 import LoadingText from "../../../common/components/text/LoadingText";
-import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { ParentlessStoredManga } from "../../../shared/src/types/basics/Manga";
 
 export default function IntersiteMangaInfosBackground({
   manga,
