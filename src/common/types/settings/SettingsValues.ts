@@ -1,4 +1,5 @@
 import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
+import { IntersiteMangaSearchSorting } from "../filter/IntersiteMangaSearchFilter";
 import { ThemeName } from "../ThemeName";
 
 export type SettingsValue = {
@@ -16,6 +17,7 @@ export type SettingsValue = {
   notClosingAfterAddingMangaInList: boolean;
   saveMangaWhenAddingInFavorites: boolean;
   openMangaInfosOnMangaAvatarPress: boolean;
+  defaultSortingInSearch: IntersiteMangaSearchSorting;
 };
 
 export type ChapterReaderDisplayMode = "stripe" | "singlePage";

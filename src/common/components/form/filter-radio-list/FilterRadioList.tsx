@@ -1,11 +1,11 @@
 import { View } from "react-native";
-import { style } from "../../../../../../common/utils/style-utils";
-import ThemedText from "../../../../../../common/components/text/ThemedText";
-import RoundedButton from "../../../../../../common/components/buttons/RoundedButton";
+import { style } from "../../../utils/style-utils";
+import ThemedText from "../../text/ThemedText";
+import RoundedButton from "../../buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";
-import { AllIconNames } from "../../../../../../common/types/IconName";
+import { AllIconNames } from "../../../types/IconName";
 import useFilterRadioList from "./useFilterRadioList";
-import { DefaultValues } from "../../../../../../common/config/DefaultValues";
+import { DefaultValues } from "../../../config/DefaultValues";
 
 export default function FilterRadioList({
   title,

@@ -4,7 +4,8 @@ export type SettingsKey =
   | ChapterReaderSettingsKey
   | ScrapingSettingsKey
   | FavoritesSettingsKey
-  | CacheSettingsKey;
+  | CacheSettingsKey
+  | SearchingSettingsKey;
 
 export type ChapterReaderSettingsKey =
   | "chapterReaderDisplayMode"
@@ -13,9 +14,7 @@ export type ChapterReaderSettingsKey =
 
 export type ScrapingSettingsKey =
   | "autoScrapMangaInfos"
-  | "autoScrapWhenImageNotFoundInMangaInfos"
-  | "autoScrapWhenImageNotFoundInSearch"
-  | "autoScrapInSearch";
+  | "autoScrapWhenImageNotFoundInMangaInfos";
 
 export type FavoritesSettingsKey =
   | "defaultFavoritesListItemExpanded"
@@ -25,3 +24,8 @@ export type FavoritesSettingsKey =
 export type CacheSettingsKey =
   | "saveMangaWhenAddingInFavorites"
   | "autoScrapWhenImageNotFoundInCache";
+
+export type SearchingSettingsKey =
+  | "defaultSortingInSearch"
+  | "autoScrapWhenImageNotFoundInSearch"
+  | "autoScrapInSearch";

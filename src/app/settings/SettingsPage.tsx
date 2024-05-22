@@ -70,16 +70,6 @@ export default function SettingPage() {
               set("autoScrapWhenImageNotFoundInMangaInfos", !val)
             }
           ></ToggleSettingItem>
-          <ToggleSettingItem
-            title="Auto-Scrap in search"
-            defaultValue={get("autoScrapInSearch") === true}
-            onPress={(val) => set("autoScrapInSearch", !val)}
-          ></ToggleSettingItem>
-          <ToggleSettingItem
-            title="Auto-Scrap when image not found in search"
-            defaultValue={get("autoScrapWhenImageNotFoundInSearch") === true}
-            onPress={(val) => set("autoScrapWhenImageNotFoundInSearch", !val)}
-          ></ToggleSettingItem>
         </SettingSection>
         <SettingSection sectionName="Favorites Preferences" defaultMinimize>
           <ToggleSettingItem
@@ -96,6 +86,23 @@ export default function SettingPage() {
             title="Open Manga Infos on manga avatar press"
             defaultValue={get("openMangaInfosOnMangaAvatarPress") === true}
             onPress={(val) => set("openMangaInfosOnMangaAvatarPress", !val)}
+          ></ToggleSettingItem>
+        </SettingSection>
+        <SettingSection sectionName="Search Preferences" defaultMinimize>
+          <ToggleSettingItem
+            title="Auto-Scrap in search"
+            defaultValue={get("autoScrapInSearch") === true}
+            onPress={(val) => set("autoScrapInSearch", !val)}
+          ></ToggleSettingItem>
+          <ToggleSettingItem
+            title="Auto-Scrap when image not found in search"
+            defaultValue={get("autoScrapWhenImageNotFoundInSearch") === true}
+            onPress={(val) => set("autoScrapWhenImageNotFoundInSearch", !val)}
+          ></ToggleSettingItem>
+          <ToggleSettingItem
+            title="Default sort search result by sources"
+            // defaultValue={get("autoScrapWhenImageNotFoundInSearch") === true}
+            // onPress={(val) => set("autoScrapWhenImageNotFoundInSearch", !val)}
           ></ToggleSettingItem>
         </SettingSection>
         <SettingSection sectionName="Cache Preferences" defaultMinimize>

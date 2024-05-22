@@ -19,6 +19,7 @@ export namespace DefaultValues {
     notClosingAfterAddingMangaInList: false,
     saveMangaWhenAddingInFavorites: true,
     openMangaInfosOnMangaAvatarPress: false,
+    defaultSortingInSearch: "Group By Manga",
   };
   export const READER_HEIGHT_RATE_UPDATE = 0.7;
   export const LIKE_FAVORITES_LIST_NAME = "Liked Mangas";

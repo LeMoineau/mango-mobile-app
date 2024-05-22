@@ -9,6 +9,9 @@ import {
   ScrapedManga,
 } from "../../../../../shared/src/types/basics/Manga";
 import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
+import IntersiteMangaSearchFilter, {
+  IntersiteMangaSearchSorting,
+} from "../../../common/types/filter/IntersiteMangaSearchFilter";
 
 const useIntersiteMangaSearch = () => {
   const {
@@ -17,20 +20,23 @@ const useIntersiteMangaSearch = () => {
     fetch,
     reset,
   } = useResponsePageApi<IntersiteManga>(Config.getEnv().MANGO_BD_API_ENDPOINT);
-  const { fetch: _fetchScrapingApi, post } = useApi(
+  const { fetch: _fetchScrapingApi, post: _postScrapingApi } = useApi(
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
   const previousQuery = useRef<string>();
   const [loading, setLoading] = useState(false);
   const { get } = useSettingsStore();
   const { getMoreTrustedManga } = useMoreTrustedValue();
+  const [sorting, setSorting] = useState(
+    get("defaultSortingInSearch") as IntersiteMangaSearchSorting
+  );
 
   const fetchNewQuery = async (query: string) => {
     previousQuery.current = query.trim();
     setLoading(true);
     reset();
     if (get("autoScrapInSearch") === true) {
-      await post("/mangas/search", {
+      await _postScrapingApi("/mangas/search", {
         query: previousQuery.current,
         syncWithBD: true,
       });
@@ -81,13 +87,20 @@ const useIntersiteMangaSearch = () => {
     );
   };
 
+  const changeSorting = (sort: IntersiteMangaSearchSorting) => {
+    if (sort === sorting) return;
+    setSorting(sort);
+  };
+
   return {
     intersiteMangas,
     fullyLoaded,
     currentQuery: previousQuery.current,
     loading,
+    sorting,
     fetchNewQuery,
     fetchQuery,
+    changeSorting,
   };
 };
 
