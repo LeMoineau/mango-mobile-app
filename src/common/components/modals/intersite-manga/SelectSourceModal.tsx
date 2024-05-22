@@ -1,4 +1,4 @@
-import { SourceName } from "../../../../shared/src/types/primitives/Identifiers";
+import { SourceName } from "../../../../../../shared/src/types/primitives/Identifiers";
 import SelectModal from "../primitives/SelectModal";
 
 export default function SelectSourceModal({

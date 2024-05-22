@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
+import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
 import SourceSettingItem from "./SourceSettingItem";
 import { useState } from "react";
 

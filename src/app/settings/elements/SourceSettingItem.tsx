@@ -1,9 +1,9 @@
 import { Pressable, Text, View } from "react-native";
-import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
+import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
 import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
-import { colors } from "../../../shared/src/config/enums/Colors";
+import { colors } from "../../../../../shared/src/config/enums/Colors";
 
 export default function SourceSettingItem({
   sourceName,

@@ -4,8 +4,8 @@ import DotsOptionsItem from "../DotsOptionsItem";
 import LikeDotsOptionsItem from "../LikeDotsOptionsItem";
 import { useNavigation } from "@react-navigation/native";
 import { useNavigationType } from "../../../../common/types/navigation/NavigationTypes";
-import useModals from "../../../../shared/src/hooks/use-modals";
-import { SourceName } from "../../../../shared/src/types/primitives/Identifiers";
+import useModals from "../../../../../../shared/src/hooks/use-modals";
+import { SourceName } from "../../../../../../shared/src/types/primitives/Identifiers";
 import SelectSourceModal from "../../../../common/components/modals/intersite-manga/SelectSourceModal";
 
 export function IntersiteMangaInfosDotsOptions(

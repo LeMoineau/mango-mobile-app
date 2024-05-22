@@ -1,7 +1,7 @@
 import { View, TextInput, StyleProp, ViewStyle } from "react-native";
 import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
-import { style } from "@/common/utils/style-utils";
+import { style } from "./../../../common/utils/style-utils";
 import RoundedButton from "../buttons/RoundedButton";
 import { useRef } from "react";
 

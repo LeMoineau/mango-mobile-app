@@ -3,7 +3,7 @@ import {
   isUUID,
   SourceName,
   UUID,
-} from "../../../shared/src/types/primitives/Identifiers";
+} from "../../../../../shared/src/types/primitives/Identifiers";
 import { FavoritesListName } from "../favorites/FavoritesList";
 
 export type NavigationDotsParams =

@@ -1,5 +1,5 @@
 import { ActivityIndicator, View } from "react-native";
-import { UUID } from "../../../shared/src/types/primitives/Identifiers";
+import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
 import ThemedText from "../../../common/components/text/ThemedText";
 import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";

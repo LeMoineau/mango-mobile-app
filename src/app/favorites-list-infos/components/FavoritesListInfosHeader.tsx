@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 import Gradient from "../../../common/components/image/Gradient";
 import ThemedText from "../../../common/components/text/ThemedText";
 import { FavoritesListName } from "../../../common/types/favorites/FavoritesList";
-import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
 import IntersiteMangaAvatar from "../../../common/components/items/IntersiteMangaAvatar";
 import IconedText from "../../../common/components/text/IconedText";
 

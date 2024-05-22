@@ -2,13 +2,13 @@ import { ScrollView, View } from "react-native";
 import { useSettingsStore } from "../../common/store/settings.store";
 import Title from "../../common/components/text/Title";
 import ToggleSettingItem from "./elements/ToggleSettingItem";
-import { SourceName } from "../../shared/src/types/primitives/Identifiers";
-import useApi from "../../shared/src/hooks/use-api";
+import { SourceName } from "../../../../shared/src/types/primitives/Identifiers";
+import useApi from "../../../../shared/src/hooks/use-api";
 import Config from "../../common/config/Config";
 import { useEffect } from "react";
 import SettingSection from "./elements/SettingSection";
 import SourceSettingList from "./elements/SourceSettingList";
-import { ApiSettings } from "../../shared/src/types/config/ApiSettings";
+import { ApiSettings } from "../../../../shared/src/types/config/ApiSettings";
 
 export default function SettingPage() {
   const { get, set } = useSettingsStore();
@@ -53,6 +53,11 @@ export default function SettingPage() {
         <SettingSection sectionName="Scraping Preferences" defaultMinimize>
           <ToggleSettingItem
             title="Auto-Scrap Manga Infos"
+            defaultValue={get("autoScrapMangaInfos") === true}
+            onPress={(val) => set("autoScrapMangaInfos", !val)}
+          ></ToggleSettingItem>
+          <ToggleSettingItem
+            title="Begin Scrap Manga Chapters from page 2"
             defaultValue={get("autoScrapMangaInfos") === true}
             onPress={(val) => set("autoScrapMangaInfos", !val)}
           ></ToggleSettingItem>

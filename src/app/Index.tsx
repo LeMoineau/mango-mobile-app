@@ -13,7 +13,7 @@ import CustomTopBar from "../common/components/navigation/CustomTopBar";
 import { StatusBar, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Home from "./home/Home";
-import ChapterReaderPage from "./chapter-reader-modal.tsx/ChapterReaderPage";
+import ChapterReaderPage from "./chapter-reader/ChapterReaderPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import IntersiteMangaInfosPage from "./intersite-manga-infos/IntersiteMangaInfosPage";
 import IntersiteMangaSearchPage from "./intersite-manga-search/IntersiteMangaSearchPage";

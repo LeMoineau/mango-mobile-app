@@ -1,8 +1,8 @@
 import { useTheme } from "@react-navigation/native";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import RoundedButton from "../../../common/components/buttons/RoundedButton";
-import { colors } from "../../../shared/src/config/enums/Colors";
-import { UUID } from "../../../shared/src/types/primitives/Identifiers";
+import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
 import { useCacheStore } from "../../../common/store/cache.store";
 
 export default function LikeButton({

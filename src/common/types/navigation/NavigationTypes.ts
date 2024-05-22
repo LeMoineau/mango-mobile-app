@@ -4,7 +4,7 @@ import {
   MangaFormattedName,
   SourceName,
   UUID,
-} from "@shared/types/primitives/Identifiers";
+} from "@../../shared/types/primitives/Identifiers";
 import { FavoritesListName } from "../favorites/FavoritesList";
 import { NavigationDotsParams } from "./NavigationDotsParams";
 

@@ -5,7 +5,7 @@ import RoundedButton from "../../common/components/buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";
 import HomeFavoritesListItem from "./components/HomeFavoritesListItem";
 import useHome from "./hooks/useHome";
-import useModals from "../../shared/src/hooks/use-modals";
+import useModals from "../../../../shared/src/hooks/use-modals";
 import CreateFavoritesListModal from "../../common/components/modals/favorites/CreateFavoritesListModal";
 
 export default function Home() {

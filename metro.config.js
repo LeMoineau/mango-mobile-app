@@ -31,27 +31,28 @@ const { getDefaultConfig } = require("expo/metro-config");
 
 const config = getDefaultConfig(__dirname);
 
-// const path = require("path");
-// const extraNodeModules = {
-//   shared: path.resolve(__dirname + "/../shared/src"),
-// };
-// const nodeModulesPaths = [path.resolve(path.join(__dirname, "./node_modules"))];
+const path = require("path");
+const extraNodeModules = {
+  shared: path.resolve(__dirname + "/../shared/src"),
+};
+const nodeModulesPaths = [path.resolve(path.join(__dirname, "./node_modules"))];
 
-// config.resolver = {
-//   extraNodeModules,
-//   nodeModulesPaths,
-// };
+config.resolver = {
+  extraNodeModules,
+  nodeModulesPaths,
+};
 
-// const watchFolders = [path.resolve(__dirname + "/../shared/src")];
+const watchFolders = [path.resolve(__dirname + "/../shared/src")];
 
-// config.watchFolders = watchFolders;
-// config.transformer = {
-//   getTransformOptions: async () => ({
-//     transform: {
-//       experimentalImportSupport: false,
-//       inlineRequires: false,
-//     },
-//   }),
-// };
+config.watchFolders = watchFolders;
+config.transformer = {
+  assetPlugins: ["expo-asset/tools/hashAssetFiles"],
+  getTransformOptions: async () => ({
+    transform: {
+      experimentalImportSupport: false,
+      inlineRequires: false,
+    },
+  }),
+};
 
 module.exports = config;

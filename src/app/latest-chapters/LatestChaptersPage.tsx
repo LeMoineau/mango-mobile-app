@@ -5,7 +5,7 @@ import useLatestChapters from "./hooks/use-latest-chapters";
 import { useEffect } from "react";
 import LatestChaptersHeader from "./elements/LatestChaptersHeader";
 import { useNavigationType } from "../../common/types/navigation/NavigationTypes";
-import { TextFormatUtils } from "../../shared/src/utils/text-format-utils";
+import { TextFormatUtils } from "../../../../shared/src/utils/text-format-utils";
 import { FlashList } from "@shopify/flash-list";
 import LatestChapterFooter from "./elements/LatestChapterFooter";
 

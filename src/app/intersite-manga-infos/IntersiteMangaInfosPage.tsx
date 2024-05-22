@@ -1,11 +1,11 @@
 import { View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import IntersiteChapterItem from "./elements/intersiteChapterItem/IntersiteChapterItem";
+import IntersiteChapterItem from "../../common/components/items/IntersiteChapterItem";
 import { useEffect } from "react";
 import {
   useNavigationType,
   useRouteType,
-} from "@/common/types/navigation/NavigationTypes";
+} from "./../../common/types/navigation/NavigationTypes";
 import useIntersiteMangaInfos from "./hooks/useIntersiteMangaInfos";
 import IntersiteMangaInfosHeader from "./elements/IntersiteMangaInfosHeader";
 import IntersiteMangaInfosStickyHeader from "./elements/IntersiteMangaInfosStickyHeader";
@@ -14,6 +14,7 @@ import IntersiteMangaInfosBackground from "./elements/IntersiteMangaInfosBackgro
 import { FlashList } from "@shopify/flash-list";
 import { useSettingsStore } from "../../common/store/settings.store";
 import { useDownloaderStore } from "../../common/store/downloader.store";
+import MangaChapterItem from "./elements/MangaChapterItem/MangaChapterItem";
 
 export default function IntersiteMangaInfosPage() {
   const route: useRouteType<"IntersiteMangaInfo"> = useRoute();
@@ -24,12 +25,12 @@ export default function IntersiteMangaInfosPage() {
     manga,
     chapters,
     loading,
-    chaptersLoading,
-    chaptersFullyLoaded,
+    mangaChaptersLoading,
+    mangaChaptersFullyLoaded,
     refreshing,
     fetch,
     scrapeManga,
-    refreshIntersiteChapters,
+    refreshMangaChapters,
     changeSource,
     forceScrapingCurrentManga,
     onChaptersScroll,
@@ -89,9 +90,9 @@ export default function IntersiteMangaInfosPage() {
           estimatedItemSize={100}
           keyExtractor={(_, index) => `manga-chapter-item-${index}`}
           renderItem={({ item, index }) => (
-            <IntersiteChapterItem
+            <MangaChapterItem
               key={index}
-              intersiteChapter={item}
+              chapter={item}
               pressReadBtn={(chapter) => {
                 if (!manga) return;
                 if (isDownloaded(chapter.id)) {
@@ -115,16 +116,16 @@ export default function IntersiteMangaInfosPage() {
                   chapterEndpoint: chapter.endpoint,
                 });
               }}
-            ></IntersiteChapterItem>
+            ></MangaChapterItem>
           )}
           ListFooterComponent={
             <IntersiteMangaInfosFooter
               loading={loading}
-              chaptersFullyLoaded={chaptersFullyLoaded}
-              chaptersLoading={chaptersLoading}
+              chaptersFullyLoaded={mangaChaptersFullyLoaded}
+              chaptersLoading={mangaChaptersLoading}
               refreshing={refreshing}
               onPressRefreshBtn={async () => {
-                await refreshIntersiteChapters();
+                await refreshMangaChapters();
               }}
             ></IntersiteMangaInfosFooter>
           }

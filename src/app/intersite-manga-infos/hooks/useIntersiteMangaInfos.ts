@@ -2,49 +2,49 @@ import {
   MangaFormattedName,
   SourceName,
   UUID,
-} from "../../../shared/src/types/primitives/Identifiers";
-import Config from "../../../common/config/Config";
-import useApi from "../../../shared/src/hooks/use-api";
-import { ResponsePage } from "../../../shared/src/types/responses/ResponsePage";
+} from "../../../../../shared/src/types/primitives/Identifiers";
 import { useState } from "react";
-import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
-import { ParentlessIntersiteChapter } from "../../../shared/src/types/basics/IntersiteChapter";
+import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
 import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import {
   ParentlessStoredManga,
   ScrapedManga,
-} from "../../../shared/src/types/basics/Manga";
-import useResponsePageApi from "../../../common/hooks/use-response-page-api";
+} from "../../../../../shared/src/types/basics/Manga";
 import { useCacheStore } from "../../../common/store/cache.store";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { ArrayUtils } from "../../../shared/src/utils/array-utils";
+import { ArrayUtils } from "../../../../../shared/src/utils/array-utils";
 import { useSettingsStore } from "../../../common/store/settings.store";
+import useIntersiteMangaInfosFetcher from "./useIntersiteMangaInfosFetcher";
 
 const useIntersiteMangaInfos = () => {
-  const { fetch } = useApi(Config.getEnv().MANGO_BD_API_ENDPOINT);
   const [intersiteManga, setIntersiteManga] = useState<IntersiteManga>();
   const [manga, setManga] = useState<ParentlessStoredManga>();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-  const [chaptersLoading, setChaptersLoading] = useState(false);
-  const {
-    elements,
-    fullyLoaded,
-    fetch: _fetchIntersiteChapters,
-    reset,
-  } = useResponsePageApi<ParentlessIntersiteChapter>(
-    Config.getEnv().MANGO_BD_API_ENDPOINT
-  );
+  const [mangaChaptersFullyLoaded, setMangaChaptersFullyLoaded] =
+    useState(false);
+  const [mangaChaptersLoading, setMangaChaptersLoading] = useState(false);
   const { getMoreTrustedManga } = useMoreTrustedValue();
   const { setCurrentIntersiteManga } = useCacheStore();
   const { get } = useSettingsStore();
+  const {
+    mangaChapters,
+    currentChaptersPage,
+    fetchScrapedManga,
+    fetchIntersiteMangaById,
+    fetchIntersiteMangaByFormattedName,
+    fetchScrapedMangaChapters,
+    fetchMangaChapters,
+    resetMangaChapters,
+  } = useIntersiteMangaInfosFetcher();
 
-  const _fetch = async (props: {
+  const fetch = async (props: {
     intersiteMangaId?: UUID;
     intersiteMangaFormattedName?: MangaFormattedName;
   }) => {
-    _reset();
-    let intersiteManga = await _fetchIntersiteManga(props);
+    reset();
+    setLoading(true);
+    let intersiteManga = await _loadIntersiteManga(props);
     if (!intersiteManga) return;
     let manga = getMoreTrustedManga(intersiteManga);
     if (!manga) return;
@@ -52,7 +52,7 @@ const useIntersiteMangaInfos = () => {
       (!manga.author || !manga.image) &&
       get("autoScrapMangaInfos") === true
     ) {
-      const scrapedManga = await _fetchScrapedManga(manga);
+      const scrapedManga = await fetchScrapedManga(manga);
       const updatedManga: ParentlessStoredManga = {
         ...manga,
         ...scrapedManga,
@@ -65,7 +65,7 @@ const useIntersiteMangaInfos = () => {
     }
     _setIntersiteManga(intersiteManga);
     setManga(manga);
-    await fetchIntersiteChapters(intersiteManga);
+    await _loadMangaChapters(manga);
     setLoading(false);
   };
 
@@ -74,78 +74,49 @@ const useIntersiteMangaInfos = () => {
     setCurrentIntersiteManga(intersiteManga);
   };
 
-  const _fetchIntersiteMangaById = async (
-    intersiteMangaId: UUID
-  ): Promise<IntersiteManga | undefined> => {
-    const targetIntersiteManga = await fetch<IntersiteManga>(
-      `/intersiteMangas/${intersiteMangaId}`,
-      {
-        forceRefresh: true,
-      }
-    );
-    if (!targetIntersiteManga) {
-      setLoading(false);
-      return;
-    }
-    setIntersiteManga(targetIntersiteManga);
-    return targetIntersiteManga;
-  };
-
-  const _fetchIntersiteMangaByFormattedName = async (
-    intersiteMangaFormattedName: MangaFormattedName
-  ): Promise<IntersiteManga | undefined> => {
-    const intersiteMangaPage = await fetch<ResponsePage<IntersiteManga>>(
-      "/intersiteMangas",
-      {
-        forceRefresh: true,
-        config: {
-          params: { formattedName: intersiteMangaFormattedName },
-        },
-      }
-    );
-    if (!intersiteMangaPage || intersiteMangaPage.elements.length <= 0) {
-      setLoading(false);
-      return;
-    }
-    const targetIntersiteManga = intersiteMangaPage.elements[0];
-    setIntersiteManga(targetIntersiteManga);
-    return targetIntersiteManga;
-  };
-
-  const _fetchIntersiteManga = async (props: {
+  const _loadIntersiteManga = async (props: {
     intersiteMangaId?: UUID;
     intersiteMangaFormattedName?: MangaFormattedName;
   }): Promise<IntersiteManga | undefined> => {
     let intersiteManga: IntersiteManga | undefined;
     if (props.intersiteMangaId) {
-      intersiteManga = await _fetchIntersiteMangaById(props.intersiteMangaId);
+      intersiteManga = await fetchIntersiteMangaById(props.intersiteMangaId);
     }
     if (props.intersiteMangaFormattedName) {
-      intersiteManga = await _fetchIntersiteMangaByFormattedName(
+      intersiteManga = await fetchIntersiteMangaByFormattedName(
         props.intersiteMangaFormattedName
       );
     }
     return intersiteManga;
   };
 
-  const _fetchScrapedManga = async (
-    manga: ParentlessStoredManga
-  ): Promise<ScrapedManga | undefined> => {
-    const scrapedManga = await fetch<ScrapedManga>(
-      `/srcs/${manga.src}/mangas/${manga.endpoint}`,
-      {
-        forceRefresh: true,
-        config: {
-          baseURL: Config.getEnv().MANGO_SCRAPER_API_ENDPOINT,
-          params: { syncWithBD: true },
-        },
-      }
+  const _loadMangaChapters = async (
+    tmpManga?: ParentlessStoredManga
+  ): Promise<void> => {
+    if (manga) tmpManga = manga;
+    if (!tmpManga) return;
+    setMangaChaptersLoading(true);
+    console.log("loading page: ", currentChaptersPage);
+    let mangaChaptersPage = await fetchMangaChapters(tmpManga);
+    console.log(
+      "finish loading page: ",
+      currentChaptersPage,
+      "res: ",
+      mangaChaptersPage
     );
-    if (!scrapedManga) {
-      setLoading(false);
-      return;
+    if (!mangaChaptersPage) {
+      console.log("scraping chapters");
+      const res = await fetchScrapedMangaChapters(
+        tmpManga,
+        currentChaptersPage
+      );
+      console.log("end of scraping: ", res);
+      mangaChaptersPage = await fetchMangaChapters(tmpManga);
+      if (!mangaChaptersPage) {
+        setMangaChaptersFullyLoaded(true);
+      }
     }
-    return scrapedManga;
+    setMangaChaptersLoading(false);
   };
 
   const _createNewIntersiteMangaFromScrapedManga = (
@@ -165,7 +136,7 @@ const useIntersiteMangaInfos = () => {
 
   const scrapeManga = async (manga: ParentlessStoredManga) => {
     if (!intersiteManga) return;
-    const scrapedManga = await _fetchScrapedManga(manga);
+    const scrapedManga = await fetchScrapedManga(manga);
     if (!scrapedManga) return;
     const newIntersiteManga = _createNewIntersiteMangaFromScrapedManga(
       manga,
@@ -176,43 +147,34 @@ const useIntersiteMangaInfos = () => {
     setManga({ ...manga, ...scrapedManga });
   };
 
-  const fetchIntersiteChapters = async (tmpIntersiteManga?: IntersiteManga) => {
-    if (!tmpIntersiteManga && !intersiteManga) return;
-    setChaptersLoading(true);
-    await _fetchIntersiteChapters(
-      `/intersiteMangas/${
-        (tmpIntersiteManga ?? intersiteManga)!.id
-      }/intersiteChapters`
-    );
-    setChaptersLoading(false);
-  };
-
-  const refreshIntersiteChapters = async () => {
-    if (!intersiteManga) return;
+  const refreshMangaChapters = async (tmpManga?: ParentlessStoredManga) => {
+    if (!tmpManga && !manga) return;
     setRefreshing(true);
-    await _fetchIntersiteChapters(
-      `/intersiteMangas/${intersiteManga.id}/intersiteChapters`,
-      { page: 1, resetElementsIfSuceed: true }
-    );
+    reset();
+    await fetchMangaChapters((tmpManga ?? manga)!, {
+      page: 1,
+      resetElementsIfSuceed: true,
+    });
     setRefreshing(false);
   };
 
-  const _reset = () => {
-    setLoading(true);
-    reset();
+  const reset = () => {
+    resetMangaChapters();
+    setMangaChaptersFullyLoaded(false);
   };
 
   const changeSource = async (src: SourceName) => {
     if (manga?.src === src) return;
-    setLoading(true);
     if (!intersiteManga) return;
     const targetManga = intersiteManga.mangas.find((m) => m.src === src);
     if (!targetManga) return;
+    setLoading(true);
     if (!targetManga.author || !targetManga.image) {
       await scrapeManga(targetManga);
     } else {
       setManga(targetManga);
     }
+    await refreshMangaChapters(targetManga);
     setLoading(false);
   };
 
@@ -229,8 +191,8 @@ const useIntersiteMangaInfos = () => {
       evt.nativeEvent.layoutMeasurement.height;
     const currentScrollHeight = evt.nativeEvent.contentOffset.y;
     if (scrollMax - currentScrollHeight > 10) return;
-    if (loading || fullyLoaded || chaptersLoading) return;
-    fetchIntersiteChapters();
+    if (loading || mangaChaptersFullyLoaded || mangaChaptersLoading) return;
+    _loadMangaChapters();
   };
 
   const getAvailablesSources = (): SourceName[] | undefined => {
@@ -241,15 +203,15 @@ const useIntersiteMangaInfos = () => {
   return {
     intersiteManga,
     manga,
-    chapters: elements,
+    chapters: mangaChapters,
     loading,
-    chaptersLoading,
-    chaptersFullyLoaded: fullyLoaded,
+    mangaChaptersLoading,
+    mangaChaptersFullyLoaded,
     refreshing,
-    fetch: _fetch,
+    fetch,
     scrapeManga,
-    fetchIntersiteChapters,
-    refreshIntersiteChapters,
+    fetchMangaChapters,
+    refreshMangaChapters,
     changeSource,
     forceScrapingCurrentManga,
     onChaptersScroll,

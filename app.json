@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mango",
     "slug": "mango-mobile-app",
-    "version": "1.0.0",
+    "version": "1.5.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,9 +14,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -25,7 +23,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "fr.pierrot.mango"
+      "package": "fr.pierrot.mango",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png",
