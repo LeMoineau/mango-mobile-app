@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
 import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
@@ -26,12 +26,18 @@ const useIntersiteMangaSearch = () => {
   );
   const previousQuery = useRef<string>();
   const [loading, setLoading] = useState(false);
-  const { srcs, get } = useSettingsStore();
+  const { srcs, defaultSortingInSearch, get } = useSettingsStore();
   const { getMoreTrustedManga } = useMoreTrustedValue();
-  const [sorting, setSorting] = useState(
-    get("defaultSortingInSearch") as IntersiteMangaSearchSorting
-  );
+  const [sorting, setSorting] = useState(defaultSortingInSearch);
   const [srcsAllowed, setSrcsAllowed] = useState<SourceName[]>(srcs);
+
+  useEffect(() => {
+    setSrcsAllowed(srcs);
+  }, [srcs]);
+
+  useEffect(() => {
+    setSorting(defaultSortingInSearch);
+  }, [defaultSortingInSearch]);
 
   const fetchNewQuery = async (
     query: string,

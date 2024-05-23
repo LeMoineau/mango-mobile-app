@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import SettingSection from "./elements/SettingSection";
 import SourceSettingList from "./elements/SourceSettingList";
 import { ApiSettings } from "../../../../shared/src/types/config/ApiSettings";
+import SelectSettingItem from "./elements/SelectSettingItem";
+import { IntersiteMangaSearchSorting } from "../../common/types/filter/IntersiteMangaSearchFilter";
 
 export default function SettingPage() {
   const { get, set } = useSettingsStore();
@@ -99,11 +101,19 @@ export default function SettingPage() {
             defaultValue={get("autoScrapWhenImageNotFoundInSearch") === true}
             onPress={(val) => set("autoScrapWhenImageNotFoundInSearch", !val)}
           ></ToggleSettingItem>
-          <ToggleSettingItem
-            title="Default sort search result by sources"
-            // defaultValue={get("autoScrapWhenImageNotFoundInSearch") === true}
-            // onPress={(val) => set("autoScrapWhenImageNotFoundInSearch", !val)}
-          ></ToggleSettingItem>
+          <SelectSettingItem
+            title="Default Sorting"
+            options={[
+              { label: "Group By Manga", iconName: "sort" },
+              { label: "By Sources", iconName: "sort" },
+            ]}
+            currentSelectedOption={
+              get("defaultSortingInSearch") as IntersiteMangaSearchSorting
+            }
+            onChange={(val) => {
+              set("defaultSortingInSearch", val as IntersiteMangaSearchSorting);
+            }}
+          ></SelectSettingItem>
         </SettingSection>
         <SettingSection sectionName="Cache Preferences" defaultMinimize>
           {/* <ToggleSettingItem

@@ -20,12 +20,12 @@ export default function IntersiteMangaSearchFilterModal({
   onRequestClose?: () => void;
   onFilter?: (filter: IntersiteMangaSearchFilter) => void;
 }) {
-  const { get } = useSettingsStore();
+  const { srcs, defaultSortingInSearch } = useSettingsStore();
   const filter = useRef<{
     srcs?: string[];
     sort?: IntersiteMangaSearchSorting;
   }>({
-    sort: "Group By Manga",
+    sort: defaultSortingInSearch,
   });
 
   return (
@@ -56,7 +56,7 @@ export default function IntersiteMangaSearchFilterModal({
       <View style={[{ height: 20 }]}></View>
       <FilterRadioList
         title="Sources"
-        options={(get("srcs") as SourceName[]).map((s) => ({
+        options={srcs.map((s) => ({
           value: s,
           iconName: "source-branch",
         }))}
