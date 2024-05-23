@@ -11,12 +11,15 @@ import SourceSettingList from "./elements/SourceSettingList";
 import { ApiSettings } from "../../../../shared/src/types/config/ApiSettings";
 import SelectSettingItem from "./elements/SelectSettingItem";
 import { IntersiteMangaSearchSorting } from "../../common/types/filter/IntersiteMangaSearchFilter";
+import ButtonSettingItem from "./elements/ButtonSettingItem";
+import { useCacheStore } from "../../common/store/cache.store";
 
 export default function SettingPage() {
   const { get, set } = useSettingsStore();
   const { fetch, get: getApiSettings } = useApi<ApiSettings>(
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
+  const { clear } = useCacheStore();
 
   useEffect(() => {
     fetch("/settings");
@@ -126,10 +129,16 @@ export default function SettingPage() {
             defaultValue={get("autoScrapWhenImageNotFoundInCache") === true}
             onPress={(val) => set("saveMangaWhenAddingInFavorites", !val)}
           ></ToggleSettingItem>
-          <ToggleSettingItem
+          <ButtonSettingItem
+            title="Vider le cache"
+            onPress={async () => {
+              await clear();
+            }}
+          ></ButtonSettingItem>
+          {/* <ToggleSettingItem
             title="Vider le cache"
             hasSwitch={false}
-          ></ToggleSettingItem>
+          ></ToggleSettingItem> */}
         </SettingSection>
         <View style={[{ height: 90 }]}></View>
       </ScrollView>

@@ -17,6 +17,7 @@ interface CacheStoreState extends Cache {
   ) => Promise<void>;
   setCurrentIntersiteManga: (intersiteManga: IntersiteManga) => void;
   saveCurrentIntersiteManga: () => Promise<void>;
+  clear: () => Promise<void>;
 }
 
 export const useCacheStore = create<CacheStoreState>()((set, get) => {
@@ -71,11 +72,17 @@ export const useCacheStore = create<CacheStoreState>()((set, get) => {
     await saveIntersiteManga(currentIntersiteManga);
   };
 
+  const clear = async () => {
+    set({ ...DefaultValues.CACHE });
+    await saveJson(StorageKeys.CACHE, DefaultValues.CACHE);
+  };
+
   return {
     ...DefaultValues.CACHE,
     getIntersiteManga,
     saveIntersiteManga,
     setCurrentIntersiteManga,
     saveCurrentIntersiteManga,
+    clear,
   };
 });
