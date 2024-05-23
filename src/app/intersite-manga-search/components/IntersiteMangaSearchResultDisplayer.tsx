@@ -16,14 +16,14 @@ import IntersiteMangaSearchResultListBySrc from "./IntersiteMangaSearchResultLis
 export default function IntersiteMangaSearchResultDisplayer({
   intersiteMangas,
   sort,
-  fullyLoaded,
   header,
   footer,
+  srcsAllowed,
   onEndReached,
 }: {
   intersiteMangas: IntersiteManga[];
   sort: IntersiteMangaSearchSorting;
-  fullyLoaded?: boolean;
+  srcsAllowed: SourceName[];
   header?: React.ReactElement;
   footer?: React.ReactElement;
   onEndReached?: () => void;
@@ -55,7 +55,7 @@ export default function IntersiteMangaSearchResultDisplayer({
         )
       );
     }
-  }, [sort]);
+  }, [sort, intersiteMangas]);
 
   return (
     <>
@@ -74,20 +74,21 @@ export default function IntersiteMangaSearchResultDisplayer({
           )}
           ListFooterComponent={footer}
           onEndReached={async () => {
-            if (fullyLoaded) return;
             onEndReached && onEndReached();
           }}
         ></FlashList>
       ) : (
         <ScrollView>
           <View style={{ height: 5 }}></View>
-          {(Object.keys(mangasBySrc) as SourceName[]).map((src) => (
-            <IntersiteMangaSearchResultListBySrc
-              key={`search-result-list-src-${src}`}
-              src={src}
-              mangas={mangasBySrc[src]}
-            ></IntersiteMangaSearchResultListBySrc>
-          ))}
+          {(Object.keys(mangasBySrc) as SourceName[])
+            .filter((src) => srcsAllowed.includes(src))
+            .map((src) => (
+              <IntersiteMangaSearchResultListBySrc
+                key={`search-result-list-src-${src}`}
+                src={src}
+                mangas={mangasBySrc[src]}
+              ></IntersiteMangaSearchResultListBySrc>
+            ))}
           {footer}
         </ScrollView>
 

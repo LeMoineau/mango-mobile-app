@@ -1,18 +1,10 @@
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
-import {
-  useNavigationType,
-  useRouteType,
-} from "../../common/types/navigation/NavigationTypes";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { View } from "react-native";
+import { useRouteType } from "../../common/types/navigation/NavigationTypes";
+import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import useIntersiteMangaSearch from "./hooks/useIntersiteMangaSearch";
-import IntersiteMangaItem from "../../common/components/items/IntersiteMangaItem";
-import SearchBar from "../../common/components/form/SearchBar";
-import RoundedButton from "../../common/components/buttons/RoundedButton";
-import { style } from "../../common/utils/style-utils";
 import IntersiteMangaSearchFilterModal from "./components/IntersiteMangaSearchFilterModal";
 import useModals from "../../../../shared/src/hooks/use-modals";
-import { FlashList } from "@shopify/flash-list";
 import IntersiteMangaSearchResultDisplayer from "./components/IntersiteMangaSearchResultDisplayer";
 import IntersiteMangaSearchHeader from "./components/IntersiteMangaSearchHeader";
 import IntersiteMangaSearchFooter from "./components/IntersiteMangaSearchFooter";
@@ -25,9 +17,10 @@ export default function IntersiteMangaSearchPage() {
     fullyLoaded,
     loading,
     sorting,
+    srcsAllowed,
     fetchNewQuery,
     fetchQuery,
-    changeSorting,
+    filter,
   } = useIntersiteMangaSearch();
   const { isVisible, show, hide } = useModals<"filter">();
 
@@ -53,7 +46,7 @@ export default function IntersiteMangaSearchPage() {
               (im) => im.mangas.length > 0
             )}
             sort={sorting}
-            fullyLoaded={fullyLoaded}
+            srcsAllowed={srcsAllowed}
             footer={
               <IntersiteMangaSearchFooter
                 fullyLoaded={fullyLoaded}
@@ -61,7 +54,7 @@ export default function IntersiteMangaSearchPage() {
               ></IntersiteMangaSearchFooter>
             }
             onEndReached={async () => {
-              if (fullyLoaded) return;
+              if (fullyLoaded || loading) return;
               await fetchQuery();
             }}
           ></IntersiteMangaSearchResultDisplayer>
@@ -70,11 +63,7 @@ export default function IntersiteMangaSearchPage() {
       <IntersiteMangaSearchFilterModal
         visible={isVisible("filter")}
         onRequestClose={() => hide("filter")}
-        onFilter={(filter) => {
-          if (filter.sort) {
-            changeSorting(filter.sort);
-          }
-        }}
+        onFilter={filter}
       ></IntersiteMangaSearchFilterModal>
     </>
   );

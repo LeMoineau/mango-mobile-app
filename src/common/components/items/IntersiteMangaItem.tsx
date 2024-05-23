@@ -10,11 +10,13 @@ import RoundedButton from "../buttons/RoundedButton";
 import Gradient, { GradientDirection } from "../image/Gradient";
 import useTrustedManga from "../../hooks/use-trusted-manga";
 import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
 
 export default function IntersiteMangaItem({
   height,
   hasDotsBtn,
   intersiteManga,
+  defaultSrc,
   onDotsBtnPress,
   onImageLoadingError,
   onImageNotFoundError,
@@ -22,6 +24,7 @@ export default function IntersiteMangaItem({
   height?: number;
   hasDotsBtn?: boolean;
   intersiteManga: IntersiteManga;
+  defaultSrc?: SourceName;
   onDotsBtnPress?: () => void;
   onImageLoadingError?: (manga: ParentlessStoredManga) => void;
   onImageNotFoundError?: (manga: ParentlessStoredManga) => void;
@@ -49,6 +52,7 @@ export default function IntersiteMangaItem({
         onPress={() => {
           navigator.navigate("IntersiteMangaInfo", {
             intersiteMangaFormattedName: intersiteManga.formattedName,
+            defaultSource: defaultSrc,
           });
         }}
         style={[{ paddingHorizontal: 10 }]}

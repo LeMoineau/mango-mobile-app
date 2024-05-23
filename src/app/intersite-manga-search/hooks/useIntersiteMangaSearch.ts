@@ -12,6 +12,7 @@ import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import IntersiteMangaSearchFilter, {
   IntersiteMangaSearchSorting,
 } from "../../../common/types/filter/IntersiteMangaSearchFilter";
+import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
 
 const useIntersiteMangaSearch = () => {
   const {
@@ -25,13 +26,18 @@ const useIntersiteMangaSearch = () => {
   );
   const previousQuery = useRef<string>();
   const [loading, setLoading] = useState(false);
-  const { get } = useSettingsStore();
+  const { srcs, get } = useSettingsStore();
   const { getMoreTrustedManga } = useMoreTrustedValue();
   const [sorting, setSorting] = useState(
     get("defaultSortingInSearch") as IntersiteMangaSearchSorting
   );
+  const [srcsAllowed, setSrcsAllowed] = useState<SourceName[]>(srcs);
 
-  const fetchNewQuery = async (query: string) => {
+  const fetchNewQuery = async (
+    query: string,
+    tmpSrcsAllowed?: SourceName[]
+  ) => {
+    if (!tmpSrcsAllowed) tmpSrcsAllowed = srcsAllowed;
     previousQuery.current = query.trim();
     setLoading(true);
     reset();
@@ -39,10 +45,11 @@ const useIntersiteMangaSearch = () => {
       await _postScrapingApi("/mangas/search", {
         query: previousQuery.current,
         syncWithBD: true,
+        srcs: tmpSrcsAllowed,
       });
     }
     const res = await fetch("/intersiteMangas", {
-      params: { mangaTitle: previousQuery.current },
+      params: { mangaTitle: previousQuery.current, srcs: tmpSrcsAllowed },
       resetElementsIfSuceed: true,
       page: 1,
     });
@@ -57,7 +64,7 @@ const useIntersiteMangaSearch = () => {
       }
       if (hasScrap) {
         await fetch("/intersiteMangas", {
-          params: { mangaTitle: previousQuery.current },
+          params: { mangaTitle: previousQuery.current, srcs: tmpSrcsAllowed },
           resetElementsIfSuceed: true,
           page: 1,
         });
@@ -70,7 +77,7 @@ const useIntersiteMangaSearch = () => {
     if (!previousQuery.current) return;
     setLoading(true);
     await fetch("/intersiteMangas", {
-      params: { mangaTitle: previousQuery.current },
+      params: { mangaTitle: previousQuery.current, srcs: srcsAllowed },
     });
     setLoading(false);
   };
@@ -92,15 +99,30 @@ const useIntersiteMangaSearch = () => {
     setSorting(sort);
   };
 
+  const filter = async (filter: IntersiteMangaSearchFilter) => {
+    if (filter.sort) {
+      changeSorting(filter.sort);
+    }
+    if (filter.srcs === srcsAllowed) return;
+    if (filter.srcs || srcsAllowed.length !== srcs.length) {
+      if (!filter.srcs) filter.srcs = srcs;
+      setSrcsAllowed(filter.srcs);
+      if (!previousQuery.current) return;
+      await fetchNewQuery(previousQuery.current, filter.srcs);
+    }
+  };
+
   return {
     intersiteMangas,
     fullyLoaded,
     currentQuery: previousQuery.current,
     loading,
     sorting,
+    srcsAllowed,
     fetchNewQuery,
     fetchQuery,
     changeSorting,
+    filter,
   };
 };
 
