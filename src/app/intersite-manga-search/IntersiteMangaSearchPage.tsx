@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, View } from "react-native";
 import {
   useNavigationType,
   useRouteType,
@@ -38,58 +38,34 @@ export default function IntersiteMangaSearchPage() {
   return (
     <>
       <View style={[{ flex: 1 }]}>
-        {/* <FlashList
-          ListHeaderComponent={
-            <IntersiteMangaSearchHeader
-              defaultQuery={route.params.query}
-              onSearchSubmit={async (query) => {
-                await fetchNewQuery(query);
-              }}
-              onFilterBtnPress={() => show("filter")}
-            ></IntersiteMangaSearchHeader>
-          }
-          stickyHeaderIndices={[0]}
-          data={intersiteMangas.filter((im) => im.mangas.length > 0)}
-          keyExtractor={(_, index) => `search-result-${index}`}
-          renderItem={({ item }) => (
-            <IntersiteMangaItem intersiteManga={item}></IntersiteMangaItem>
-          )}
-          ListFooterComponent={
-            <>
-              {!fullyLoaded && loading && (
-                <ActivityIndicator></ActivityIndicator>
-              )}
-            </>
-          }
-          onEndReached={async () => {
-            if (fullyLoaded) return;
-            await fetchQuery();
-          }}
-        ></FlashList> */}
-        <IntersiteMangaSearchResultDisplayer
-          intersiteMangas={intersiteMangas.filter((im) => im.mangas.length > 0)}
-          sort={sorting}
-          fullyLoaded={fullyLoaded}
-          header={
-            <IntersiteMangaSearchHeader
-              defaultQuery={route.params.query}
-              onSearchSubmit={async (query) => {
-                await fetchNewQuery(query);
-              }}
-              onFilterBtnPress={() => show("filter")}
-            ></IntersiteMangaSearchHeader>
-          }
-          footer={
-            <IntersiteMangaSearchFooter
-              fullyLoaded={fullyLoaded}
-              loading={loading}
-            ></IntersiteMangaSearchFooter>
-          }
-          onEndReached={async () => {
-            if (fullyLoaded) return;
-            await fetchQuery();
-          }}
-        ></IntersiteMangaSearchResultDisplayer>
+        <View>
+          <IntersiteMangaSearchHeader
+            defaultQuery={route.params.query}
+            onSearchSubmit={async (query) => {
+              await fetchNewQuery(query);
+            }}
+            onFilterBtnPress={() => show("filter")}
+          ></IntersiteMangaSearchHeader>
+        </View>
+        <View style={[{ flex: 1 }]}>
+          <IntersiteMangaSearchResultDisplayer
+            intersiteMangas={intersiteMangas.filter(
+              (im) => im.mangas.length > 0
+            )}
+            sort={sorting}
+            fullyLoaded={fullyLoaded}
+            footer={
+              <IntersiteMangaSearchFooter
+                fullyLoaded={fullyLoaded}
+                loading={loading}
+              ></IntersiteMangaSearchFooter>
+            }
+            onEndReached={async () => {
+              if (fullyLoaded) return;
+              await fetchQuery();
+            }}
+          ></IntersiteMangaSearchResultDisplayer>
+        </View>
       </View>
       <IntersiteMangaSearchFilterModal
         visible={isVisible("filter")}

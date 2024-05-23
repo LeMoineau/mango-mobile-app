@@ -4,7 +4,7 @@ import {
   MangaFormattedName,
   SourceName,
   UUID,
-} from "@../../shared/types/primitives/Identifiers";
+} from "./../../../../../shared/src/types/primitives/Identifiers";
 import { FavoritesListName } from "../favorites/FavoritesList";
 import { NavigationDotsParams } from "./NavigationDotsParams";
 
@@ -21,7 +21,11 @@ export type ParamListBase = {
   IntersiteMangaInfo: (
     | { intersiteMangaId: UUID }
     | { intersiteMangaFormattedName: MangaFormattedName }
-  ) & { changeSource?: SourceName; forceScraping?: boolean };
+  ) & {
+    defaultSource?: SourceName;
+    changeSource?: SourceName;
+    forceScraping?: boolean;
+  };
   DotsOptions: NavigationDotsParams;
   ChapterReader: (
     | {

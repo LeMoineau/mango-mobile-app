@@ -41,12 +41,15 @@ const useIntersiteMangaInfos = () => {
   const fetch = async (props: {
     intersiteMangaId?: UUID;
     intersiteMangaFormattedName?: MangaFormattedName;
+    defaultSource?: SourceName;
   }) => {
     reset();
     setLoading(true);
     let intersiteManga = await _loadIntersiteManga(props);
     if (!intersiteManga) return;
-    let manga = getMoreTrustedManga(intersiteManga);
+    let manga = props.defaultSource
+      ? intersiteManga.mangas.find((m) => m.src === props.defaultSource)
+      : getMoreTrustedManga(intersiteManga);
     if (!manga) return;
     if (
       (!manga.author || !manga.image) &&
@@ -96,21 +99,12 @@ const useIntersiteMangaInfos = () => {
     if (manga) tmpManga = manga;
     if (!tmpManga) return;
     setMangaChaptersLoading(true);
-    console.log("loading page: ", currentChaptersPage);
     let mangaChaptersPage = await fetchMangaChapters(tmpManga);
-    console.log(
-      "finish loading page: ",
-      currentChaptersPage,
-      "res: ",
-      mangaChaptersPage
-    );
     if (!mangaChaptersPage) {
-      console.log("scraping chapters");
       const res = await fetchScrapedMangaChapters(
         tmpManga,
         currentChaptersPage
       );
-      console.log("end of scraping: ", res);
       mangaChaptersPage = await fetchMangaChapters(tmpManga);
       if (!mangaChaptersPage) {
         setMangaChaptersFullyLoaded(true);

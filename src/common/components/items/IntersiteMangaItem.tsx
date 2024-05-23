@@ -91,6 +91,7 @@ export default function IntersiteMangaItem({
                       left: 0,
                     },
                   ]}
+                  from={theme.colors.card}
                   direction={GradientDirection.RIGHT_TO_LEFT}
                 ></Gradient>
               </View>

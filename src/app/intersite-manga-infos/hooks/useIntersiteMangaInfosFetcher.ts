@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   MangaFormattedName,
+  SourceName,
   UUID,
 } from "../../../../../shared/src/types/primitives/Identifiers";
 import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";

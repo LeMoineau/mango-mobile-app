@@ -1,4 +1,4 @@
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 export default function IntersiteMangaSearchFooter({
   fullyLoaded,
@@ -8,6 +8,9 @@ export default function IntersiteMangaSearchFooter({
   loading: boolean;
 }) {
   return (
-    <>{!fullyLoaded && loading && <ActivityIndicator></ActivityIndicator>}</>
+    <>
+      {!fullyLoaded && loading && <ActivityIndicator></ActivityIndicator>}
+      <View style={{ height: 50 }}></View>
+    </>
   );
 }
