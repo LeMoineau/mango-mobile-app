@@ -8,6 +8,7 @@ import { useNavigationType } from "../../../common/types/navigation/NavigationTy
 import { useEffect } from "react";
 import useTrustedManga from "../../hooks/use-trusted-manga";
 import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { useSettingsStore } from "../../store/settings.store";
 
 export default function IntersiteMangaAvatar({
   size,
@@ -31,6 +32,7 @@ export default function IntersiteMangaAvatar({
   const theme = useTheme();
   const navigator: useNavigationType = useNavigation();
   const { manga, setIntersiteManga } = useTrustedManga();
+  const { srcs } = useSettingsStore();
 
   useEffect(() => {
     if (intersiteManga) {
@@ -39,6 +41,12 @@ export default function IntersiteMangaAvatar({
       onNoIntersiteManga && onNoIntersiteManga();
     }
   }, [intersiteManga]);
+
+  useEffect(() => {
+    if (intersiteManga) {
+      setIntersiteManga(intersiteManga);
+    }
+  }, [srcs]);
 
   useEffect(() => {
     if (!manga) return;
