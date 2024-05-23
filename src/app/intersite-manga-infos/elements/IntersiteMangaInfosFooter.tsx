@@ -21,7 +21,7 @@ export default function IntersiteMangaInfosFooter({
   const theme = useTheme();
   return (
     <>
-      {(loading || !chaptersFullyLoaded || chaptersLoading) && (
+      {(loading || chaptersLoading) && (
         <ActivityIndicator size={"large"}></ActivityIndicator>
       )}
       <View
