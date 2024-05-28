@@ -4,7 +4,7 @@ import { useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 import useIntersiteMangaSearch from "./hooks/useIntersiteMangaSearch";
 import IntersiteMangaSearchFilterModal from "./components/IntersiteMangaSearchFilterModal";
-import useModals from "../../../../shared/src/hooks/use-modals";
+import useModals from "../../shared/src/hooks/use-modals";
 import IntersiteMangaSearchResultDisplayer from "./components/IntersiteMangaSearchResultDisplayer";
 import IntersiteMangaSearchHeader from "./components/IntersiteMangaSearchHeader";
 import IntersiteMangaSearchFooter from "./components/IntersiteMangaSearchFooter";

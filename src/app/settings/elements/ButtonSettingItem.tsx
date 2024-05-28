@@ -5,7 +5,7 @@ import { useTheme } from "@react-navigation/native";
 import { AllIconNames } from "../../../common/types/IconName";
 import ThemedText from "../../../common/components/text/ThemedText";
 import useAnimatedValue from "../../../common/hooks/use-animated-value";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../shared/src/config/enums/Colors";
 
 export default function ButtonSettingItem({
   title,

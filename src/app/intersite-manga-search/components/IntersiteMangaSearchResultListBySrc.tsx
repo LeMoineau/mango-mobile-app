@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
 import ThemedText from "../../../common/components/text/ThemedText";
 import MangaItem from "../../../common/components/items/MangaItem";
-import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
-import { StoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
+import { StoredManga } from "../../../shared/src/types/basics/Manga";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { useNavigation } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";

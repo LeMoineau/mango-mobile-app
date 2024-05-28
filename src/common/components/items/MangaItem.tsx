@@ -1,5 +1,5 @@
 import { DimensionValue, Pressable, Text, View } from "react-native";
-import { StoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { StoredManga } from "../../../shared/src/types/basics/Manga";
 import { style } from "../../utils/style-utils";
 import { useTheme } from "@react-navigation/native";
 import CustomImage from "../image/CustomImage";

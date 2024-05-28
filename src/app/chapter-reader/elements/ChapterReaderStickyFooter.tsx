@@ -1,7 +1,7 @@
 import { useWindowDimensions, View } from "react-native";
-import { PagedScrapedChapter } from "../../../../../shared/src/types/basics/Chapter";
+import { PagedScrapedChapter } from "../../../shared/src/types/basics/Chapter";
 import { style } from "../../../common/utils/style-utils";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../shared/src/config/enums/Colors";
 import { useTheme } from "@react-navigation/native";
 import { useSettingsStore } from "../../../common/store/settings.store";
 

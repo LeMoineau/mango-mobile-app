@@ -1,11 +1,11 @@
-import useApi from "../../../../shared/src/hooks/use-api";
-import { PagedScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
-import { ChapterPage } from "../../../../shared/src/types/basics/ChapterPage";
+import useApi from "../../shared/src/hooks/use-api";
+import { PagedScrapedChapter } from "../../shared/src/types/basics/Chapter";
+import { ChapterPage } from "../../shared/src/types/basics/ChapterPage";
 import {
   ChapterEndpoint,
   SourceName,
   UUID,
-} from "../../../../shared/src/types/primitives/Identifiers";
+} from "../../shared/src/types/primitives/Identifiers";
 import Config from "../config/Config";
 import { useDownloaderStore } from "../store/downloader.store";
 import { isStoredDownloadedChapter } from "../types/downloader/DownloadedChapter";

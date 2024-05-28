@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { StoredChapter } from "../../../../../shared/src/types/basics/Chapter";
+import { StoredChapter } from "../../../shared/src/types/basics/Chapter";
 import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
 import {
   SourceName,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
+} from "../../../shared/src/types/primitives/Identifiers";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { FavoritesListName } from "../../../common/types/favorites/FavoritesList";
 import { useCacheStore } from "../../../common/store/cache.store";

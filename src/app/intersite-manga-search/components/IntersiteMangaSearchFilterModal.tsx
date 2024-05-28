@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import FilterRadioList from "../../../common/components/form/filter-radio-list/FilterRadioList";
 import FilterModal from "../../../common/components/modals/filter/FilterModal";
 import Config from "../../../common/config/Config";

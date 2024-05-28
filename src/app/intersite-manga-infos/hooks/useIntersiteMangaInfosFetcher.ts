@@ -3,20 +3,20 @@ import {
   MangaFormattedName,
   SourceName,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+} from "../../../shared/src/types/primitives/Identifiers";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
-import useApi from "../../../../../shared/src/hooks/use-api";
+import useApi from "../../../shared/src/hooks/use-api";
 import Config from "../../../common/config/Config";
 import {
   IdentifiedChapter,
   SourcelessChapter,
-} from "../../../../../shared/src/types/basics/Chapter";
-import { ResponsePage } from "../../../../../shared/src/types/responses/ResponsePage";
+} from "../../../shared/src/types/basics/Chapter";
+import { ResponsePage } from "../../../shared/src/types/responses/ResponsePage";
 import {
   ParentlessStoredManga,
   ScrapedManga,
-} from "../../../../../shared/src/types/basics/Manga";
+} from "../../../shared/src/types/basics/Manga";
 
 const useIntersiteMangaInfosFetcher = () => {
   const {

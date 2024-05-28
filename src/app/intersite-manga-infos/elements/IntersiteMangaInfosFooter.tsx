@@ -3,7 +3,7 @@ import { style } from "../../../common/utils/style-utils";
 import ThemedText from "../../../common/components/text/ThemedText";
 import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { useTheme } from "@react-navigation/native";
-import { colors } from "../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../shared/src/config/enums/Colors";
 
 export default function IntersiteMangaInfosFooter({
   loading,

@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, useWindowDimensions, View } from "react-native";
 import useStripePagesDisplayer from "./hooks/use-stripe-pages-displayer";
-import { PagedScrapedChapter } from "../../../../../../../shared/src/types/basics/Chapter";
+import { PagedScrapedChapter } from "../../../../../shared/src/types/basics/Chapter";
 import StripePagesDisplayerFooter from "./components/StripePagesDisplayerFooter";
 import { FlashList } from "@shopify/flash-list";
 

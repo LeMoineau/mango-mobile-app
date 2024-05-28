@@ -3,7 +3,7 @@ import CustomImage from "../../../common/components/image/CustomImage";
 import { useTheme } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { style } from "../../../common/utils/style-utils";
-import { StoredChapter } from "../../../../../shared/src/types/basics/Chapter";
+import { StoredChapter } from "../../../shared/src/types/basics/Chapter";
 import { memo } from "react";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
 

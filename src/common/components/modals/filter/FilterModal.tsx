@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 import React from "react";
 import { style } from "../../../utils/style-utils";
 import RoundedButton from "../../buttons/RoundedButton";
-import { colors } from "../../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../../shared/src/config/enums/Colors";
 
 export default function FilterModal({
   children,

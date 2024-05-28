@@ -13,7 +13,7 @@ import { useCacheStore } from "../../../common/store/cache.store";
 import {
   SourceName,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
+} from "../../../shared/src/types/primitives/Identifiers";
 import IntersiteMangaAvatar from "../../../common/components/items/IntersiteMangaAvatar";
 import { useSettingsStore } from "../../../common/store/settings.store";
 

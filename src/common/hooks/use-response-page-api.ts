@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import useApi from "../../../../shared/src/hooks/use-api";
-import { ResponsePage } from "../../../../shared/src/types/responses/ResponsePage";
+import useApi from "../../shared/src/hooks/use-api";
+import { ResponsePage } from "../../shared/src/types/responses/ResponsePage";
 
 const useResponsePageApi = <T>(
   baseURL: string,

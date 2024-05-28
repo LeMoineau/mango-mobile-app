@@ -5,7 +5,7 @@ import ThemedText from "../../../common/components/text/ThemedText";
 import { useTheme } from "@react-navigation/native";
 import { AllIconNames } from "../../../common/types/IconName";
 import SelectModal from "../../../common/components/modals/primitives/SelectModal";
-import useModals from "../../../../../shared/src/hooks/use-modals";
+import useModals from "../../../shared/src/hooks/use-modals";
 import { useState } from "react";
 
 export default function SelectSettingItem({

@@ -6,7 +6,7 @@
 
 ```shell
 npm run pre-dev # if previously run 'npm run build:release'
-npm run dev
+npm run start
 ```
 
 ### Release
@@ -14,3 +14,5 @@ npm run dev
 ```shell
 npm run build:release
 ```
+
+https://github.com/ztroop/beer-judge/pull/1

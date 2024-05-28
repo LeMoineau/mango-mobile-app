@@ -1,4 +1,4 @@
-import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import { IntersiteMangaSearchSorting } from "../filter/IntersiteMangaSearchFilter";
 import { ThemeName } from "../ThemeName";
 

@@ -1,13 +1,13 @@
 import { Pressable, StyleProp, ViewStyle } from "react-native";
 import CustomImage from "../../../common/components/image/CustomImage";
 import { style } from "../../../common/utils/style-utils";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import LoadingText from "../../../common/components/text/LoadingText";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
 import { useEffect } from "react";
 import useTrustedManga from "../../hooks/use-trusted-manga";
-import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { ParentlessStoredManga } from "../../../shared/src/types/basics/Manga";
 import { useSettingsStore } from "../../store/settings.store";
 
 export default function IntersiteMangaAvatar({

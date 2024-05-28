@@ -2,17 +2,17 @@ import {
   MangaFormattedName,
   SourceName,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
+} from "../../../shared/src/types/primitives/Identifiers";
 import { useState } from "react";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import useMoreTrustedValue from "../../../common/hooks/use-more-trusted-value";
 import {
   ParentlessStoredManga,
   ScrapedManga,
-} from "../../../../../shared/src/types/basics/Manga";
+} from "../../../shared/src/types/basics/Manga";
 import { useCacheStore } from "../../../common/store/cache.store";
 import { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
-import { ArrayUtils } from "../../../../../shared/src/utils/array-utils";
+import { ArrayUtils } from "../../../shared/src/utils/array-utils";
 import { useSettingsStore } from "../../../common/store/settings.store";
 import useIntersiteMangaInfosFetcher from "./useIntersiteMangaInfosFetcher";
 

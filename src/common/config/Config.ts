@@ -5,13 +5,13 @@ class Config {
 
   public getEnv(): Env {
     return {
-      // MANGO_SCRAPER_API_ENDPOINT: "https://mango-scraper-api.vercel.app",
-      // MANGO_BD_API_ENDPOINT: "https://mango-bd-api.vercel.app/",
-      // MANGO_WEB_APP_ENDPOINT: "https://bigstones.fr/mango/",
-      MANGO_SCRAPER_API_ENDPOINT:
-        process.env.EXPO_PUBLIC_MANGO_SCRAPER_API_ENDPOINT!,
-      MANGO_BD_API_ENDPOINT: process.env.EXPO_PUBLIC_MANGO_BD_API_ENDPOINT!,
-      MANGO_WEB_APP_ENDPOINT: process.env.EXPO_PUBLIC_MANGO_WEB_APP_ENDPOINT!,
+      MANGO_SCRAPER_API_ENDPOINT: "https://mango-scraper-api.vercel.app",
+      MANGO_BD_API_ENDPOINT: "https://mango-bd-api.vercel.app/",
+      MANGO_WEB_APP_ENDPOINT: "https://bigstones.fr/mango/",
+      // MANGO_SCRAPER_API_ENDPOINT:
+      //   process.env.EXPO_PUBLIC_MANGO_SCRAPER_API_ENDPOINT!,
+      // MANGO_BD_API_ENDPOINT: process.env.EXPO_PUBLIC_MANGO_BD_API_ENDPOINT!,
+      // MANGO_WEB_APP_ENDPOINT: process.env.EXPO_PUBLIC_MANGO_WEB_APP_ENDPOINT!,
     };
   }
 }

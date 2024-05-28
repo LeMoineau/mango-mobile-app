@@ -4,8 +4,8 @@ import { DefaultValues } from "../config/DefaultValues";
 import { StorageKeys } from "../config/StorageKeys";
 import { ObjectUtils } from "../utils/object-utils";
 import { Cache } from "../types/cache/Cache";
-import { UUID } from "../../../../shared/src/types/primitives/Identifiers";
-import { IntersiteManga } from "../../../../shared/src/types/basics/IntersiteManga";
+import { UUID } from "../../shared/src/types/primitives/Identifiers";
+import { IntersiteManga } from "../../shared/src/types/basics/IntersiteManga";
 
 interface CacheStoreState extends Cache {
   getIntersiteManga: (intersiteMangaId: UUID) => IntersiteManga | undefined;

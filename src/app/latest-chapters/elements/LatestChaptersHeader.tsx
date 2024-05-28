@@ -6,7 +6,7 @@ import { useTheme } from "@react-navigation/native";
 import SearchBar from "../../../common/components/form/SearchBar";
 import { style } from "../../../common/utils/style-utils";
 import LatestChaptersFilterModal from "./LatestChaptersFilterModal";
-import useModals from "../../../../../shared/src/hooks/use-modals";
+import useModals from "../../../shared/src/hooks/use-modals";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
 
 export default function LatestChaptersHeader({

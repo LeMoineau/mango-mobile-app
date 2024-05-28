@@ -1,5 +1,5 @@
-import { colors } from "../../../../../shared/src/config/enums/Colors";
-import { UUID } from "../../../../../shared/src/types/primitives/Identifiers";
+import { colors } from "../../../shared/src/config/enums/Colors";
+import { UUID } from "../../../shared/src/types/primitives/Identifiers";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import DotsOptionsItem from "./DotsOptionsItem";
 

@@ -5,7 +5,7 @@ import useStorage from "../hooks/use-storage";
 import { StorageKeys } from "../config/StorageKeys";
 import { DefaultValues } from "../config/DefaultValues";
 import { ObjectUtils } from "../utils/object-utils";
-import { UUID } from "../../../../shared/src/types/primitives/Identifiers";
+import { UUID } from "../../shared/src/types/primitives/Identifiers";
 
 interface FavoritesStoreState extends Favorites {
   get: (name: string) => FavoritesList | undefined;

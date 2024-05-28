@@ -1,15 +1,15 @@
 import { FlashList } from "@shopify/flash-list";
 import { IntersiteMangaSearchSorting } from "../../../common/types/filter/IntersiteMangaSearchFilter";
 import React, { useEffect, useState } from "react";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import IntersiteMangaItem from "../../../common/components/items/IntersiteMangaItem";
-import { StoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { StoredManga } from "../../../shared/src/types/basics/Manga";
 import ThemedText from "../../../common/components/text/ThemedText";
 import MangaItem from "../../../common/components/items/MangaItem";
 import { useNavigation } from "@react-navigation/native";
 import { useNavigationType } from "../../../common/types/navigation/NavigationTypes";
-import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
-import { ArrayUtils } from "../../../../../shared/src/utils/array-utils";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
+import { ArrayUtils } from "../../../shared/src/utils/array-utils";
 import { ScrollView, View } from "react-native";
 import IntersiteMangaSearchResultListBySrc from "./IntersiteMangaSearchResultListBySrc";
 

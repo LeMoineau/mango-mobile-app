@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import { FavoritesListName } from "../../../common/types/favorites/FavoritesList";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { useCacheStore } from "../../../common/store/cache.store";

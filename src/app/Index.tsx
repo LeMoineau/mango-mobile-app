@@ -1,4 +1,3 @@
-import "react-native-gesture-handler";
 import {
   DarkTheme,
   DefaultTheme,
@@ -10,8 +9,7 @@ import { useSettingsStore } from "../common/store/settings.store";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import CustomTopBar from "../common/components/navigation/CustomTopBar";
-import { StatusBar, View, useWindowDimensions } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { StatusBar, View } from "react-native";
 import Home from "./home/Home";
 import ChapterReaderPage from "./chapter-reader/ChapterReaderPage";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -25,58 +23,41 @@ const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function AppNavigator() {
-  const inset = useSafeAreaInsets();
-  const { width, height } = useWindowDimensions();
-
   return (
-    <>
-      <Tab.Navigator
-        tabBarPosition="bottom"
-        initialRouteName="Home"
-        tabBar={CustomTopBar}
-        sceneContainerStyle={[
-          {
-            paddingTop: inset.top,
-            paddingBottom: inset.bottom,
-            paddingLeft: inset.left + 10,
-            paddingRight: inset.right + 10,
-            width: width,
-            height: height,
-            maxWidth: width,
-            maxHeight: height,
-            overflow: "hidden",
-          },
-        ]}
-      >
-        <Tab.Screen
-          name="New Chapters"
-          component={LatestChaptersPage}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="globe" size={20} color={color}></Ionicons>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Home"
-          component={Home}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="book" size={20} color={color}></Ionicons>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="Settings"
-          component={SettingPage}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="settings" size={20} color={color}></Ionicons>
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </>
+    <Tab.Navigator
+      tabBarPosition="bottom"
+      initialRouteName="Home"
+      tabBar={CustomTopBar}
+      pagerStyle={{ flex: 1 }}
+    >
+      <Tab.Screen
+        name="New Chapters"
+        component={LatestChaptersPage}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="globe" size={20} color={color}></Ionicons>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="book" size={20} color={color}></Ionicons>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={SettingPage}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="settings" size={20} color={color}></Ionicons>
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 

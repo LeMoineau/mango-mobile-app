@@ -3,10 +3,10 @@ import { useNavigationType } from "../../../../common/types/navigation/Navigatio
 import DotsOptionsItem from "../DotsOptionsItem";
 import { useFavoritesStore } from "../../../../common/store/favorites.store";
 import { DefaultValues } from "../../../../common/config/DefaultValues";
-import useModals from "../../../../../../shared/src/hooks/use-modals";
+import useModals from "../../../../shared/src/hooks/use-modals";
 import { useCacheStore } from "../../../../common/store/cache.store";
 import { useEffect, useState } from "react";
-import { colors } from "../../../../../../shared/src/config/enums/Colors";
+import { colors } from "../../../../shared/src/config/enums/Colors";
 import TextInputModal from "../../../../common/components/modals/primitives/TextInputModal";
 import ConfirmModal from "../../../../common/components/modals/primitives/ConfirmModal";
 import {

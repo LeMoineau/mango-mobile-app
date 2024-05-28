@@ -1,5 +1,5 @@
 import { Pressable, Text, View } from "react-native";
-import { IntersiteManga } from "../../../../../shared/src/types/basics/IntersiteManga";
+import { IntersiteManga } from "../../../shared/src/types/basics/IntersiteManga";
 import { style } from "../../utils/style-utils";
 import { useNavigation, useTheme } from "@react-navigation/native";
 import { useEffect } from "react";
@@ -9,8 +9,8 @@ import { useNavigationType } from "../../types/navigation/NavigationTypes";
 import RoundedButton from "../buttons/RoundedButton";
 import Gradient, { GradientDirection } from "../image/Gradient";
 import useTrustedManga from "../../hooks/use-trusted-manga";
-import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
-import { SourceName } from "../../../../../shared/src/types/primitives/Identifiers";
+import { ParentlessStoredManga } from "../../../shared/src/types/basics/Manga";
+import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 
 export default function IntersiteMangaItem({
   height,

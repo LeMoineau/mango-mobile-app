@@ -6,16 +6,16 @@ import Title from "../../../common/components/text/Title";
 import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import LoadingText from "../../../common/components/text/LoadingText";
-import { ParentlessStoredManga } from "../../../../../shared/src/types/basics/Manga";
+import { ParentlessStoredManga } from "../../../shared/src/types/basics/Manga";
 import IconedText from "../../../common/components/text/IconedText";
 import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import LikeButton from "./LikeButton";
 import {
   SourceName,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
+} from "../../../shared/src/types/primitives/Identifiers";
 import SelectSourceModal from "../../../common/components/modals/intersite-manga/SelectSourceModal";
-import useModals from "../../../../../shared/src/hooks/use-modals";
+import useModals from "../../../shared/src/hooks/use-modals";
 
 export default function IntersiteMangaInfosHeader({
   manga,

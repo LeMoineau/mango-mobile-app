@@ -1,11 +1,11 @@
 import {
   isScrapedChapter,
   ScrapedChapter,
-} from "../../../../../shared/src/types/basics/Chapter";
+} from "../../../shared/src/types/basics/Chapter";
 import {
   isUUID,
   UUID,
-} from "../../../../../shared/src/types/primitives/Identifiers";
+} from "../../../shared/src/types/primitives/Identifiers";
 import { DownloadState } from "./DownloadState";
 
 export interface DownloadedChapter {
