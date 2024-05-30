@@ -2,7 +2,7 @@
   "expo": {
     "name": "Mango",
     "slug": "mango-mobile-app",
-    "version": "1.5.0",
+    "version": "1.7.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -16,12 +16,19 @@
         "backgroundColor": "#ffffff"
       },
       "package": "fr.pierrot.mango",
-      "versionCode": 2
+      "versionCode": 3
+    },
+    "web": {
+      "favicon": "./assets/icon.png",
+      "bundler": "metro"
     },
     "extra": {
       "eas": {
         "projectId": "c87416f3-5ed0-42b8-b3cc-a202bff5fb16"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     }
   }
 }

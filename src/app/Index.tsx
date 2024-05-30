@@ -27,7 +27,7 @@ function AppNavigator() {
     <Tab.Navigator
       tabBarPosition="bottom"
       initialRouteName="Home"
-      tabBar={CustomTopBar}
+      tabBar={(props) => <CustomTopBar {...props} />}
       pagerStyle={{ flex: 1 }}
     >
       <Tab.Screen

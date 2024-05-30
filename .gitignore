@@ -28,17 +28,12 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
+#env files
 .env.*
 
 # typescript
 *.tsbuildinfo
 
 android
-ios
-
-# build shared folder
-# src/shared
-
-# eas inspect output
-~/
+# google service credientials
+pootime-adventure-*.json 
