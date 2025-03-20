@@ -1,6 +1,7 @@
 export type SettingsKey =
   | "theme"
   | "srcs"
+  | "langs"
   | ChapterReaderSettingsKey
   | ScrapingSettingsKey
   | FavoritesSettingsKey

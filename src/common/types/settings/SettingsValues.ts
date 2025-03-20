@@ -1,10 +1,14 @@
-import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
+import {
+  Lang,
+  SourceName,
+} from "../../../shared/src/types/primitives/Identifiers";
 import { IntersiteMangaSearchSorting } from "../filter/IntersiteMangaSearchFilter";
 import { ThemeName } from "../ThemeName";
 
 export type SettingsValue = {
   theme: ThemeName;
   srcs: SourceName[];
+  langs: Lang[];
   chapterReaderDisplayMode: ChapterReaderDisplayMode;
   chapterReaderHasHeader: boolean;
   chapterReaderHasFooter: boolean;

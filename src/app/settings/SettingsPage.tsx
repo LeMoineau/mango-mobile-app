@@ -1,43 +1,19 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useSettingsStore } from "../../common/store/settings.store";
 import Title from "../../common/components/text/Title";
 import ToggleSettingItem from "./elements/ToggleSettingItem";
-import { SourceName } from "../../shared/src/types/primitives/Identifiers";
-import useApi from "../../shared/src/hooks/use-api";
-import Config from "../../common/config/Config";
-import { useEffect } from "react";
 import SettingSection from "./elements/SettingSection";
 import SourceSettingList from "./elements/SourceSettingList";
-import { ApiSettings } from "../../shared/src/types/config/ApiSettings";
 import SelectSettingItem from "./elements/SelectSettingItem";
 import { IntersiteMangaSearchSorting } from "../../common/types/filter/IntersiteMangaSearchFilter";
 import ButtonSettingItem from "./elements/ButtonSettingItem";
 import { useCacheStore } from "../../common/store/cache.store";
+import useSettingsPage from "./hooks/useSettingsPage";
 
 export default function SettingPage() {
   const { srcs, get, set } = useSettingsStore();
-  const { fetch, get: getApiSettings } = useApi<ApiSettings>(
-    Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
-  );
   const { clear } = useCacheStore();
-
-  const srcsFromServDifferentFromStored = (scrapersOnServ: SourceName[]) => {
-    return scrapersOnServ.filter(
-      (src) => !(get("srcs") as SourceName[]).find((s) => s === src)
-    );
-  };
-
-  useEffect(() => {
-    set("srcs", []);
-    fetch("/settings").then((res) => {
-      if (res) {
-        const newSrcs = srcsFromServDifferentFromStored(res.scrapersEnabled);
-        if (newSrcs.length > 0) {
-          set("srcs", [...(get("srcs") as SourceName[]), ...newSrcs]);
-        }
-      }
-    });
-  }, []);
+  const { apiSettings, apiLoading } = useSettingsPage();
 
   return (
     <View style={[{ flex: 1, paddingHorizontal: 10 }]}>
@@ -61,13 +37,17 @@ export default function SettingPage() {
           sectionName="Sources"
           description="Sources sorted from most trusted to least trusted"
         >
-          <SourceSettingList
-            srcs={srcs}
-            srcsEnabled={getApiSettings()?.scrapersEnabled}
-            onChange={(srcs) => {
-              set("srcs", srcs);
-            }}
-          ></SourceSettingList>
+          {!apiLoading ? (
+            <SourceSettingList
+              srcs={srcs}
+              srcsEnabled={apiSettings?.scrapersEnabled}
+              onChange={(srcs) => {
+                set("srcs", srcs);
+              }}
+            ></SourceSettingList>
+          ) : (
+            <Text>Api loading...</Text>
+          )}
         </SettingSection>
         <SettingSection sectionName="Scraping Preferences" defaultMinimize>
           <ToggleSettingItem

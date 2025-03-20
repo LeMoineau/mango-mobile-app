@@ -5,7 +5,10 @@ import RoundedButton from "../../../common/components/buttons/RoundedButton";
 import { colors } from "../../../shared/src/config/enums/Colors";
 import { useSettingsStore } from "../../../common/store/settings.store";
 import FilterRadioList from "../../../common/components/form/filter-radio-list/FilterRadioList";
-import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
+import {
+  Lang,
+  SourceName,
+} from "../../../shared/src/types/primitives/Identifiers";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { useRef } from "react";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
@@ -67,6 +70,18 @@ export default function LatestChaptersFilterModal({
         options={getAll().map((favList) => ({
           value: favList.name,
           iconName: "bookshelf",
+        }))}
+        onSelectOption={(optionsSelected) => {
+          filter.current.favoritesLists = optionsSelected;
+        }}
+      ></FilterRadioList>
+      <View style={[{ height: 20 }]}></View>
+      <FilterRadioList
+        title="Languages"
+        defaultOptionsSelected={filter.current.favoritesLists}
+        options={((get("langs") as Lang[]) ?? []).map((l) => ({
+          value: l,
+          iconName: "language",
         }))}
         onSelectOption={(optionsSelected) => {
           filter.current.favoritesLists = optionsSelected;
