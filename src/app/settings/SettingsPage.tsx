@@ -15,15 +15,29 @@ import ButtonSettingItem from "./elements/ButtonSettingItem";
 import { useCacheStore } from "../../common/store/cache.store";
 
 export default function SettingPage() {
-  const { get, set } = useSettingsStore();
+  const { srcs, get, set } = useSettingsStore();
   const { fetch, get: getApiSettings } = useApi<ApiSettings>(
     Config.getEnv().MANGO_SCRAPER_API_ENDPOINT
   );
   const { clear } = useCacheStore();
 
+  const srcsFromServDifferentFromStored = (scrapersOnServ: SourceName[]) => {
+    return scrapersOnServ.filter(
+      (src) => !(get("srcs") as SourceName[]).find((s) => s === src)
+    );
+  };
+
   useEffect(() => {
-    fetch("/settings");
-  });
+    set("srcs", []);
+    fetch("/settings").then((res) => {
+      if (res) {
+        const newSrcs = srcsFromServDifferentFromStored(res.scrapersEnabled);
+        if (newSrcs.length > 0) {
+          set("srcs", [...(get("srcs") as SourceName[]), ...newSrcs]);
+        }
+      }
+    });
+  }, []);
 
   return (
     <View style={[{ flex: 1, paddingHorizontal: 10 }]}>
@@ -48,7 +62,7 @@ export default function SettingPage() {
           description="Sources sorted from most trusted to least trusted"
         >
           <SourceSettingList
-            srcs={get("srcs") as SourceName[]}
+            srcs={srcs}
             srcsEnabled={getApiSettings()?.scrapersEnabled}
             onChange={(srcs) => {
               set("srcs", srcs);

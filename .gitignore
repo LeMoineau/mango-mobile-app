@@ -37,3 +37,5 @@ yarn-error.*
 android
 # google service credientials
 pootime-adventure-*.json 
+
+pnpm-lock.yaml

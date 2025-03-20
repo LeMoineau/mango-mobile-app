@@ -47,7 +47,7 @@ export default function SearchBar({
           {
             flex: 1,
             backgroundColor: theme.colors.border,
-            padding: 10,
+            paddingHorizontal: 10,
             height: 50,
           },
         ]}

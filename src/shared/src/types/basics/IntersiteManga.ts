@@ -3,6 +3,7 @@ import { ParentlessStoredManga } from "./Manga";
 import {
   isMangaFormattedName,
   MangaFormattedName,
+  UUID,
 } from "../primitives/Identifiers";
 
 export interface IntersiteMangaCore {
@@ -13,8 +14,24 @@ export interface IdentifiedIntersiteMangaCore
   extends IntersiteMangaCore,
     Identified {}
 
-export interface IntersiteManga extends IdentifiedIntersiteMangaCore {
+export class IntersiteManga implements IdentifiedIntersiteMangaCore {
+  formattedName: MangaFormattedName;
+  id: UUID;
   mangas: ParentlessStoredManga[];
+
+  constructor(
+    id: UUID,
+    formattedName: string,
+    mangas: ParentlessStoredManga[]
+  ) {
+    this.id = id;
+    this.formattedName = formattedName;
+    this.mangas = mangas;
+  }
+
+  public get langs(): string[] {
+    return [...new Set(this.mangas.map((m) => m.lang))];
+  }
 }
 
 /**

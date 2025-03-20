@@ -1,7 +1,7 @@
 import { SafeAreaView } from "react-native";
 import { SourceName } from "../../../shared/src/types/primitives/Identifiers";
 import SourceSettingItem from "./SourceSettingItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SourceSettingList({
   srcs,
@@ -13,6 +13,10 @@ export default function SourceSettingList({
   onChange?: (srcs: SourceName[]) => void;
 }) {
   const [data, setData] = useState(srcs);
+
+  useEffect(() => {
+    setData(srcs);
+  }, [srcs]);
 
   return (
     <>

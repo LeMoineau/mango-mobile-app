@@ -28,7 +28,7 @@ export default function LatestChaptersPage() {
   }, []);
 
   return (
-    <View style={[{ flex: 1 }]}>
+    <View style={[{ flex: 1, paddingHorizontal: 10 }]}>
       <View>
         <LatestChaptersHeader
           onSearch={(text) => {
@@ -45,7 +45,7 @@ export default function LatestChaptersPage() {
       <View style={[{ flex: 1 }]}>
         <FlashList
           data={chapters}
-          keyExtractor={(_, index) => `latest-chapter-item-${index}`}
+          keyExtractor={(c) => `latest-chapter-item-${c.id}`}
           estimatedItemSize={110}
           renderItem={({ item }) => (
             <ChapterItem

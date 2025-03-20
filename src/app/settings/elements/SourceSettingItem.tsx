@@ -4,6 +4,7 @@ import { useTheme } from "@react-navigation/native";
 import { style } from "../../../common/utils/style-utils";
 import ExpoIcon from "../../../common/components/icons/ExpoIcon";
 import { colors } from "../../../shared/src/config/enums/Colors";
+import { useEffect } from "react";
 
 export default function SourceSettingItem({
   sourceName,

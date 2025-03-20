@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 5.9.2"
+    "version": ">= 5.9.2",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -19,6 +20,7 @@
       }
     },
     "production": {
+      "autoIncrement": true,
       "env": {
         "EXPO_PUBLIC_MANGO_SCRAPER_API_ENDPOINT": "https://mango-scraper-api.vercel.app",
         "EXPO_PUBLIC_MANGO_BD_API_ENDPOINT": "https://mango-bd-api.vercel.app/",

@@ -69,7 +69,7 @@ export default function Index() {
       <NavigationContainer
         theme={get("theme") === "dark" ? DarkTheme : DefaultTheme}
       >
-        <StatusBar hidden></StatusBar>
+        <StatusBar></StatusBar>
         <Stack.Navigator
           initialRouteName="App"
           screenOptions={{ headerShown: false, animation: "fade_from_bottom" }}

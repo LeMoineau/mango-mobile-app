@@ -9,6 +9,7 @@ export interface ChapterCore {
   src: SourceName;
   endpoint: string;
   url: string;
+  lang: string;
   image?: string;
   releaseDate?: string | Date;
 }
@@ -48,6 +49,7 @@ export function isScrapedChapter(chapter: any): chapter is ScrapedChapter {
     isSourceName(chapter.src) &&
     chapter.endpoint &&
     chapter.url &&
-    chapter.number
+    chapter.number &&
+    chapter.lang
   );
 }

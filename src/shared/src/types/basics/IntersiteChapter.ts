@@ -7,6 +7,7 @@ import { IdentifiedChapter } from "./Chapter";
 import {
   ChapterFormattedName,
   isChapterFormattedName,
+  UUID,
 } from "../primitives/Identifiers";
 
 export interface IntersiteChapterCore {
@@ -19,8 +20,27 @@ export interface ParentlessIntersiteChapter
   chapters: IdentifiedChapter[];
 }
 
-export interface IntersiteChapter extends ParentlessIntersiteChapter {
+export class IntersiteChapter implements ParentlessIntersiteChapter {
+  id: UUID;
+  formattedName: ChapterFormattedName;
   intersiteManga: IdentifiedIntersiteMangaNested;
+  chapters: IdentifiedChapter[];
+
+  constructor(
+    id: UUID,
+    formattedName: ChapterFormattedName,
+    intersiteManga: IdentifiedIntersiteMangaNested,
+    chapters: IdentifiedChapter[]
+  ) {
+    this.id = id;
+    this.formattedName = formattedName;
+    this.intersiteManga = intersiteManga;
+    this.chapters = chapters;
+  }
+
+  public get langs(): string[] {
+    return [...new Set(this.chapters.map((c) => c.lang))];
+  }
 }
 
 /**

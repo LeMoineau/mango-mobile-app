@@ -25,7 +25,12 @@ export default function FilterModal({
   const theme = useTheme();
 
   return (
-    <Modal animationType="fade" visible={visible} {...props}>
+    <Modal
+      onRequestClose={onRequestClose}
+      animationType="fade"
+      visible={visible}
+      {...props}
+    >
       <View style={[{ flex: 1, backgroundColor: theme.colors.background }]}>
         {title && (
           <>
