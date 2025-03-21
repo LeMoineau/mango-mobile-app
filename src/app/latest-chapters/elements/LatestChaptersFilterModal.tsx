@@ -14,6 +14,7 @@ import { useRef } from "react";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
 import { DefaultValues } from "../../../common/config/DefaultValues";
 import FilterModal from "../../../common/components/modals/filter/FilterModal";
+import { LanguagesUtils } from "../../../common/utils/languages-utils";
 
 export default function LatestChaptersFilterModal({
   visible,
@@ -27,7 +28,11 @@ export default function LatestChaptersFilterModal({
   const { get } = useSettingsStore();
   const { getAll } = useFavoritesStore();
 
-  const filter = useRef<{ srcs?: string[]; favoritesLists?: string[] }>({});
+  const filter = useRef<{
+    srcs?: string[];
+    favoritesLists?: string[];
+    langs?: Lang[];
+  }>({});
 
   return (
     <FilterModal
@@ -48,6 +53,7 @@ export default function LatestChaptersFilterModal({
         onFilter &&
           onFilter({
             srcs: tmp.srcs as SourceName[],
+            langs: tmp.langs,
             favoritesLists: tmp.favoritesLists,
           });
       }}
@@ -79,12 +85,16 @@ export default function LatestChaptersFilterModal({
       <FilterRadioList
         title="Languages"
         defaultOptionsSelected={filter.current.favoritesLists}
-        options={((get("langs") as Lang[]) ?? []).map((l) => ({
-          value: l,
-          iconName: "language",
-        }))}
+        options={((get("langs") as Lang[]) ?? []).map((l) => {
+          const flag = LanguagesUtils.getFlagForLang(l);
+          return {
+            label: `${flag} (${l})`,
+            value: l,
+            iconName: flag ? undefined : "language",
+          };
+        })}
         onSelectOption={(optionsSelected) => {
-          filter.current.favoritesLists = optionsSelected;
+          filter.current.langs = optionsSelected;
         }}
       ></FilterRadioList>
     </FilterModal>

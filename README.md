@@ -93,3 +93,12 @@ npm audit fix
 ```
 
 _Note_: Penser à vérifier que de nouvelles dépendances n'aient pas été ajoutées ou retirées dans le processus
+
+## TODO
+
+- dans BD API : voir pq tous les scrapers sont enabled
+- finir ajout filtre lang dans latestchapter
+- mettre en cache les filtres precedemment select (pour garder langs par ex après déco/reco)
+- changer apparences chapitre (comme netflix, image en grand)
+- mettre systeme de notification pour manga fav
+- fix env variables

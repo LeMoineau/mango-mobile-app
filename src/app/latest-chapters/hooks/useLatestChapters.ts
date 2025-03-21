@@ -4,6 +4,7 @@ import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
 import {
+  Lang,
   SourceName,
   UUID,
 } from "../../../shared/src/types/primitives/Identifiers";
@@ -24,7 +25,7 @@ const useLatestChapters = () => {
   const { getIntersiteManga } = useCacheStore();
   const [mangaAllowed, setMangaAllowed] = useState<UUID[]>([]);
 
-  const fetch = (params?: { srcs?: SourceName[] }) => {
+  const fetch = (params?: { srcs?: SourceName[]; langs?: Lang[] }) => {
     _fetchChapters(`/latestchapters`, {
       params,
       page: 1,
@@ -64,8 +65,8 @@ const useLatestChapters = () => {
   };
 
   const filter = async (filter: LatestChapterFilter) => {
-    if (filter.srcs) {
-      fetch({ srcs: filter.srcs });
+    if (filter.srcs || filter.langs) {
+      fetch({ srcs: filter.srcs, langs: filter.langs });
     } else {
       fetch();
     }

@@ -1,7 +1,7 @@
 import { RefreshControl, View } from "react-native";
 import ChapterItem from "./elements/ChapterItem";
 import { useNavigation } from "@react-navigation/native";
-import useLatestChapters from "./hooks/use-latest-chapters";
+import useLatestChapters from "./hooks/useLatestChapters";
 import { useEffect } from "react";
 import LatestChaptersHeader from "./elements/LatestChaptersHeader";
 import { useNavigationType } from "../../common/types/navigation/NavigationTypes";

@@ -15,7 +15,7 @@ export default function FilterRadioList({
   onSelectOption,
 }: {
   title: string;
-  options: { value: string; iconName?: AllIconNames }[];
+  options: { label?: string; value: string; iconName?: AllIconNames }[];
   defaultOptionsSelected?: string[];
   noAllOption?: boolean;
   onSelectOption?: (optionsSelected: string[]) => void;
@@ -59,7 +59,7 @@ export default function FilterRadioList({
               }}
               prependIcon={item.iconName}
               prependIconStyle={[{ marginRight: 5 }]}
-              content={item.value}
+              content={item.label ?? item.value}
               color={
                 optionsSelected.includes(item.value)
                   ? theme.colors.background
