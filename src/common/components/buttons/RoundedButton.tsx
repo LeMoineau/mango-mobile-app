@@ -2,7 +2,7 @@ import { Pressable, StyleProp, Text, TextStyle, ViewStyle } from "react-native";
 import { style } from "../../utils/style-utils";
 import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
-import { AllIconNames } from "src/common/types/IconName";
+import { AllIconNames } from "../../types/IconName";
 
 export default function RoundedButton({
   content,
@@ -12,6 +12,7 @@ export default function RoundedButton({
   appendIconStyle,
   prependIcon,
   prependIconStyle,
+  themed,
   color,
   onPress,
 }: {
@@ -23,6 +24,7 @@ export default function RoundedButton({
   prependIcon?: AllIconNames;
   prependIconStyle?: StyleProp<TextStyle>;
   color?: string;
+  themed?: boolean;
   onPress?: () => void;
 }) {
   const theme = useTheme();
@@ -35,7 +37,11 @@ export default function RoundedButton({
           style.justifyCenter,
           style.itemsCenter,
           style.roundedLg,
-          { paddingHorizontal: content ? 20 : 10, paddingVertical: 10 },
+          {
+            paddingHorizontal: content ? 20 : 10,
+            paddingVertical: 10,
+            backgroundColor: themed ? theme.colors.border : undefined,
+          },
           styleProp,
         ]}
       >

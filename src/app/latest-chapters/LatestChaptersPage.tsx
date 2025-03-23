@@ -8,6 +8,7 @@ import { useNavigationType } from "../../common/types/navigation/NavigationTypes
 import { TextFormatUtils } from "../../shared/src/utils/text-format-utils";
 import { FlashList } from "@shopify/flash-list";
 import LatestChapterFooter from "./elements/LatestChapterFooter";
+import { style } from "../../common/utils/style-utils";
 
 export default function LatestChaptersPage() {
   const navigator: useNavigationType = useNavigation();
@@ -17,12 +18,12 @@ export default function LatestChaptersPage() {
     noMoreChapters,
     refreshing,
     mangaAllowed,
+    display,
     fetch,
     fetchNextPage,
     refresh,
     filter,
   } = useLatestChapters();
-
   useEffect(() => {
     fetch();
   }, []);
@@ -44,27 +45,33 @@ export default function LatestChaptersPage() {
       <View style={[{ height: 75 }]}></View>
       <View style={[{ flex: 1 }]}>
         <FlashList
+          horizontal={display === "by src"}
+          numColumns={display !== "list" ? 3 : undefined}
           data={chapters}
-          keyExtractor={(c) => `latest-chapter-item-${c.id}`}
+          keyExtractor={(c) => {
+            return c.id;
+          }}
           estimatedItemSize={110}
           renderItem={({ item }) => (
-            <ChapterItem
-              chapter={item}
-              pressChapterTitle={() => {
-                navigator.navigate("ChapterReader", {
-                  src: item.src,
-                  endpoint: item.endpoint,
-                  storedMangaId: item.manga.id,
-                });
-              }}
-              pressChapterItem={() => {
-                navigator.navigate("IntersiteMangaInfo", {
-                  intersiteMangaFormattedName: TextFormatUtils.formatMangaTitle(
-                    item.manga.title
-                  ),
-                });
-              }}
-            ></ChapterItem>
+            <View style={[style.wFull, style.hFull, style.itemsCenter]}>
+              <ChapterItem
+                coverCard={display !== "list"}
+                chapter={item}
+                pressChapterTitle={() => {
+                  navigator.navigate("ChapterReader", {
+                    src: item.src,
+                    endpoint: item.endpoint,
+                    storedMangaId: item.manga.id,
+                  });
+                }}
+                pressChapterItem={() => {
+                  navigator.navigate("IntersiteMangaInfo", {
+                    intersiteMangaFormattedName:
+                      TextFormatUtils.formatMangaTitle(item.manga.title),
+                  });
+                }}
+              ></ChapterItem>
+            </View>
           )}
           ListFooterComponent={
             <LatestChapterFooter

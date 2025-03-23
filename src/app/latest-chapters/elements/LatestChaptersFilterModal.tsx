@@ -11,10 +11,14 @@ import {
 } from "../../../shared/src/types/primitives/Identifiers";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { useRef } from "react";
-import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
+import LatestChapterFilter, {
+  LatestChapterDisplay,
+} from "../../../common/types/filter/LatestChapterFilter";
 import { DefaultValues } from "../../../common/config/DefaultValues";
 import FilterModal from "../../../common/components/modals/filter/FilterModal";
 import { LanguagesUtils } from "../../../common/utils/languages-utils";
+import FilterSelectList from "../../../common/components/form/FilterSelectList";
+import { AllIconNames } from "../../../common/types/IconName";
 
 export default function LatestChaptersFilterModal({
   visible,
@@ -28,11 +32,16 @@ export default function LatestChaptersFilterModal({
   const { get } = useSettingsStore();
   const { getAll } = useFavoritesStore();
 
-  const filter = useRef<{
-    srcs?: string[];
-    favoritesLists?: string[];
-    langs?: Lang[];
-  }>({});
+  const filter = useRef<LatestChapterFilter>({});
+  const displayItems: {
+    value: LatestChapterDisplay;
+    label: string;
+    icon: AllIconNames;
+  }[] = [
+    { value: "list", label: "List", icon: "list" },
+    { value: "grid", label: "Grid", icon: "grid" },
+    { value: "by src", label: "By src", icon: "git-branch" },
+  ];
 
   return (
     <FilterModal
@@ -50,38 +59,22 @@ export default function LatestChaptersFilterModal({
         ) {
           delete tmp.favoritesLists;
         }
-        onFilter &&
-          onFilter({
-            srcs: tmp.srcs as SourceName[],
-            langs: tmp.langs,
-            favoritesLists: tmp.favoritesLists,
-          });
+        onFilter && onFilter(tmp);
       }}
     >
-      <FilterRadioList
-        title="Sources"
-        options={(get("srcs") as SourceName[]).map((s) => ({
-          value: s,
-          iconName: "source-branch",
+      <FilterSelectList
+        title="Display"
+        options={displayItems.map((s) => ({
+          label: s.label,
+          value: s.value,
+          iconName: s.icon,
         }))}
-        defaultOptionsSelected={filter.current.srcs}
-        onSelectOption={(optionsSelected) => {
-          filter.current.srcs = optionsSelected;
+        defaultOptionSelected={filter.current.display}
+        onSelectOption={(display) => {
+          filter.current.display = display as LatestChapterDisplay;
         }}
-      ></FilterRadioList>
-      <View style={[{ height: 20 }]}></View>
-      <FilterRadioList
-        title="Favorites"
-        defaultOptionsSelected={filter.current.favoritesLists}
-        options={getAll().map((favList) => ({
-          value: favList.name,
-          iconName: "bookshelf",
-        }))}
-        onSelectOption={(optionsSelected) => {
-          filter.current.favoritesLists = optionsSelected;
-        }}
-      ></FilterRadioList>
-      <View style={[{ height: 20 }]}></View>
+      ></FilterSelectList>
+      <View style={[{ height: 10 }]}></View>
       <FilterRadioList
         title="Languages"
         defaultOptionsSelected={filter.current.favoritesLists}
@@ -95,6 +88,30 @@ export default function LatestChaptersFilterModal({
         })}
         onSelectOption={(optionsSelected) => {
           filter.current.langs = optionsSelected;
+        }}
+      ></FilterRadioList>
+      <View style={[{ height: 10 }]}></View>
+      <FilterRadioList
+        title="Favorites"
+        defaultOptionsSelected={filter.current.favoritesLists}
+        options={getAll().map((favList) => ({
+          value: favList.name,
+          iconName: "bookshelf",
+        }))}
+        onSelectOption={(optionsSelected) => {
+          filter.current.favoritesLists = optionsSelected;
+        }}
+      ></FilterRadioList>
+      <View style={[{ height: 10 }]}></View>
+      <FilterRadioList
+        title="Sources"
+        options={(get("srcs") as SourceName[]).map((s) => ({
+          value: s,
+          iconName: "source-branch",
+        }))}
+        defaultOptionsSelected={filter.current.srcs}
+        onSelectOption={(optionsSelected) => {
+          filter.current.srcs = optionsSelected;
         }}
       ></FilterRadioList>
     </FilterModal>

@@ -32,7 +32,15 @@ export default function LatestChapterFooter({
         </View>
       </View>
       {noMoreChapters ? (
-        <ThemedText>No more chapters...</ThemedText>
+        <>
+          <View
+            style={{ paddingBottom: 50, paddingHorizontal: 10, paddingTop: 20 }}
+          >
+            <ThemedText style={{ textAlign: "center" }}>
+              No more chapters...
+            </ThemedText>
+          </View>
+        </>
       ) : (
         <View
           style={[

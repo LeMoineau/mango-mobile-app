@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StoredChapter } from "../../../shared/src/types/basics/Chapter";
 import Config from "../../../common/config/Config";
 import useResponsePageApi from "../../../common/hooks/use-response-page-api";
-import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
+import LatestChapterFilter, {
+  LatestChapterDisplay,
+} from "../../../common/types/filter/LatestChapterFilter";
 import {
   Lang,
   SourceName,
@@ -24,6 +26,7 @@ const useLatestChapters = () => {
   const { get } = useFavoritesStore();
   const { getIntersiteManga } = useCacheStore();
   const [mangaAllowed, setMangaAllowed] = useState<UUID[]>([]);
+  const [display, setDisplay] = useState<LatestChapterDisplay>("list");
 
   const fetch = (params?: { srcs?: SourceName[]; langs?: Lang[] }) => {
     _fetchChapters(`/latestchapters`, {
@@ -37,6 +40,20 @@ const useLatestChapters = () => {
   const fetchNextPage = () => {
     _fetchChapters(`/latestchapters`);
   };
+
+  useEffect(() => {
+    let t: any = {};
+    let dupli: any = [];
+    chapters.forEach((c) => {
+      if (t[c.id]) {
+        t[c.id] += 1;
+        dupli.push(c);
+      } else {
+        t[c.id] = 1;
+      }
+    });
+    if (dupli.length > 0) console.log(dupli.map((d: any) => d.id));
+  }, [chapters]);
 
   const _refresh = async () => {
     setRefreshing(true);
@@ -75,6 +92,9 @@ const useLatestChapters = () => {
     } else {
       setMangaAllowed([]);
     }
+    if (filter.display) {
+      setDisplay(filter.display);
+    }
   };
 
   return {
@@ -85,6 +105,7 @@ const useLatestChapters = () => {
     mangaAllowed,
     noMoreChapters,
     refreshing,
+    display,
     fetch,
     fetchNextPage,
     refresh: _refresh,

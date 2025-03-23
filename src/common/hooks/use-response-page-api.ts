@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import useApi from "../../shared/src/hooks/use-api";
 import { ResponsePage } from "../../shared/src/types/responses/ResponsePage";
+import { Identified } from "../../shared/src/types/attributes/Identified";
 
 const useResponsePageApi = <T>(
   baseURL: string,
@@ -28,10 +29,25 @@ const useResponsePageApi = <T>(
       params?: any;
     }
   ): Promise<ResponsePage<T> | undefined> => {
-    previousEndpoint.current = endpoint;
+    if (previousEndpoint.current !== endpoint) {
+      previousEndpoint.current = endpoint;
+    }
     if (props && props.saveParamsStateForNextFetching) {
       previousParams.current = props.params;
     }
+    console.log(
+      JSON.stringify({
+        forceRefresh: true,
+        config: {
+          params: {
+            page: props?.page ?? page.current,
+            limit: props?.limit ?? limit.current,
+            ...props?.params,
+            ...previousParams.current,
+          },
+        },
+      })
+    );
     return await fetch<ResponsePage<T>>(previousEndpoint.current, {
       forceRefresh: true,
       config: {

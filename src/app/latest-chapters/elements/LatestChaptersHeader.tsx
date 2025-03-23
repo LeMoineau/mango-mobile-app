@@ -8,6 +8,7 @@ import { style } from "../../../common/utils/style-utils";
 import LatestChaptersFilterModal from "./LatestChaptersFilterModal";
 import useModals from "../../../shared/src/hooks/use-modals";
 import LatestChapterFilter from "../../../common/types/filter/LatestChapterFilter";
+import RoundedButton from "../../../common/components/buttons/RoundedButton";
 
 export default function LatestChaptersHeader({
   onSearch,
@@ -44,11 +45,23 @@ export default function LatestChaptersHeader({
         >
           <SearchBar
             placeholder="Search Manga"
-            hasFilterBtn
-            onFilterBtnPress={() => show("filter")}
             onSubmit={(text) => {
               onSearch && onSearch(text);
             }}
+            actionsBtn={
+              <RoundedButton
+                themed
+                appendIcon="options"
+                styleProp={[
+                  style.rounded,
+                  {
+                    width: 50,
+                    height: 50,
+                  },
+                ]}
+                onPress={() => show("filter")}
+              ></RoundedButton>
+            }
           ></SearchBar>
         </View>
         <Gradient

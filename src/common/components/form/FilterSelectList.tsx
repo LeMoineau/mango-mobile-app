@@ -13,7 +13,7 @@ export default function FilterSelectList({
   onSelectOption,
 }: {
   title: string;
-  options: { value: string; iconName?: AllIconNames }[];
+  options: { label?: string; value: string; iconName?: AllIconNames }[];
   defaultOptionSelected?: string;
   onSelectOption?: (optionSelected: string) => void;
 }) {
@@ -50,7 +50,7 @@ export default function FilterSelectList({
             }}
             prependIcon={item.iconName}
             prependIconStyle={[{ marginRight: 5 }]}
-            content={item.value}
+            content={item.label ?? item.value}
             color={
               optionSelected === item.value
                 ? theme.colors.background

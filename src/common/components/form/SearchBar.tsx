@@ -3,27 +3,31 @@ import ExpoIcon from "../icons/ExpoIcon";
 import { useTheme } from "@react-navigation/native";
 import { style } from "./../../../common/utils/style-utils";
 import RoundedButton from "../buttons/RoundedButton";
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 
 export default function SearchBar({
   placeholder,
-  hasFilterBtn,
   defaultValue,
   submitOnClear,
-  onFilterBtnPress,
   onChange,
   onSubmit,
   style: styleProp,
+  actionsBtn,
+  actionsBtns,
 }: {
   placeholder?: string;
-  hasFilterBtn?: boolean;
   defaultValue?: string;
   submitOnClear?: boolean;
-  onFilterBtnPress?: () => void;
   onChange?: (text: string) => void;
   onSubmit?: (text: string) => void;
   style?: StyleProp<ViewStyle>;
+  actionsBtn?: ReactNode;
+  actionsBtns?: ReactNode[];
 }) {
+  if (actionsBtn && actionsBtns) {
+    throw new Error("actionsBtn and actonsBtns can't be both valued");
+  }
+
   const theme = useTheme();
   const textInputRef = useRef<TextInput>(null);
 
@@ -87,23 +91,11 @@ export default function SearchBar({
           }}
         ></RoundedButton>
       </View>
-      {hasFilterBtn && (
-        <>
-          <RoundedButton
-            appendIcon="filter-variant"
-            appendIconStyle={[{ fontSize: 20 }]}
-            styleProp={[
-              style.rounded,
-              {
-                marginLeft: 10,
-                backgroundColor: theme.colors.border,
-                height: 50,
-                width: 50,
-              },
-            ]}
-            onPress={onFilterBtnPress}
-          ></RoundedButton>
-        </>
+      {(actionsBtn || actionsBtns) && (
+        <View style={[{ paddingLeft: 10 }]}>
+          {actionsBtns && <View style={[{}]}>{actionsBtns.map((b) => b)}</View>}
+          {actionsBtn}
+        </View>
       )}
     </View>
   );
