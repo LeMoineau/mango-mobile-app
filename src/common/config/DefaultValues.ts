@@ -1,3 +1,4 @@
+import { CommonLangs } from "../../shared/src/config/enums/CommonLangs";
 import { Cache } from "../types/cache/Cache";
 import { StoredDownloader } from "../types/downloader/Downloader";
 import { Favorites } from "../types/favorites/Favorites";
@@ -7,6 +8,7 @@ export namespace DefaultValues {
   export const SETTINGS: Settings = {
     theme: "light",
     srcs: ["mangaplus", "mangasaki"],
+    langs: Object.values(CommonLangs),
     chapterReaderDisplayMode: "singlePage",
     chapterReaderHasHeader: true,
     chapterReaderHasFooter: true,
@@ -38,4 +40,6 @@ export namespace DefaultValues {
   export const STORED_DOWNLOADER: StoredDownloader = {
     chapters: [],
   };
+  export const COVER_CARD_STYLE_WIDTH = 150;
+  export const COVER_CARD_STYLE_HEIGHT = 200;
 }

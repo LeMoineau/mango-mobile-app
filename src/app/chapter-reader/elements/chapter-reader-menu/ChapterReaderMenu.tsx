@@ -7,6 +7,7 @@ import ChapterReaderMenuItem from "../ChapterReaderMenuItem";
 import { useSettingsStore } from "./../../../../common/store/settings.store";
 import { PagedScrapedChapter } from "../../../../shared/src/types/basics/Chapter";
 import useChapterReaderMenu from "./use-chapter-reader-menu";
+import { LanguagesUtils } from "../../../../common/utils/languages-utils";
 
 export default function ChapterReaderMenu({
   animValue,
@@ -79,6 +80,22 @@ export default function ChapterReaderMenu({
               prependIcon="source-branch"
               content={scrapedChapter.src}
               contentStyle={[{ textDecorationLine: "underline" }]}
+              styleProp={[
+                {
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  paddingTop: 0,
+                },
+              ]}
+              onPress={() => {
+                Linking.openURL(scrapedChapter.url);
+              }}
+            ></RoundedButton>
+            <RoundedButton
+              prependIcon="language"
+              content={LanguagesUtils.getFlagAndNameForLang(
+                scrapedChapter.lang
+              )}
               styleProp={[
                 {
                   width: "100%",

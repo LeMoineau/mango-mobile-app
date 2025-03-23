@@ -29,8 +29,6 @@ export default function useSettingsPage() {
   };
 
   useEffect(() => {
-    set("srcs", []);
-    set("langs", []);
     fetch("/settings").then((res) => {
       console.log("api res", res);
       if (res) {

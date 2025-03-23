@@ -16,6 +16,8 @@ import {
 } from "../../../shared/src/types/primitives/Identifiers";
 import SelectSourceModal from "../../../common/components/modals/intersite-manga/SelectSourceModal";
 import useModals from "../../../shared/src/hooks/use-modals";
+import ThemedText from "../../../common/components/text/ThemedText";
+import { LanguagesUtils } from "../../../common/utils/languages-utils";
 
 export default function IntersiteMangaInfosHeader({
   manga,
@@ -64,23 +66,41 @@ export default function IntersiteMangaInfosHeader({
             <LoadingText height={35} width={250}></LoadingText>
           )}
         </Title>
-        <Text style={[{ color: theme.colors.text, opacity: 0.9 }]}>
-          {manga ? manga.author : <LoadingText></LoadingText>}
-        </Text>
         {manga ? (
-          <Pressable
-            onPress={() => {
-              show("change-src");
-            }}
+          <View
+            style={[
+              style.flexRow,
+              style.flexWrap,
+              {
+                marginTop: 5,
+                alignItems: "center",
+                columnGap: 10,
+                rowGap: 7,
+                opacity: 0.8,
+              },
+            ]}
           >
-            <IconedText
-              iconName="source-branch"
-              fontSize={14}
-              style={[{ marginTop: 5, opacity: 0.7 }]}
+            {manga.author && (
+              <IconedText iconName="people-alt" fontSize={14}>
+                {manga.author}
+              </IconedText>
+            )}
+            <Pressable
+              onPress={() => {
+                show("change-src");
+              }}
             >
-              {manga?.src}
+              <IconedText iconName="source-branch" fontSize={14}>
+                {manga.src}
+              </IconedText>
+            </Pressable>
+            <IconedText iconName="language">
+              {`${
+                LanguagesUtils.getFlagAndNameForLang(manga.lang) ?? "Unknown"
+              }`}
             </IconedText>
-          </Pressable>
+            <ThemedText style={{ fontSize: 15 }}>{}</ThemedText>
+          </View>
         ) : (
           <LoadingText width={100} height={20}></LoadingText>
         )}
@@ -89,7 +109,7 @@ export default function IntersiteMangaInfosHeader({
             style.flexRow,
             style.itemsCenter,
             style.justifyBetween,
-            { paddingTop: 15 },
+            { paddingTop: 25 },
           ]}
         >
           <View style={[style.flexRow, {}]}>
