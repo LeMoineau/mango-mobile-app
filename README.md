@@ -24,6 +24,7 @@ _Note_: Le script `start` va supprimer le précédent dossier `/shared` et le re
 
 ## Déployer une nouvelle version sur l'App Store
 
+- vérifiez les variables d'environnement
 - changez la version dans le fichier `app.json` :
 
 ```json
@@ -33,20 +34,9 @@ _Note_: Le script `start` va supprimer le précédent dossier `/shared` et le re
     "version": "1.7.1", // <-- changer ici
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "assetBundlePatterns": ["**/*"],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "fr.pierrot.mango",
-      "versionCode": 4 // <-- et ici
-    },
 ```
+
+- ajoutez les ajouts de la version dans le fichier `CHANGELOG.md`
 
 - lancez la commande :
 
