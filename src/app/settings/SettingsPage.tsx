@@ -9,11 +9,18 @@ import { IntersiteMangaSearchSorting } from "../../common/types/filter/Intersite
 import ButtonSettingItem from "./elements/ButtonSettingItem";
 import { useCacheStore } from "../../common/store/cache.store";
 import useSettingsPage from "./hooks/useSettingsPage";
+import { useEffect } from "react";
+import * as NavigationBar from "expo-navigation-bar";
+import { DarkTheme } from "@react-navigation/native";
 
 export default function SettingPage() {
   const { srcs, get, set } = useSettingsStore();
   const { clear } = useCacheStore();
   const { apiSettings, apiLoading } = useSettingsPage();
+
+  useEffect(() => {
+    NavigationBar.setBackgroundColorAsync(DarkTheme.colors.background);
+  }, []);
 
   return (
     <View style={[{ flex: 1, paddingHorizontal: 10 }]}>
