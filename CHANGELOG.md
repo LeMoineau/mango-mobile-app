@@ -13,3 +13,12 @@
 
 - change icon
 - bumps expo 49 to expo 52
+
+## 1.8.0
+
+- lang support
+- latest chapter grid display
+- save filter
+- navigation bar color
+- splash screen
+- fix icon
