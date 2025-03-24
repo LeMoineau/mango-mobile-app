@@ -12,12 +12,14 @@ export default function FilterRadioList({
   options,
   defaultOptionsSelected,
   noAllOption,
+  descriptions,
   onSelectOption,
 }: {
   title: string;
   options: { label?: string; value: string; iconName?: AllIconNames }[];
   defaultOptionsSelected?: string[];
   noAllOption?: boolean;
+  descriptions?: string;
   onSelectOption?: (optionsSelected: string[]) => void;
 }) {
   const theme = useTheme();
@@ -39,7 +41,11 @@ export default function FilterRadioList({
         >
           {title}
         </ThemedText>
-        <View style={[{ height: 0 }]}></View>
+        {descriptions && (
+          <ThemedText style={{ opacity: 0.7, fontSize: 12 }}>
+            {descriptions}
+          </ThemedText>
+        )}
         <View
           style={[
             style.flexRow,

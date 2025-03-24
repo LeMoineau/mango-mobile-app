@@ -6,7 +6,7 @@ import { Settings } from "../types/settings/Settings";
 
 export namespace DefaultValues {
   export const SETTINGS: Settings = {
-    theme: "light",
+    theme: "dark",
     srcs: ["mangaplus", "mangasaki"],
     langs: Object.values(CommonLangs),
     chapterReaderDisplayMode: "singlePage",

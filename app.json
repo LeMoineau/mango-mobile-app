@@ -5,11 +5,15 @@
     "version": "1.7.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "assetBundlePatterns": ["**/*"],
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
+    },
+    "splash": {
+      "backgroundColor": "#eee",
+      "image": "./assets/icon.png"
     },
     "android": {
       "adaptiveIcon": {

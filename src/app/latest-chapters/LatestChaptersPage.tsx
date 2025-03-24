@@ -24,6 +24,7 @@ export default function LatestChaptersPage() {
     refresh,
     filter,
   } = useLatestChapters();
+
   useEffect(() => {
     fetch();
   }, []);

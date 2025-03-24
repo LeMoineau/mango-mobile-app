@@ -11,16 +11,24 @@ export default function FilterModal({
   title,
   visible,
   hideFooter,
+  hasResetBtn,
+  dontHaveCancelBtn,
+  closeModalOnReset,
   onRequestClose,
   onSubmit,
+  onReset,
   ...props
 }: {
   children?: React.ReactNode;
   title?: string;
   visible: boolean;
   hideFooter?: boolean;
+  hasResetBtn?: boolean;
+  dontHaveCancelBtn?: boolean;
+  closeModalOnReset?: boolean;
   onRequestClose?: () => void;
   onSubmit?: () => void;
+  onReset?: () => void;
 } & ModalProps) {
   const theme = useTheme();
 
@@ -56,14 +64,37 @@ export default function FilterModal({
               },
             ]}
           >
-            <RoundedButton
-              styleProp={[{ backgroundColor: theme.colors.border }]}
-              content="CANCEL"
-              contentStyle={[{ fontWeight: "500", opacity: 0.7 }]}
-              onPress={() => {
-                onRequestClose && onRequestClose();
-              }}
-            ></RoundedButton>
+            {hasResetBtn && (
+              <RoundedButton
+                styleProp={[
+                  {
+                    backgroundColor: colors.red[800],
+                    opacity: 0.7,
+                  },
+                ]}
+                content="RESET"
+                contentStyle={[
+                  {
+                    fontWeight: "500",
+                    color: colors.white,
+                  },
+                ]}
+                onPress={() => {
+                  closeModalOnReset && onRequestClose && onRequestClose();
+                  onReset && onReset();
+                }}
+              ></RoundedButton>
+            )}
+            {!dontHaveCancelBtn && (
+              <RoundedButton
+                styleProp={[{ backgroundColor: theme.colors.border }]}
+                content="CANCEL"
+                contentStyle={[{ fontWeight: "500", opacity: 0.7 }]}
+                onPress={() => {
+                  onRequestClose && onRequestClose();
+                }}
+              ></RoundedButton>
+            )}
             <RoundedButton
               styleProp={[
                 {

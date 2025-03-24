@@ -13,6 +13,8 @@ import {
 import { useFavoritesStore } from "../../../common/store/favorites.store";
 import { FavoritesListName } from "../../../common/types/favorites/FavoritesList";
 import { useCacheStore } from "../../../common/store/cache.store";
+import useStorage from "../../../common/hooks/use-storage";
+import { StorageKeys } from "../../../common/config/StorageKeys";
 
 const useLatestChapters = () => {
   const {
@@ -27,11 +29,13 @@ const useLatestChapters = () => {
   const { getIntersiteManga } = useCacheStore();
   const [mangaAllowed, setMangaAllowed] = useState<UUID[]>([]);
   const [display, setDisplay] = useState<LatestChapterDisplay>("list");
+  const { saveJson } = useStorage();
 
   const fetch = (params?: { srcs?: SourceName[]; langs?: Lang[] }) => {
     _fetchChapters(`/latestchapters`, {
       params,
       page: 1,
+      limit: display === "list" ? 20 : 18,
       resetElementsIfSuceed: true,
       saveParamsStateForNextFetching: true,
     });
@@ -40,20 +44,6 @@ const useLatestChapters = () => {
   const fetchNextPage = () => {
     _fetchChapters(`/latestchapters`);
   };
-
-  useEffect(() => {
-    let t: any = {};
-    let dupli: any = [];
-    chapters.forEach((c) => {
-      if (t[c.id]) {
-        t[c.id] += 1;
-        dupli.push(c);
-      } else {
-        t[c.id] = 1;
-      }
-    });
-    if (dupli.length > 0) console.log(dupli.map((d: any) => d.id));
-  }, [chapters]);
 
   const _refresh = async () => {
     setRefreshing(true);
@@ -95,6 +85,7 @@ const useLatestChapters = () => {
     if (filter.display) {
       setDisplay(filter.display);
     }
+    saveJson(StorageKeys.LATEST_CHAPTERS_FILTERS, filter);
   };
 
   return {
