@@ -28,8 +28,14 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
+#env files
+.env.*
 
 # typescript
 *.tsbuildinfo
+
+android
+# google service credientials
+pootime-adventure-*.json 
+
+pnpm-lock.yaml
