@@ -9,6 +9,7 @@ import { TextFormatUtils } from "../../shared/src/utils/text-format-utils";
 import { FlashList } from "@shopify/flash-list";
 import LatestChapterFooter from "./elements/LatestChapterFooter";
 import { style } from "../../common/utils/style-utils";
+import useLatestChaptersFilter from "./hooks/useLatestChaptersFilter";
 
 export default function LatestChaptersPage() {
   const navigator: useNavigationType = useNavigation();
@@ -24,9 +25,14 @@ export default function LatestChaptersPage() {
     refresh,
     filter,
   } = useLatestChapters();
+  const { saveFilter, getFilter } = useLatestChaptersFilter();
 
   useEffect(() => {
     fetch();
+    // getFilter().then((res) => {
+    //   if (!res) return;
+    //   filter(res as LatestChapterFilter);
+    // });
   }, []);
 
   return (
@@ -40,6 +46,7 @@ export default function LatestChaptersPage() {
           }}
           onFilter={async (filterParams) => {
             await filter(filterParams);
+            await saveFilter(filterParams);
           }}
         ></LatestChaptersHeader>
       </View>

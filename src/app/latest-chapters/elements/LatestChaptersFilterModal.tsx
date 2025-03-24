@@ -6,7 +6,7 @@ import {
   SourceName,
 } from "../../../shared/src/types/primitives/Identifiers";
 import { useFavoritesStore } from "../../../common/store/favorites.store";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LatestChapterFilter, {
   LatestChapterDisplay,
 } from "../../../common/types/filter/LatestChapterFilter";
@@ -15,8 +15,17 @@ import FilterModal from "../../../common/components/modals/filter/FilterModal";
 import { LanguagesUtils } from "../../../common/utils/languages-utils";
 import FilterSelectList from "../../../common/components/form/FilterSelectList";
 import { AllIconNames } from "../../../common/types/IconName";
-import useStorage from "../../../common/hooks/use-storage";
-import { StorageKeys } from "../../../common/config/StorageKeys";
+import useLatestChaptersFilter from "../hooks/useLatestChaptersFilter";
+
+const displayItems: {
+  value: LatestChapterDisplay;
+  label: string;
+  icon: AllIconNames;
+}[] = [
+  { value: "list", label: "List", icon: "list" },
+  { value: "grid", label: "Grid", icon: "grid" },
+  // { value: "by src", label: "By src", icon: "git-branch" },
+];
 
 export default function LatestChaptersFilterModal({
   visible,
@@ -31,22 +40,14 @@ export default function LatestChaptersFilterModal({
   const { getAll } = useFavoritesStore();
 
   const [filter, setFilter] = useState<LatestChapterFilter>({});
-  const displayItems: {
-    value: LatestChapterDisplay;
-    label: string;
-    icon: AllIconNames;
-  }[] = [
-    { value: "list", label: "List", icon: "list" },
-    { value: "grid", label: "Grid", icon: "grid" },
-    // { value: "by src", label: "By src", icon: "git-branch" },
-  ];
+  const resetter = useRef(false);
 
-  const { getJson } = useStorage();
+  const { getFilter } = useLatestChaptersFilter();
 
   useEffect(() => {
-    getJson(StorageKeys.LATEST_CHAPTERS_FILTERS).then((res) => {
+    getFilter().then((res) => {
       if (!res) return;
-      setFilter(res as LatestChapterFilter);
+      setFilter(res);
     });
   }, []);
 
@@ -59,19 +60,20 @@ export default function LatestChaptersFilterModal({
       hasResetBtn
       onSubmit={() => {
         const tmp = { ...filter };
-        if (tmp.srcs && tmp.srcs.includes(DefaultValues.ALL_OPTION_VALUE)) {
+        if (tmp.srcs?.includes(DefaultValues.ALL_OPTION_VALUE)) {
           delete tmp.srcs;
         }
-        if (
-          tmp.favoritesLists &&
-          tmp.favoritesLists.includes(DefaultValues.ALL_OPTION_VALUE)
-        ) {
+        if (tmp.favoritesLists?.includes(DefaultValues.ALL_OPTION_VALUE)) {
           delete tmp.favoritesLists;
+        }
+        if (tmp.langs?.includes(DefaultValues.ALL_OPTION_VALUE)) {
+          delete tmp.langs;
         }
         onFilter && onFilter(tmp);
       }}
       onReset={() => {
         setFilter({});
+        resetter.current = !resetter.current;
       }}
     >
       <View style={{ rowGap: 20 }}>
@@ -83,6 +85,7 @@ export default function LatestChaptersFilterModal({
             iconName: s.icon,
           }))}
           defaultOptionSelected={filter.display ?? "list"}
+          resetter={resetter.current}
           onSelectOption={(display) => {
             setFilter({ ...filter, display: display as LatestChapterDisplay });
           }}
@@ -98,6 +101,7 @@ export default function LatestChaptersFilterModal({
               iconName: flag ? undefined : "language",
             };
           })}
+          resetter={resetter.current}
           onSelectOption={(optionsSelected) => {
             setFilter({ ...filter, langs: optionsSelected });
           }}
@@ -110,6 +114,7 @@ export default function LatestChaptersFilterModal({
             value: favList.name,
             iconName: "bookshelf",
           }))}
+          resetter={resetter.current}
           onSelectOption={(optionsSelected) => {
             setFilter({ ...filter, favoritesLists: optionsSelected });
           }}
@@ -120,6 +125,7 @@ export default function LatestChaptersFilterModal({
             value: s,
             iconName: "source-branch",
           }))}
+          resetter={resetter.current}
           defaultOptionsSelected={filter.srcs}
           onSelectOption={(optionsSelected) => {
             setFilter({ ...filter, srcs: optionsSelected });

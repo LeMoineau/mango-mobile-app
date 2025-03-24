@@ -4,23 +4,29 @@ import { style } from "../../utils/style-utils";
 import RoundedButton from "../buttons/RoundedButton";
 import { AllIconNames } from "../../types/IconName";
 import { useTheme } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function FilterSelectList({
   title,
   options,
   defaultOptionSelected,
+  resetter,
   onSelectOption,
 }: {
   title: string;
   options: { label?: string; value: string; iconName?: AllIconNames }[];
   defaultOptionSelected?: string;
+  resetter?: boolean;
   onSelectOption?: (optionSelected: string) => void;
 }) {
   const theme = useTheme();
   const [optionSelected, setOptionSelected] = useState(
     defaultOptionSelected ?? options[0]
   );
+
+  useEffect(() => {
+    setOptionSelected(defaultOptionSelected ?? options[0]);
+  }, [resetter]);
 
   return (
     <View style={[style.flexCol, { paddingHorizontal: 20 }]}>

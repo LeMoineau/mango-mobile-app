@@ -52,9 +52,14 @@ const useFilterRadioList = ({
     return tmp;
   };
 
+  const reset = () => {
+    setOptionsSelected(defaultOptions ?? options);
+  };
+
   return {
     optionsSelected,
     toggleOption,
+    reset,
   };
 };
 

@@ -6,6 +6,7 @@ import { useTheme } from "@react-navigation/native";
 import { AllIconNames } from "../../../types/IconName";
 import useFilterRadioList from "./useFilterRadioList";
 import { DefaultValues } from "../../../config/DefaultValues";
+import { useEffect } from "react";
 
 export default function FilterRadioList({
   title,
@@ -13,6 +14,7 @@ export default function FilterRadioList({
   defaultOptionsSelected,
   noAllOption,
   descriptions,
+  resetter,
   onSelectOption,
 }: {
   title: string;
@@ -20,14 +22,19 @@ export default function FilterRadioList({
   defaultOptionsSelected?: string[];
   noAllOption?: boolean;
   descriptions?: string;
+  resetter?: boolean;
   onSelectOption?: (optionsSelected: string[]) => void;
 }) {
   const theme = useTheme();
-  const { optionsSelected, toggleOption } = useFilterRadioList({
+  const { optionsSelected, toggleOption, reset } = useFilterRadioList({
     options: [DefaultValues.ALL_OPTION_VALUE, ...options.map((o) => o.value)],
     defaultOptions: defaultOptionsSelected,
     noAllOption,
   });
+
+  useEffect(() => {
+    reset();
+  }, [resetter]);
 
   return (
     <>
