@@ -13,3 +13,4 @@
 - [ ] refactor: home page (latests chapter from liked mangas)
 - [ ] adding "read" for chapters
 - [ ] fix: sailmg chapter view
+- [ ] favorites lists save in BD -> favList id can be put in request

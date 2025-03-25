@@ -30,7 +30,6 @@ export default function useSettingsPage() {
 
   useEffect(() => {
     fetch("/settings").then((res) => {
-      console.log("api res", res);
       if (res) {
         const newSrcs = srcsFromServDifferentFromStored(res.scrapersEnabled);
         if (newSrcs.length > 0) {

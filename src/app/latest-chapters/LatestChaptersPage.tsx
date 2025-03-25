@@ -10,6 +10,7 @@ import { FlashList } from "@shopify/flash-list";
 import LatestChapterFooter from "./elements/LatestChapterFooter";
 import { style } from "../../common/utils/style-utils";
 import useLatestChaptersFilter from "./hooks/useLatestChaptersFilter";
+import LatestChapterFilter from "../../common/types/filter/LatestChapterFilter";
 
 export default function LatestChaptersPage() {
   const navigator: useNavigationType = useNavigation();
@@ -20,6 +21,7 @@ export default function LatestChaptersPage() {
     refreshing,
     mangaAllowed,
     display,
+    previousFilter,
     fetch,
     fetchNextPage,
     refresh,
@@ -28,11 +30,11 @@ export default function LatestChaptersPage() {
   const { saveFilter, getFilter } = useLatestChaptersFilter();
 
   useEffect(() => {
-    fetch();
-    // getFilter().then((res) => {
-    //   if (!res) return;
-    //   filter(res as LatestChapterFilter);
-    // });
+    getFilter().then(async (res) => {
+      fetch(res).then(() => {
+        res && filter(res);
+      });
+    });
   }, []);
 
   return (
@@ -45,8 +47,12 @@ export default function LatestChaptersPage() {
             });
           }}
           onFilter={async (filterParams) => {
-            await filter(filterParams);
-            await saveFilter(filterParams);
+            if (
+              JSON.stringify(previousFilter) !== JSON.stringify(filterParams)
+            ) {
+              await filter(filterParams);
+              await saveFilter(filterParams);
+            }
           }}
         ></LatestChaptersHeader>
       </View>
