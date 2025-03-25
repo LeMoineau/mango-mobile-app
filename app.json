@@ -12,18 +12,18 @@
       "supportsTablet": true
     },
     "splash": {
-      "backgroundColor": "#eee",
-      "image": "./assets/icon.png"
+      "image": "./assets/adaptive-icon.png",
+      "backgroundColor": "#eee"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#eee"
       },
       "package": "fr.pierrot.mango"
     },
     "web": {
-      "favicon": "./assets/icon.png",
+      "favicon": "./assets/favicon.png",
       "bundler": "metro"
     },
     "extra": {
