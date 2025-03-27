@@ -22,3 +22,9 @@
 - navigation bar color
 - splash screen
 - fix icon
+
+## 1.8.1
+
+- fix config
+- fix splash
+- update icons

@@ -24,7 +24,7 @@ _Note_: Le script `start` va supprimer le précédent dossier `/shared` et le re
 
 ## Déployer une nouvelle version sur l'App Store
 
-- vérifiez les variables d'environnement
+- vérifiez les variables d'environnement dans le fichier `src/common/config/Config.ts`
 - changez la version dans le fichier `app.json` :
 
 ```json
