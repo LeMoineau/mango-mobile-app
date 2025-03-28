@@ -28,3 +28,9 @@
 - fix config
 - fix splash
 - update icons
+
+## 1.8.2
+
+- fix duplication latest chapters
+- fix status bar
+- try to fix splash screen
