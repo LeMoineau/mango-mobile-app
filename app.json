@@ -34,6 +34,16 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "plugins": ["expo-asset"]
+    "plugins": [
+      "expo-asset",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#eee",
+          "image": "./assets/favicon.png",
+          "imageWidth": 100
+        }
+      ]
+    ]
   }
 }

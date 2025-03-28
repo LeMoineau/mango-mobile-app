@@ -12,5 +12,8 @@
 - [ ] chercher par author
 - [ ] refactor: home page (latests chapter from liked mangas)
 - [ ] adding "read" for chapters
-- [ ] fix: sailmg chapter view
+- [x] fix: sailmg chapter view
 - [ ] favorites lists save in BD -> favList id can be put in request
+- [ ] refactor: scraper-api remove try catch in scraper to send error in front
+- [ ] fix: quand open manga info d'un chapter, peut ouvrir dans une autre langue
+- [ ] feat: propose read new chapter at the end if exist
