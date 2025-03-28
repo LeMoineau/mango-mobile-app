@@ -3,7 +3,7 @@ import useApi from "../../shared/src/hooks/use-api";
 import { ResponsePage } from "../../shared/src/types/responses/ResponsePage";
 import { Identified } from "../../shared/src/types/attributes/Identified";
 
-const useResponsePageApi = <T>(
+const useResponsePageApi = <T extends Identified>(
   baseURL: string,
   defaultProps?: {
     defaultPage?: number;
@@ -35,19 +35,6 @@ const useResponsePageApi = <T>(
     if (props && props.saveParamsStateForNextFetching) {
       previousParams.current = props.params;
     }
-    console.log(
-      JSON.stringify({
-        forceRefresh: true,
-        config: {
-          params: {
-            page: props?.page ?? page.current,
-            limit: props?.limit ?? limit.current,
-            ...props?.params,
-            ...previousParams.current,
-          },
-        },
-      })
-    );
     return await fetch<ResponsePage<T>>(previousEndpoint.current, {
       forceRefresh: true,
       config: {
@@ -64,18 +51,27 @@ const useResponsePageApi = <T>(
           setFullyLoaded(true);
           return undefined;
         }
-        setElements([
-          ...(props?.resetElementsIfSuceed ? [] : elements),
-          ...res.elements,
-        ]);
-        if (props?.notIncrementPage) return res;
-        page.current = props?.page ? props.page + 1 : page.current + 1;
+        if (props?.resetElementsIfSuceed) {
+          setElements(res.elements);
+        } else {
+          _addNewElementsWithoutDuplication(res.elements);
+        }
+        if (!props?.notIncrementPage) {
+          page.current = props?.page ? props.page + 1 : page.current + 1;
+        }
         return res;
       })
       .catch((err) => {
         console.error(err);
         return undefined;
       });
+  };
+
+  const _addNewElementsWithoutDuplication = (newElements: T[]) => {
+    setElements([
+      ...elements,
+      ...newElements.filter((e) => !elements.find((e1) => e1.id === e.id)),
+    ]);
   };
 
   const reset = () => {
